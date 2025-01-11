@@ -3,6 +3,7 @@
     "Here are translations that exist in <en> but not in <eu>.",
     "After editing this file, you can run 'dart run slang apply --locale=eu' to quickly apply the newly added translations."
   ],
+  "appNameF": "LocalSend(Fluent)",
   "general": {
     "quickSaveFromFavorites": "Quick Save for \"Favorites\""
   },
@@ -92,6 +93,7 @@
   },
   "aboutPage": {
     "description": [
+      "LocalSend(Fluent) is LocalSend using FluentUI.",
       "LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.",
       "This app is available on Android, iOS, macOS, Windows and Linux. You can find all download options on the official homepage."
     ],

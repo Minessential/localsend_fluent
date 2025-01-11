@@ -50,7 +50,11 @@ class AboutPage extends StatelessWidget {
           const SizedBox(height: 20),
           Text(t.aboutPage.author, style: const TextStyle(fontWeight: FontWeight.bold)),
           Text.rich(_buildContributor(
-            label: 'Tien Do Nam (@Tienisto)',
+            label: 'LocalSend: Tien Do Nam (@Tienisto)',
+            primaryColor: primaryColor,
+          )),
+          Text.rich(_buildContributor(
+            label: 'LocalSend(Fluent): Mine (@Minessential)',
             primaryColor: primaryColor,
           )),
           const SizedBox(height: 20),
@@ -139,17 +143,24 @@ class AboutPage extends StatelessWidget {
               ),
               HyperlinkButton(
                 onPressed: () async {
+                  await launchUrl(Uri.parse('https://github.com/Minessential/localsend_fluent'),
+                      mode: LaunchMode.externalApplication);
+                },
+                child: const Text('Github (LocalSend(Fluent))'),
+              ),
+              HyperlinkButton(
+                onPressed: () async {
                   await launchUrl(Uri.parse('https://github.com/localsend/localsend'),
                       mode: LaunchMode.externalApplication);
                 },
-                child: const Text('Source Code (Github)'),
+                child: const Text('Github (LocalSend)'),
               ),
               HyperlinkButton(
                 onPressed: () async {
                   await launchUrl(Uri.parse('https://codeberg.org/localsend/localsend'),
                       mode: LaunchMode.externalApplication);
                 },
-                child: const Text('Source Code (Codeberg)'),
+                child: const Text('Codeberg (LocalSend)'),
               ),
               HyperlinkButton(
                 onPressed: () async {

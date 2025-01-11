@@ -33,7 +33,7 @@ class TranslationsPtPt extends Translations {
   @override
   String get locale => 'Português (Portugal)';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralPtPt general = _TranslationsGeneralPtPt._(_root);
   @override

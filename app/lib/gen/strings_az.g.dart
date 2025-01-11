@@ -33,7 +33,7 @@ class TranslationsAz extends Translations {
   @override
   String get locale => 'Azərbaycanca';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralAz general = _TranslationsGeneralAz._(_root);
   @override

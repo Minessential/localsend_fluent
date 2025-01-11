@@ -33,7 +33,7 @@ class TranslationsAr extends Translations {
   @override
   String get locale => 'العربية';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralAr general = _TranslationsGeneralAr._(_root);
   @override

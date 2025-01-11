@@ -33,7 +33,7 @@ class TranslationsKm extends Translations {
   @override
   String get locale => 'ភាសាខ្មែរ';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralKm general = _TranslationsGeneralKm._(_root);
   @override

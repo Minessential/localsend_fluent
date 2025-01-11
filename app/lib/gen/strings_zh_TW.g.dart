@@ -33,7 +33,7 @@ class TranslationsZhTw extends Translations {
   @override
   String get locale => '繁體中文 – 台灣';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralZhTw general = _TranslationsGeneralZhTw._(_root);
   @override

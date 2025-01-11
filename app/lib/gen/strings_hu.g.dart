@@ -33,7 +33,7 @@ class TranslationsHu extends Translations {
   @override
   String get locale => 'Magyar';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralHu general = _TranslationsGeneralHu._(_root);
   @override

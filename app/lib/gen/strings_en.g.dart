@@ -35,7 +35,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
   // Translations
   String get locale => 'English';
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
+  String get appNameF => 'LocalSend(Fluent)';
   late final TranslationsGeneralEn general = TranslationsGeneralEn.internal(_root);
   late final TranslationsReceiveTabEn receiveTab = TranslationsReceiveTabEn.internal(_root);
   late final TranslationsSendTabEn sendTab = TranslationsSendTabEn.internal(_root);
@@ -320,6 +321,7 @@ class TranslationsAboutPageEn {
   // Translations
   String get title => 'About LocalSend';
   List<String> get description => [
+        'LocalSend(Fluent) is LocalSend using FluentUI.',
         'LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.',
         'This app is available on Android, iOS, macOS, Windows and Linux. You can find all download options on the official homepage.',
       ];

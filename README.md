@@ -1,3 +1,18 @@
+# LocalSend(Fluent)
+
+<a title="Made with Fluent Design" href="https://github.com/bdlukaa/fluent_ui">
+  <img
+    src="https://img.shields.io/badge/fluent-design-blue?style=flat-square&color=gray&labelColor=0078D7"
+  />
+</a>
+
+Fluent UI for LocalSend, just tested on Windows!
+## Screenshots
+![image](/readme_img/screenshot_1.png)
+![image](/readme_img/screenshot_2.png)
+
+---
+Here are the original LocalSend instructions.
 # LocalSend
 
 [![CI status][ci-badge]][ci-workflow]

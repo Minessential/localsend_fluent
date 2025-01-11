@@ -33,7 +33,7 @@ class TranslationsTa extends Translations {
   @override
   String get locale => 'தமிழ்';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralTa general = _TranslationsGeneralTa._(_root);
   @override

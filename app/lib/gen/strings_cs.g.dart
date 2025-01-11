@@ -33,7 +33,7 @@ class TranslationsCs extends Translations {
   @override
   String get locale => 'Česky';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralCs general = _TranslationsGeneralCs._(_root);
   @override

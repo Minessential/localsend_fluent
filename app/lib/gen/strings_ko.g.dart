@@ -33,7 +33,7 @@ class TranslationsKo extends Translations {
   @override
   String get locale => '한국어';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralKo general = _TranslationsGeneralKo._(_root);
   @override

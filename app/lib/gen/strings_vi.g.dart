@@ -33,7 +33,7 @@ class TranslationsVi extends Translations {
   @override
   String get locale => 'Tiếng Việt';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralVi general = _TranslationsGeneralVi._(_root);
   @override

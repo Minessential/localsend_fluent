@@ -33,7 +33,7 @@ class TranslationsBn extends Translations {
   @override
   String get locale => 'বাংলা';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralBn general = _TranslationsGeneralBn._(_root);
   @override

@@ -33,7 +33,7 @@ class TranslationsEsEs extends Translations {
   @override
   String get locale => 'Español';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralEsEs general = _TranslationsGeneralEsEs._(_root);
   @override

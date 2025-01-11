@@ -33,7 +33,7 @@ class TranslationsMs extends Translations {
   @override
   String get locale => 'Bahasa Melayu';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralMs general = _TranslationsGeneralMs._(_root);
   @override

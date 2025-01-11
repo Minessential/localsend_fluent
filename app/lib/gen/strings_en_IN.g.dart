@@ -33,7 +33,7 @@ class TranslationsEnIn extends Translations {
   @override
   String get locale => 'English(India)';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralEnIn general = _TranslationsGeneralEnIn._(_root);
   @override

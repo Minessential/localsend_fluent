@@ -33,7 +33,7 @@ class BaseNormalPage extends StatelessWidget {
     return NavigationView(
       appBar: NavigationAppBar(
         title: () {
-          var title = Text(windowTitle ?? t.appName);
+          var title = Text(windowTitle ?? t.appNameF);
 
           if (checkPlatformIsDesktop()) {
             return DragToMoveArea(child: Container(alignment: Alignment.centerLeft, child: title));

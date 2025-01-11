@@ -33,7 +33,7 @@ class TranslationsSrCyrl extends Translations {
   @override
   String get locale => 'Српски (ћирилица)';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralSrCyrl general = _TranslationsGeneralSrCyrl._(_root);
   @override

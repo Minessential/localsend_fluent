@@ -33,7 +33,7 @@ class TranslationsSl extends Translations {
   @override
   String get locale => 'Slovenščina';
   @override
-  String get appName => 'LocalSend(Fluent)';
+  String get appName => 'LocalSend';
   @override
   late final _TranslationsGeneralSl general = _TranslationsGeneralSl._(_root);
   @override
