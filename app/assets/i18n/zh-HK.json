@@ -1,6 +1,6 @@
 {
   "locale": "繁體中文 – 香港",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "接受",
     "accepted": "已接受",
@@ -96,8 +96,7 @@
       },
       "color": "顏色",
       "colorOptions": {
-        "system": "跟機",
-        "oled": "OLED"
+        "system": "跟機"
       },
       "language": "語言",
       "languageOptions": {

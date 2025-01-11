@@ -1,6 +1,6 @@
 {
   "locale": "한국어",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "수락",
     "accepted": "수락됨",
@@ -96,8 +96,7 @@
       },
       "color": "색상",
       "colorOptions": {
-        "system": "시스템",
-        "oled": "OLED"
+        "system": "시스템"
       },
       "language": "언어",
       "languageOptions": {

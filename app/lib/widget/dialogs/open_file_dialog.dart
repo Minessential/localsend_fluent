@@ -2,39 +2,32 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:common/model/file_type.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/util/native/channel/android_channel.dart' as android_channel;
 import 'package:localsend_app/util/native/open_file.dart';
 import 'package:localsend_app/util/native/open_folder.dart';
 import 'package:path/path.dart' as path;
 import 'package:routerino/routerino.dart';
 
 class OpenFileDialog extends StatefulWidget {
+  final String fileName;
   final String filePath;
   final FileType fileType;
-  final bool openGallery;
 
-  const OpenFileDialog({
-    super.key,
-    required this.filePath,
-    required this.fileType,
-    required this.openGallery,
-  });
+  const OpenFileDialog({super.key, required this.filePath, required this.fileName, required this.fileType});
 
   static Future<void> open(
     BuildContext context, {
     required String filePath,
+    required String fileName,
     required FileType fileType,
-    required bool openGallery,
   }) async {
     await showDialog(
       context: context,
       builder: (context) => OpenFileDialog(
         filePath: filePath,
+        fileName: fileName,
         fileType: fileType,
-        openGallery: openGallery,
       ),
     );
   }
@@ -73,29 +66,22 @@ class _OpenFileDialogState extends State<OpenFileDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.openFile.title),
       content: Text(t.dialogs.openFile.content),
       actions: [
-        TextButton(
-          onPressed: () async {
-            if (widget.openGallery && defaultTargetPlatform == TargetPlatform.android) {
-              await android_channel.openGallery();
-            } else {
-              await openFile(context, widget.fileType, widget.filePath);
-            }
-          },
+        FilledButton(
+          onPressed: () async => openFile(context, widget.fileType, widget.filePath),
           child: Text(t.general.open),
         ),
-        if (!widget.openGallery)
-          TextButton(
-            onPressed: () async => await openFolder(
-              folderPath: File(widget.filePath).parent.path,
-              fileName: path.basename(widget.filePath),
-            ),
-            child: Text(t.receiveHistoryPage.entryActions.showInFolder),
+        FilledButton(
+          onPressed: () async => await openFolder(
+            folderPath: File(widget.filePath).parent.path,
+            fileName: path.basename(widget.filePath),
           ),
-        TextButton(
+          child: Text(t.receiveHistoryPage.entryActions.showInFolder),
+        ),
+        Button(
           onPressed: () {
             _timer.cancel();
             context.pop();

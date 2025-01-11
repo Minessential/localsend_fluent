@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:intl/intl.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/logging/discovery_logs_provider.dart';
 import 'package:localsend_app/provider/network/nearby_devices_provider.dart';
 import 'package:localsend_app/widget/copyable_text.dart';
@@ -15,21 +16,20 @@ class DiscoveryDebugPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ref = context.ref;
     final logs = ref.watch(discoveryLoggerProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Discovery Debugging'),
-      ),
+    return BaseNormalPage(
+      windowTitle: 'Discovery Debugging',
+      headerTitle: 'Discovery Debugging',
       body: ResponsiveListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         children: [
           Row(
             children: [
-              ElevatedButton(
+              FilledButton(
                 onPressed: () => ref.redux(nearbyDevicesProvider).dispatch(StartMulticastScan()),
                 child: const Text('Announce'),
               ),
               const SizedBox(width: 20),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () => ref.notifier(discoveryLoggerProvider).clear(),
                 child: const Text('Clear'),
               ),
@@ -39,7 +39,7 @@ class DiscoveryDebugPage extends StatelessWidget {
           ...logs.map((log) => CopyableText(
                 prefix: TextSpan(
                   text: '[${_dateFormat.format(log.timestamp)}] ',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
                   ),

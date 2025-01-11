@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:legalize/legalize.dart';
-import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/file_path_helper.dart';
+import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:routerino/routerino.dart';
 
 class FileNameInputDialog extends StatefulWidget {
@@ -72,7 +72,7 @@ class _FileNameInputDialogState extends State<FileNameInputDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.fileNameInput.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -80,11 +80,11 @@ class _FileNameInputDialogState extends State<FileNameInputDialog> {
         children: [
           Text(t.dialogs.fileNameInput.original(original: widget.originalName)),
           const SizedBox(height: 10),
-          TextFormField(
+          CustomTextBox(
             controller: _textController,
             autofocus: true,
             onChanged: (value) => _validate(value.trim()),
-            onFieldSubmitted: (_) => _submit,
+            onSubmitted: (_) => _submit(),
           ),
           const SizedBox(height: 5),
           Visibility(
@@ -92,23 +92,19 @@ class _FileNameInputDialogState extends State<FileNameInputDialog> {
               child: Text(
                 _errorMessage,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.warning,
+                  color: Colors.warningPrimaryColor,
                 ),
               )),
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: Text(t.general.cancel),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          ),
+        FilledButton(
           onPressed: _submit,
           child: Text(t.general.confirm),
+        ),
+        Button(
+          onPressed: () => context.pop(),
+          child: Text(t.general.cancel),
         ),
       ],
     );

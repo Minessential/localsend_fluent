@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:common/model/device.dart';
 import 'package:common/model/session_status.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/model/persistence/favorite_device.dart';
 import 'package:localsend_app/model/send_mode.dart';
@@ -68,7 +68,7 @@ final sendTabVmProvider = ViewProvider((ref) {
     onTapAddress: (context) async {
       final files = ref.read(selectedSendingFilesProvider);
       if (files.isEmpty) {
-        await context.pushBottomSheet(() => const NoFilesDialog());
+        await NoFilesDialog.open(context);
         return;
       }
       final device = await showDialog<Device?>(
@@ -91,7 +91,7 @@ final sendTabVmProvider = ViewProvider((ref) {
       if (device != null && context.mounted) {
         final files = ref.read(selectedSendingFilesProvider);
         if (files.isEmpty) {
-          await context.pushBottomSheet(() => const NoFilesDialog());
+          await NoFilesDialog.open(context);
           return;
         }
 
@@ -106,7 +106,7 @@ final sendTabVmProvider = ViewProvider((ref) {
       if (mode == SendMode.link) {
         final files = ref.read(selectedSendingFilesProvider);
         if (files.isEmpty) {
-          await context.pushBottomSheet(() => const NoFilesDialog());
+          await NoFilesDialog.open(context);
           return;
         }
         await context.push(() => WebSendPage(files));
@@ -134,7 +134,7 @@ final sendTabVmProvider = ViewProvider((ref) {
     },
     onTapDevice: (context, device) async {
       if (selectedFiles.isEmpty) {
-        await context.pushBottomSheet(() => const NoFilesDialog());
+        await NoFilesDialog.open(context);
         return;
       }
 
@@ -150,14 +150,15 @@ final sendTabVmProvider = ViewProvider((ref) {
         if (session.status == SessionStatus.waiting) {
           ref.notifier(sendProvider).setBackground(session.sessionId, false);
           await context.push(
-            () => SendPage(showAppBar: true, closeSessionOnClose: false, sessionId: session.sessionId),
+            () => SendPage(closeSessionOnClose: false, sessionId: session.sessionId),
             transition: RouterinoTransition.fade(),
           );
           ref.notifier(sendProvider).setBackground(session.sessionId, true);
           return;
         } else if (session.status == SessionStatus.sending || session.status == SessionStatus.finishedWithErrors) {
           ref.notifier(sendProvider).setBackground(session.sessionId, false);
-          await context.push(() => ProgressPage(showAppBar: true, closeSessionOnClose: false, sessionId: session.sessionId));
+          await context
+              .push(() => ProgressPage(showAppBar: true, closeSessionOnClose: false, sessionId: session.sessionId));
           ref.notifier(sendProvider).setBackground(session.sessionId, true);
           return;
         }
@@ -165,7 +166,7 @@ final sendTabVmProvider = ViewProvider((ref) {
 
       final files = ref.read(selectedSendingFilesProvider);
       if (files.isEmpty) {
-        await context.pushBottomSheet(() => const NoFilesDialog());
+        await NoFilesDialog.open(context);
         return;
       }
 

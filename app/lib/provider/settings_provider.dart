@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:common/isolate.dart';
 import 'package:common/model/device.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/model/send_mode.dart';
@@ -157,16 +157,21 @@ class SettingsService extends PureNotifier<SettingsState> {
   }
 
   Future<void> setQuickSave(bool quickSave) async {
+    if (quickSave) await _persistence.setQuickSaveFromFavorites(false);
     await _persistence.setQuickSave(quickSave);
+
     state = state.copyWith(
       quickSave: quickSave,
+      quickSaveFromFavorites: quickSave ? false : null,
     );
   }
 
   Future<void> setQuickSaveFromFavorites(bool quickSaveFromFavorites) async {
+    if (quickSaveFromFavorites) await _persistence.setQuickSave(false);
     await _persistence.setQuickSaveFromFavorites(quickSaveFromFavorites);
     state = state.copyWith(
       quickSaveFromFavorites: quickSaveFromFavorites,
+      quickSave: quickSaveFromFavorites ? false : null,
     );
   }
 

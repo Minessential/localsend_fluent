@@ -33,7 +33,7 @@ class TranslationsRu extends Translations {
   @override
   String get locale => 'Русский';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralRu general = _TranslationsGeneralRu._(_root);
   @override
@@ -1470,8 +1470,6 @@ class _TranslationsSettingsTabGeneralColorOptionsRu extends TranslationsSettings
   // Translations
   @override
   String get system => 'Системный';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

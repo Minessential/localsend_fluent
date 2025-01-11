@@ -1,6 +1,6 @@
 {
   "locale": "Finnish",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Hyväksy",
     "accepted": "Hyväksytty",
@@ -94,8 +94,7 @@
       },
       "color": "Väri",
       "colorOptions": {
-        "system": "Järjestelmä",
-        "oled": "OLED"
+        "system": "Järjestelmä"
       },
       "language": "Kieli",
       "languageOptions": {

@@ -1,6 +1,6 @@
 {
   "locale": "English",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Accept",
     "accepted": "Accepted",
@@ -86,6 +86,10 @@
   },
   "settingsTab": {
     "title": "Settings",
+    "toggleSwitch": {
+      "on": "On",
+      "off": "Off"
+    },
     "general": {
       "title": "General",
       "brightness": "Theme",
@@ -97,7 +101,13 @@
       "color": "Color",
       "colorOptions": {
         "system": "System",
-        "oled": "OLED"
+        "yellow": "Yellow",
+        "orange": "Orange",
+        "red": "Red",
+        "magenta": "Magenta",
+        "purple": "Purple",
+        "blue": "Blue",
+        "green": "Green"
       },
       "language": "Language",
       "languageOptions": {
@@ -239,7 +249,8 @@
       "count": "Files: {curr} / {n}",
       "size": "Size: {curr} / {n}",
       "speed": "Speed: {speed}/s"
-    }
+    },
+    "retry": "Retry"
   },
   "webSharePage": {
     "title": "Share via link",

@@ -1,5 +1,5 @@
 import 'package:common/model/device.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/provider/animation_provider.dart';
 import 'package:localsend_app/util/device_type_ext.dart';
 import 'package:localsend_app/widget/device_bage.dart';
@@ -34,12 +34,12 @@ class DevicePlaceholderListTile extends StatelessWidget {
         spacing: 10,
         children: [
           DeviceBadge(
-            backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer.withOpacity(0.5),
+            backgroundColor: FluentTheme.of(context).resources.controlStrokeColorDefault.withOpacity(0.3),
             foregroundColor: Colors.transparent,
             label: '       ',
           ),
           DeviceBadge(
-            backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer.withOpacity(0.5),
+            backgroundColor: FluentTheme.of(context).resources.controlStrokeColorDefault.withOpacity(0.3),
             foregroundColor: Colors.transparent,
             label: '              ',
           ),

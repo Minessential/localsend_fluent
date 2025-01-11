@@ -1,6 +1,6 @@
 {
   "locale": "Indonesian",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Terima",
     "accepted": "Diterima",
@@ -96,8 +96,7 @@
       },
       "color": "Warna",
       "colorOptions": {
-        "system": "Sistem",
-        "oled": "OLED"
+        "system": "Sistem"
       },
       "language": "Bahasa",
       "languageOptions": {

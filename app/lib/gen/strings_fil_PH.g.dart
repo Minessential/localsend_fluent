@@ -33,7 +33,7 @@ class TranslationsFilPh extends Translations {
   @override
   String get locale => 'Filipino';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralFilPh general = _TranslationsGeneralFilPh._(_root);
   @override
@@ -1546,8 +1546,6 @@ class _TranslationsSettingsTabGeneralColorOptionsFilPh extends TranslationsSetti
   // Translations
   @override
   String get system => 'System';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

@@ -17,7 +17,20 @@
     "manualSending": "Manual sending"
   },
   "settingsTab": {
+    "toggleSwitch": {
+      "on": "On",
+      "off": "Off"
+    },
     "general": {
+      "colorOptions": {
+        "yellow": "Yellow",
+        "orange": "Orange",
+        "red": "Red",
+        "magenta": "Magenta",
+        "purple": "Purple",
+        "blue": "Blue",
+        "green": "Green"
+      },
       "saveWindowPlacementWindows": "Save window position after exit",
       "showInContextMenu": "Show LocalSend in context menu"
     },
@@ -30,6 +43,11 @@
       "shareViaLinkAutoAccept": "Automatically accept requests in \"Share via link\" mode"
     },
     "network": {
+      "network": "Network",
+      "networkOptions": {
+        "all": "All",
+        "filtered": "Filtered"
+      },
       "discoveryTimeout": "Discovery Timeout",
       "useSystemName": "Use system name",
       "generateRandomAlias": "Generate random alias"
@@ -41,6 +59,13 @@
       "solution": "Please make sure that all devices are on the same Wi-Fi network and share the same configuration (port, multicast address, encryption). You can try to type the IP address of the target device manually. If this works, consider adding this device to the favorites so it can be automatically discovered in the future."
     }
   },
+  "networkInterfacesPage": {
+    "title": "Network Interfaces",
+    "info": "By default, LocalSend uses all available network interfaces. You can exclude unwanted networks here. You need to restart the server to apply the changes.",
+    "preview": "Preview",
+    "whitelist": "Whitelist",
+    "blacklist": "Blacklist"
+  },
   "receiveHistoryPage": {
     "entryActions": {
       "showInFolder": "Show in folder"
@@ -48,6 +73,9 @@
   },
   "sendPage": {
     "tooManyAttempts": "@:web.tooManyAttempts"
+  },
+  "progressPage": {
+    "retry": "Retry"
   },
   "webSharePage": {
     "autoAccept": "Automatically accept requests",

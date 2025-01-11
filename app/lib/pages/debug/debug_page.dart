@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:localsend_app/pages/base/base_material_compatibility.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/pages/debug/discovery_debug_page.dart';
 import 'package:localsend_app/pages/debug/http_logs_page.dart';
 import 'package:localsend_app/pages/debug/security_debug_page.dart';
@@ -22,10 +24,9 @@ class DebugPage extends StatelessWidget {
     final portableMode = context.watch(persistenceProvider.select((state) => state.isPortableMode()));
     final store = SharedPreferencesStorePlatform.instance;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Debugging'),
-      ),
+    return BaseNormalPage(
+      windowTitle: 'Debugging',
+      headerTitle: 'Debugging',
       body: ListView(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
         children: [
@@ -79,7 +80,10 @@ class DebugPage extends StatelessWidget {
               ),
               if (kDebugMode)
                 FilledButton(
-                  onPressed: () async => context.push(() => const RefenaTracingPage()),
+                  onPressed: () async => context.push(() => BaseMaterialCompatibility(
+                        needMaterialApp: true,
+                        body: const RefenaTracingPage(),
+                      )),
                   child: const Text('Refena Tracing'),
                 ),
               FilledButton(

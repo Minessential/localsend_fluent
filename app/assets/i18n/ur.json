@@ -1,6 +1,6 @@
 {
   "locale": "اردو",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "قبول کریں",
     "accepted": "قبول کر لیا",
@@ -90,8 +90,7 @@
       },
       "color": "رنگ",
       "colorOptions": {
-        "system": "نظام",
-        "oled": "OLED"
+        "system": "نظام"
       },
       "language": "زبان",
       "languageOptions": {

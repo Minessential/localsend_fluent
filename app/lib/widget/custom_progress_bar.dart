@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 
 class CustomProgressBar extends StatelessWidget {
   final double? progress;
@@ -11,11 +11,7 @@ class CustomProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
-      child: LinearProgressIndicator(
-        value: progress,
-        color: color ?? Theme.of(context).colorScheme.primary,
-        minHeight: 10,
-      ),
+      child: ProgressBar(value: progress),
     );
   }
 }

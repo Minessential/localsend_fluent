@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:routerino/routerino.dart';
 
 class CustomBottomSheet extends StatelessWidget {
@@ -16,7 +16,7 @@ class CustomBottomSheet extends StatelessWidget {
     return RouterinoBottomSheet(
       title: title,
       description: description,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: FluentTheme.of(context).resources.solidBackgroundFillColorBase,
       borderRadius: 20,
       child: child,
     );

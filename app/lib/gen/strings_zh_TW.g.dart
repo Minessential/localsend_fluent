@@ -33,7 +33,7 @@ class TranslationsZhTw extends Translations {
   @override
   String get locale => '繁體中文 – 台灣';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralZhTw general = _TranslationsGeneralZhTw._(_root);
   @override
@@ -1460,8 +1460,6 @@ class _TranslationsSettingsTabGeneralColorOptionsZhTw extends TranslationsSettin
   // Translations
   @override
   String get system => '系統';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

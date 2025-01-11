@@ -33,7 +33,7 @@ class TranslationsKm extends Translations {
   @override
   String get locale => 'ភាសាខ្មែរ';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralKm general = _TranslationsGeneralKm._(_root);
   @override
@@ -1544,8 +1544,6 @@ class _TranslationsSettingsTabGeneralColorOptionsKm extends TranslationsSettings
   // Translations
   @override
   String get system => 'តាមប្រព័ន្ធ';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

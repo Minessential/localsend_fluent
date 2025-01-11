@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:localsend_app/config/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:nanoid2/nanoid2.dart';
 import 'package:routerino/routerino.dart';
 
@@ -28,40 +28,41 @@ class _PinDialogState extends State<PinDialog> {
   @override
   void initState() {
     super.initState();
-    _textController.text = widget.pin ?? (widget.generateRandom ? nanoid(alphabet: Alphabet.noDoppelganger, length: 6) : '');
+    _textController.text =
+        widget.pin ?? (widget.generateRandom ? nanoid(alphabet: Alphabet.noDoppelganger, length: 6) : '');
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.pin.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextFormField(
+          CustomTextBox(
             controller: _textController,
             autofocus: true,
             obscureText: widget.obscureText,
-            onFieldSubmitted: (value) => context.pop(value),
+            onSubmitted: (value) => context.pop(value),
           ),
           if (widget.showInvalidPin)
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
                 t.web.invalidPin,
-                style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                style: TextStyle(color: Colors.errorSecondaryColor),
               ),
             ),
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: Text(t.general.cancel),
-        ),
         FilledButton(
           onPressed: () => context.pop(_textController.text),
           child: Text(t.general.confirm),
+        ),
+        Button(
+          onPressed: () => context.pop(),
+          child: Text(t.general.cancel),
         ),
       ],
     );

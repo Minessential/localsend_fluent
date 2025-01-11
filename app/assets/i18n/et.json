@@ -1,6 +1,6 @@
 {
   "locale": "Eesti keel",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Nõustu",
     "accepted": "Nõustusid",
@@ -96,8 +96,7 @@
       },
       "color": "Värv",
       "colorOptions": {
-        "system": "Süsteemi värvid",
-        "oled": "OLED"
+        "system": "Süsteemi värvid"
       },
       "language": "Keel",
       "languageOptions": {

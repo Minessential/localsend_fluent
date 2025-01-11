@@ -33,7 +33,7 @@ class TranslationsSl extends Translations {
   @override
   String get locale => 'Slovenščina';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralSl general = _TranslationsGeneralSl._(_root);
   @override
@@ -1498,8 +1498,6 @@ class _TranslationsSettingsTabGeneralColorOptionsSl extends TranslationsSettings
   // Translations
   @override
   String get system => 'Sistem';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

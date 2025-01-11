@@ -1,6 +1,6 @@
 {
   "locale": "සිංහල",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "පිළිගන්න",
     "accepted": "පිළිගත්",
@@ -96,8 +96,7 @@
       },
       "color": "පාට",
       "colorOptions": {
-        "system": "පද්ධතිය",
-        "oled": "OLED"
+        "system": "පද්ධතිය"
       },
       "language": "භාෂාව",
       "languageOptions": {

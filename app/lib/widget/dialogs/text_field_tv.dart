@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:localsend_app/config/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/provider/tv_provider.dart';
+import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -30,31 +30,22 @@ class _TextFieldTvState extends State<TextFieldTv> with Refena {
     final isTv = ref.watch(tvProvider);
 
     if (isTv) {
-      return TextButton(
-        style: TextButton.styleFrom(
-          backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
-          shape: RoundedRectangleBorder(borderRadius: Theme.of(context).inputDecorationTheme.borderRadius),
-          foregroundColor: Theme.of(context).colorScheme.onSurface,
-        ),
+      return FilledButton(
         onPressed: () async {
           await showDialog(
             context: context,
             builder: (context) {
-              return AlertDialog(
+              return ContentDialog(
                 title: Text(widget.name),
-                content: TextFormField(
+                content: CustomTextBox(
                   controller: widget.controller,
                   textAlign: TextAlign.center,
                   onChanged: widget.onChanged,
                   autofocus: true,
-                  onFieldSubmitted: (_) => context.pop(),
+                  onSubmitted: (_) => context.pop(),
                 ),
                 actions: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    ),
+                  FilledButton(
                     onPressed: () => context.pop(),
                     child: Text(t.general.confirm),
                   )
@@ -64,25 +55,23 @@ class _TextFieldTvState extends State<TextFieldTv> with Refena {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Text(widget.controller.text, style: Theme.of(context).textTheme.titleMedium),
+          padding: EdgeInsets.zero,
+          child: Text(widget.controller.text, style: FluentTheme.of(context).typography.bodyStrong),
         ),
       );
     } else {
-      return TextFormField(
+      return CustomTextBox(
         controller: widget.controller,
         textAlign: TextAlign.center,
         onChanged: widget.onChanged,
-        decoration: InputDecoration(
-          suffixIcon: widget.onDelete != null
-              ? IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    widget.onDelete?.call();
-                  },
-                )
-              : null,
-        ),
+        suffix: widget.onDelete != null
+            ? IconButton(
+                icon: Icon(FluentIcons.clear),
+                onPressed: () {
+                  widget.onDelete?.call();
+                },
+              )
+            : null,
       );
     }
   }

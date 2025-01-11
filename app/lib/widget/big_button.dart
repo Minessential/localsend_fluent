@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/widget/responsive_builder.dart';
 
@@ -20,27 +20,23 @@ class BigButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final sizingInformation = SizingInformation(MediaQuery.sizeOf(context).width);
     final buttonWidth = sizingInformation.isDesktop ? desktopWidth : mobileWidth;
     return SizedBox(
       width: buttonWidth,
       height: 65.0,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: filled ? colorScheme.primary : colorScheme.secondaryContainerIfDark,
-          foregroundColor: filled ? colorScheme.onPrimary : colorScheme.onSecondaryContainerIfDark,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+      child: FilledButton(
+        style: ButtonStyle(
+          padding: WidgetStateProperty.all(
+            EdgeInsets.only(left: 2, right: 2, top: 4 + desktopPaddingFix, bottom: 2 + desktopPaddingFix),
           ),
-          padding: EdgeInsets.only(left: 2, right: 2, top: 10 + desktopPaddingFix, bottom: 8 + desktopPaddingFix),
         ),
         onPressed: onTap,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(icon),
+            Icon(icon, size: 23),
             FittedBox(
               alignment: Alignment.bottomCenter,
               child: Text(label, maxLines: 1),

@@ -1,6 +1,6 @@
 {
   "locale": "Tiếng Việt",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Đồng ý",
     "accepted": "Đã đồng ý",
@@ -96,8 +96,7 @@
       },
       "color": "Màu sắc",
       "colorOptions": {
-        "system": "Hệ thống",
-        "oled": "OLED"
+        "system": "Hệ thống"
       },
       "language": "Ngôn ngữ",
       "languageOptions": {

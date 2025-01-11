@@ -1,6 +1,6 @@
 {
   "locale": "বাংলা",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "মেনে নিন",
     "accepted": "গৃহীত",
@@ -89,8 +89,7 @@
       },
       "color": "রঙ",
       "colorOptions": {
-        "system": "পদ্ধতি",
-        "oled": "OLED"
+        "system": "পদ্ধতি"
       },
       "language": "ভাষা",
       "languageOptions": {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/platform_strings.dart';
 import 'package:routerino/routerino.dart';
@@ -10,7 +10,7 @@ class NotAvailableOnPlatformDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.notAvailableOnPlatform.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -24,10 +24,12 @@ class NotAvailableOnPlatformDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
+        Container(),
+        FilledButton(
           onPressed: () => context.pop(),
           child: Text(t.general.close),
-        )
+        ),
+        Container(),
       ],
     );
   }

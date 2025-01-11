@@ -1,6 +1,6 @@
 {
   "locale": "Gujarati",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "સ્વીકારો",
     "accepted": "સ્વીકાર્યો",
@@ -89,8 +89,7 @@
       },
       "color": "રંગ",
       "colorOptions": {
-        "system": "સિસ્ટમ",
-        "oled": "OLED"
+        "system": "સિસ્ટમ"
       },
       "language": "ભાષા",
       "languageOptions": {

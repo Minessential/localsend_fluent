@@ -4,10 +4,11 @@ import 'dart:typed_data';
 import 'package:common/model/dto/file_dto.dart';
 import 'package:common/model/file_status.dart';
 import 'package:common/model/session_status.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/provider/progress_provider.dart';
@@ -23,6 +24,8 @@ import 'package:localsend_app/widget/custom_progress_bar.dart';
 import 'package:localsend_app/widget/dialogs/cancel_session_dialog.dart';
 import 'package:localsend_app/widget/dialogs/error_dialog.dart';
 import 'package:localsend_app/widget/file_thumbnail.dart';
+import 'package:localsend_app/widget/fluent/card_ink_well.dart';
+import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -99,12 +102,14 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
           _files = receiveSession.files.values.map((f) => f.file).toList();
 
           // We previously used f.token != null here, but this may not work on very fast networks.
-          _selectedFiles = receiveSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
+          _selectedFiles =
+              receiveSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
         } else {
           final sendSession = ref.read(sendProvider)[widget.sessionId];
           if (sendSession != null) {
             _files = sendSession.files.values.map((f) => f.file).toList();
-            _selectedFiles = sendSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
+            _selectedFiles =
+                sendSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
           }
         }
 
@@ -117,7 +122,8 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
     final receiveSession = ref.read(serverProvider.select((s) => s?.session));
     final sendSession = ref.read(sendProvider)[widget.sessionId];
     final SessionStatus? status = receiveSession?.status ?? sendSession?.status;
-    final keepSession = !closeSession && (status == SessionStatus.sending || status == SessionStatus.finishedWithErrors);
+    final keepSession =
+        !closeSession && (status == SessionStatus.sending || status == SessionStatus.finishedWithErrors);
     final result = status == null || keepSession || await _askCancelConfirmation(status);
 
     if (result && mounted) {
@@ -128,7 +134,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
 
   Future<bool> _askCancelConfirmation(SessionStatus status) async {
     final bool result = switch (status == SessionStatus.sending) {
-      true => (await context.pushBottomSheet(() => const CancelSessionDialog())) == true,
+      true => await CancelSessionDialog.open(context),
       false => true,
     };
     if (result) {
@@ -167,7 +173,9 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
   Widget build(BuildContext context) {
     final progressNotifier = ref.watch(progressProvider);
     final currBytes = _files.fold<int>(
-        0, (prev, curr) => prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()));
+        0,
+        (prev, curr) =>
+            prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()));
 
     final receiveSession = ref.watch(serverProvider.select((s) => s?.session));
     final sendSession = ref.watch(sendProvider)[widget.sessionId];
@@ -184,9 +192,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
     }
 
     if (status == null) {
-      return Scaffold(
-        body: Container(),
-      );
+      return BaseNormalPage(body: Container());
     }
 
     final title = receiveSession != null ? t.progressPage.titleReceiving : t.progressPage.titleSending;
@@ -194,7 +200,8 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
     final endTime = receiveSession?.endTime ?? sendSession?.endTime;
     final int? speedInBytes;
     if (startTime != null && currBytes >= 500 * 1024) {
-      speedInBytes = getFileSpeed(start: startTime, end: endTime ?? DateTime.now().millisecondsSinceEpoch, bytes: currBytes);
+      speedInBytes =
+          getFileSpeed(start: startTime, end: endTime ?? DateTime.now().millisecondsSinceEpoch, bytes: currBytes);
 
       final now = DateTime.now().millisecondsSinceEpoch;
       if (now - _lastRemainingTimeUpdate >= 1000) {
@@ -205,8 +212,10 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
       speedInBytes = null;
     }
 
-    final fileStatusMap = receiveSession?.files.map((k, f) => MapEntry(k, f.status)) ?? sendSession!.files.map((k, f) => MapEntry(k, f.status));
+    final fileStatusMap = receiveSession?.files.map((k, f) => MapEntry(k, f.status)) ??
+        sendSession!.files.map((k, f) => MapEntry(k, f.status));
     final finishedCount = fileStatusMap.values.where((s) => s == FileStatus.finished).length;
+    final theme = FluentTheme.of(context);
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
@@ -218,20 +227,16 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
         _exit(closeSession: widget.closeSessionOnClose);
       },
       canPop: false,
-      child: Scaffold(
-        appBar: widget.showAppBar
-            ? AppBar(
-                title: Text(title),
-              )
-            : null,
-        body: Stack(
-          children: [
-            ListView.builder(
+      child: BaseNormalPage(
+        headerTitle: widget.showAppBar ? title : null,
+        body: Column(children: [
+          Expanded(
+            child: ListView.builder(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top + 20,
                 bottom: 150 + getNavBarPadding(context),
                 left: 15,
-                right: 30,
+                right: 15,
               ),
               itemCount: _files.length + 2,
               itemBuilder: (context, index) {
@@ -246,7 +251,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title, style: Theme.of(context).textTheme.titleLarge),
+                        Text(title, style: theme.typography.title),
                         if (checkPlatformWithFileSystem() && receiveSession != null)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
@@ -255,12 +260,12 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
                                 children: [
                                   TextSpan(
                                     text: '${t.settingsTab.receive.destination}: ',
-                                    style: const TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: theme.autoGrey),
                                   ),
                                   TextSpan(
                                     text: receiveSession.destinationDirectory,
                                     style: TextStyle(
-                                      color: checkPlatform([TargetPlatform.iOS]) ? Colors.grey : Theme.of(context).colorScheme.primary,
+                                      color: checkPlatform([TargetPlatform.iOS]) ? theme.autoGrey : theme.accentColor,
                                     ),
                                     recognizer: checkPlatform([TargetPlatform.iOS])
                                         ? null
@@ -285,7 +290,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
                     return Container();
                   }
 
-                  return SelectableText(errorMessage, style: TextStyle(color: Theme.of(context).colorScheme.warning));
+                  return SelectableText(errorMessage, style: TextStyle(color: Colors.warningPrimaryColor));
                 }
 
                 final file = _files[index - 2];
@@ -324,12 +329,11 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    splashFactory: NoSplash.splashFactory,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    onTap: filePath != null && receiveSession != null ? () async => openFile(context, file.fileType, filePath!) : null,
+                  child: CardInkWell(
+                    padding: EdgeInsets.all(10),
+                    onPressed: filePath != null && receiveSession != null
+                        ? () async => openFile(context, file.fileType, filePath!)
+                        : null,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -355,57 +359,60 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
                                       softWrap: false,
                                     ),
                                   ),
-                                  Text(' (${file.size.asReadableFileSize})', style: const TextStyle(fontSize: 16, height: 1)),
+                                  Text(
+                                    ' (${file.size.asReadableFileSize})',
+                                    style: const TextStyle(fontSize: 16, height: 1),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(height: 5),
+                              const SizedBox(height: 10),
                               if (fileStatus == FileStatus.sending)
                                 Padding(
                                   padding: const EdgeInsets.only(top: 5),
                                   child: CustomProgressBar(
-                                    progress: progressNotifier.getProgress(sessionId: widget.sessionId, fileId: file.id),
+                                    progress:
+                                        progressNotifier.getProgress(sessionId: widget.sessionId, fileId: file.id) *
+                                            100,
                                   ),
                                 )
                               else
-                                Row(
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        savedToGallery ? t.progressPage.savedToGallery : fileStatus.label,
-                                        style: TextStyle(color: fileStatus.getColor(context), height: 1),
-                                      ),
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
+                                      savedToGallery ? t.progressPage.savedToGallery : fileStatus.label,
+                                      style: TextStyle(color: fileStatus.getColor(context), height: 1),
                                     ),
-                                    if (errorMessage != null) ...[
-                                      const SizedBox(width: 5),
-                                      InkWell(
-                                        onTap: () async {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (_) => ErrorDialog(error: errorMessage!),
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                                          child: Icon(Icons.info, color: Theme.of(context).colorScheme.warning, size: 20),
-                                        ),
-                                      ),
-                                    ],
+                                  ),
+                                  if (errorMessage != null) ...[
+                                    const SizedBox(width: 5),
+                                    IconButton(
+                                      onPressed: () async {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (_) => ErrorDialog(error: errorMessage!),
+                                        );
+                                      },
+                                      icon: Icon(FluentIcons.info, color: Colors.warningPrimaryColor, size: 15),
+                                    ),
                                   ],
-                                ),
+                                ]),
                             ],
                           ),
                         ),
                         if (sendSession != null && fileStatus == FileStatus.failed)
-                          IconButton(
-                            icon: const Icon(Icons.refresh),
-                            onPressed: () async {
-                              await ref.notifier(sendProvider).sendFile(
-                                    sessionId: widget.sessionId,
-                                    isolateIndex: 0,
-                                    file: sendSession.files[file.id]!,
-                                    isRetry: true,
-                                  );
-                            },
+                          Tooltip(
+                            message: t.progressPage.retry,
+                            child: IconButton(
+                              icon: const Icon(FluentIcons.refresh),
+                              onPressed: () async {
+                                await ref.notifier(sendProvider).sendFile(
+                                      sessionId: widget.sessionId,
+                                      isolateIndex: 0,
+                                      file: sendSession.files[file.id]!,
+                                      isRetry: true,
+                                    );
+                              },
+                            ),
                           ),
                       ],
                     ),
@@ -413,95 +420,89 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
                 );
               },
             ),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5, top: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            status.getLabel(
-                              remainingTime: _remainingTime ?? '-',
-                            ),
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 5),
-                          TweenAnimationBuilder(
-                            tween: Tween<double>(begin: 0, end: _totalBytes == 0 ? 0 : currBytes / _totalBytes),
-                            duration: const Duration(milliseconds: 200),
-                            curve: Curves.easeOut,
-                            builder: (context, value, child) {
-                              return CustomProgressBar(
-                                progress: value,
-                                borderRadius: 5,
-                              );
-                            },
-                          ),
-                          AnimatedCrossFade(
-                            crossFadeState: _advanced ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                            duration: const Duration(milliseconds: 200),
-                            alignment: Alignment.topLeft,
-                            firstChild: Container(),
-                            secondChild: Padding(
-                              padding: const EdgeInsets.only(top: 10, bottom: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(t.progressPage.total.count(
-                                    curr: finishedCount,
-                                    n: _selectedFiles.length,
-                                  )),
-                                  Text(t.progressPage.total.size(
-                                    curr: currBytes.asReadableFileSize,
-                                    n: _totalBytes == double.maxFinite.toInt() ? '-' : _totalBytes.asReadableFileSize,
-                                  )),
-                                  if (speedInBytes != null)
-                                    Text(t.progressPage.total.speed(
-                                      speed: speedInBytes.asReadableFileSize,
-                                    )),
-                                ],
-                              ),
+          ),
+          SizedBox(height: 12),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5, top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          status.getLabel(remainingTime: _remainingTime ?? '-'),
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 10),
+                        CustomProgressBar(progress: _totalBytes == 0 ? 0 : 100 * currBytes / _totalBytes),
+                        AnimatedCrossFade(
+                          crossFadeState: _advanced ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                          duration: const Duration(milliseconds: 200),
+                          alignment: Alignment.topLeft,
+                          firstChild: Container(),
+                          secondChild: Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(t.progressPage.total.count(curr: finishedCount, n: _selectedFiles.length)),
+                                Text(t.progressPage.total.size(
+                                  curr: currBytes.asReadableFileSize,
+                                  n: _totalBytes == double.maxFinite.toInt() ? '-' : _totalBytes.asReadableFileSize,
+                                )),
+                                if (speedInBytes != null)
+                                  Text(t.progressPage.total.speed(speed: speedInBytes.asReadableFileSize)),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton.icon(
-                                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onSurface),
-                                onPressed: () {
-                                  setState(() => _advanced = !_advanced);
-                                },
-                                icon: const Icon(Icons.info),
-                                label: Text(_advanced ? t.general.hide : t.general.advanced),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CustomIconLabelButton(
+                              ButtonType.inkwell,
+                              onPressed: () {
+                                setState(() => _advanced = !_advanced);
+                              },
+                              icon: Icon(
+                                _advanced ? FluentIcons.chevron_up_med : FluentIcons.chevron_down_med,
+                                size: 10,
                               ),
-                              TextButton.icon(
-                                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onSurface),
-                                onPressed: () => _exit(closeSession: true),
-                                icon: Icon(status == SessionStatus.sending ? Icons.close : Icons.check_circle),
-                                label: Text(status == SessionStatus.sending
+                              label: Text(_advanced ? t.general.hide : t.general.advanced),
+                            ),
+                            SizedBox(width: 10),
+                            CustomIconLabelButton(
+                              ButtonType.filled,
+                              onPressed: () => _exit(closeSession: true),
+                              icon: Icon(
+                                  status == SessionStatus.sending
+                                      ? FluentIcons.chrome_close
+                                      : FluentIcons.accept_medium,
+                                  size: 10),
+                              label: Text(
+                                status == SessionStatus.sending
                                     ? t.general.cancel
                                     : _finishTimer != null
                                         ? '${t.general.done} ($_finishCounter)'
-                                        : t.general.done),
+                                        : t.general.done,
                               ),
-                            ],
-                          )
-                        ],
-                      ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
@@ -524,17 +525,18 @@ extension on FileStatus {
   }
 
   Color getColor(BuildContext context) {
+    final theme = FluentTheme.of(context);
     switch (this) {
       case FileStatus.queue:
-        return Theme.of(context).colorScheme.primary;
+        return theme.accentColor;
       case FileStatus.skipped:
-        return Colors.grey;
+        return theme.autoGrey;
       case FileStatus.sending:
-        return Theme.of(context).colorScheme.primary;
+        return theme.accentColor;
       case FileStatus.failed:
-        return Theme.of(context).colorScheme.warning;
+        return Colors.warningPrimaryColor;
       case FileStatus.finished:
-        return Theme.of(context).colorScheme.primary;
+        return theme.accentColor;
     }
   }
 }

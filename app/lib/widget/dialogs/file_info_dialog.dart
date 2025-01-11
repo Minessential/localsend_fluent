@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/receive_history_entry.dart';
+import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/util/file_size_helper.dart';
 import 'package:routerino/routerino.dart';
 
@@ -11,7 +12,7 @@ class FileInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.fileInfo.title),
       content: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -77,10 +78,12 @@ class FileInfoDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
+        Container(),
+        FilledButton(
+          onPressed: () => context.popUntil(HomePage),
           child: Text(t.general.close),
         ),
+        Container(),
       ],
     );
   }

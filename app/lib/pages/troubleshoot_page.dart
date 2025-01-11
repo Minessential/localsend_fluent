@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/native/cmd_helper.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
-import 'package:localsend_app/widget/custom_icon_button.dart';
 import 'package:localsend_app/widget/dialogs/not_available_on_platform_dialog.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
 import 'package:refena_flutter/refena_flutter.dart';
@@ -17,10 +17,8 @@ class TroubleshootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = context.ref.watch(settingsProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.troubleshootPage.title),
-      ),
+    return BaseDialogPage(
+      title: t.troubleshootPage.title,
       body: ResponsiveListView(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
         children: [
@@ -95,13 +93,14 @@ class _TroubleshootItemState extends State<_TroubleshootItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.symptomText, style: Theme.of(context).textTheme.titleMedium),
+              Text(widget.symptomText, style: FluentTheme.of(context).typography.subtitle),
               const SizedBox(height: 10),
               Text(t.troubleshootPage.solution),
               Text(widget.solutionText),
               if (widget.primaryButton != null) ...[
                 const SizedBox(height: 10),
                 Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   runSpacing: 10,
                   children: [
                     widget.primaryButton!,
@@ -111,11 +110,11 @@ class _TroubleshootItemState extends State<_TroubleshootItem> {
                     ],
                     if (widget.primaryButton!.onTap?.commands != null) ...[
                       const SizedBox(width: 10),
-                      CustomIconButton(
+                      IconButton(
                         onPressed: () {
                           setState(() => _showCommands = !_showCommands);
                         },
-                        child: const Icon(Icons.info),
+                        icon: const Icon(FluentIcons.info, size: 20),
                       ),
                     ],
                   ],
@@ -158,11 +157,7 @@ class _FixButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-      ),
+    return FilledButton(
       onPressed: () async {
         if (onTap != null) {
           onTap!.runFix();

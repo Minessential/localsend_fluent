@@ -1,6 +1,6 @@
 {
   "locale": "עברית",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "אישור",
     "accepted": "התקבל",
@@ -96,8 +96,7 @@
       },
       "color": "צבע",
       "colorOptions": {
-        "system": "מערכת",
-        "oled": "OLED"
+        "system": "מערכת"
       },
       "language": "שפה",
       "languageOptions": {

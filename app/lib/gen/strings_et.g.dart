@@ -33,7 +33,7 @@ class TranslationsEt extends Translations {
   @override
   String get locale => 'Eesti keel';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralEt general = _TranslationsGeneralEt._(_root);
   @override
@@ -1470,8 +1470,6 @@ class _TranslationsSettingsTabGeneralColorOptionsEt extends TranslationsSettings
   // Translations
   @override
   String get system => 'Süsteemi värvid';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

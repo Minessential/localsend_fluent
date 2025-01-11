@@ -1,6 +1,6 @@
 {
   "locale": "Mongolian",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Зөвшөөрөх",
     "accepted": "Зөвшөөрсөн",
@@ -95,8 +95,7 @@
       },
       "color": "Өнгө",
       "colorOptions": {
-        "system": "Систем",
-        "oled": "OLED"
+        "system": "Систем"
       },
       "language": "Хэл",
       "languageOptions": {

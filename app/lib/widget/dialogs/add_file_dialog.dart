@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/native/file_picker.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
@@ -16,7 +16,7 @@ class AddFileDialog extends StatelessWidget {
     if (checkPlatformIsDesktop()) {
       await showDialog(
         context: context,
-        builder: (_) => AlertDialog(
+        builder: (_) => ContentDialog(
           title: Text(t.dialogs.addFile.title),
           content: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 300),
@@ -31,12 +31,14 @@ class AddFileDialog extends StatelessWidget {
             ),
           ),
           actions: [
-            TextButton(
+            Container(),
+            FilledButton(
               onPressed: () {
                 context.pop();
               },
               child: Text(t.general.close),
-            )
+            ),
+            Container(),
           ],
         ),
       );
@@ -52,8 +54,8 @@ class AddFileDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 15,
-      runSpacing: 15,
+      spacing: 10,
+      runSpacing: 10,
       children: [
         ...options.map((option) {
           return BigButton(

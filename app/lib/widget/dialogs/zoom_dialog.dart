@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:localsend_app/config/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/send/web/web_send_state.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
@@ -29,7 +28,7 @@ class ZoomDialog extends StatelessWidget {
       webSendState = null;
     }
 
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.zoom.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -55,13 +54,15 @@ class ZoomDialog extends StatelessWidget {
           if (listenIncomingWebSendRequests && webSendState != null)
             Builder(
               builder: (context) {
-                final pending = webSendState?.sessions.values.fold<int>(0, (prev, curr) => prev + (curr.responseHandler != null ? 1 : 0)) ?? 0;
+                final pending = webSendState?.sessions.values
+                        .fold<int>(0, (prev, curr) => prev + (curr.responseHandler != null ? 1 : 0)) ??
+                    0;
                 if (pending != 0) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
                       t.webSharePage.pendingRequests(n: pending),
-                      style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                      style: TextStyle(color: Colors.warningPrimaryColor),
                       textAlign: TextAlign.center,
                     ),
                   );
@@ -73,10 +74,12 @@ class ZoomDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
+        Container(),
+        FilledButton(
           onPressed: () => context.pop(),
           child: Text(t.general.close),
-        )
+        ),
+        Container(),
       ],
     );
   }

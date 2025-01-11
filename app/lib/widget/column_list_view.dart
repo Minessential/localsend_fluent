@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+
+import 'package:flutter/widgets.dart';
 
 /// Behaves like a [Column] if there is enough space, otherwise like a [ListView].
 class ColumnListView extends StatelessWidget {

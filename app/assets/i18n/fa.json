@@ -1,6 +1,6 @@
 {
   "locale": "فارسی",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "پذیرفتن",
     "accepted": "پذیرفته شده",
@@ -96,8 +96,7 @@
       },
       "color": "رنگ",
       "colorOptions": {
-        "system": "سیستم",
-        "oled": "OLED"
+        "system": "سیستم"
       },
       "language": "زبان",
       "languageOptions": {

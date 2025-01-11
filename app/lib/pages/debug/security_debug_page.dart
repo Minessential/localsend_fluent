@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/security_provider.dart';
 import 'package:localsend_app/widget/debug_entry.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
@@ -10,18 +11,18 @@ class SecurityDebugPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final securityContext = context.ref.watch(securityProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Security Debugging'),
-      ),
+    return BaseNormalPage(
+      windowTitle: 'Security Debugging',
+      headerTitle: 'Security Debugging',
       body: ResponsiveListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        maxWidth: 700,
+        // maxWidth: 700,
         children: [
           Row(
             children: [
               FilledButton(
-                onPressed: () async => await context.ref.redux(securityProvider).dispatchAsync(ResetSecurityContextAction()),
+                onPressed: () async =>
+                    await context.ref.redux(securityProvider).dispatchAsync(ResetSecurityContextAction()),
                 child: const Text('Reset'),
               ),
             ],

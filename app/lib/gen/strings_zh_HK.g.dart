@@ -33,7 +33,7 @@ class TranslationsZhHk extends Translations {
   @override
   String get locale => '繁體中文 – 香港';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralZhHk general = _TranslationsGeneralZhHk._(_root);
   @override
@@ -1461,8 +1461,6 @@ class _TranslationsSettingsTabGeneralColorOptionsZhHk extends TranslationsSettin
   // Translations
   @override
   String get system => '跟機';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

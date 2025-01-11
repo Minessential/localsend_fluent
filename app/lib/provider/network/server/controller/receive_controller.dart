@@ -15,7 +15,6 @@ import 'package:common/model/file_type.dart';
 import 'package:common/model/session_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:localsend_app/model/state/send/send_session_state.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/model/state/server/receiving_file.dart';
@@ -164,8 +163,12 @@ class ReceiveController {
     }
 
     // Save device information
-    await server.ref.redux(nearbyDevicesProvider).dispatchAsync(RegisterDeviceAction(requestDto.toDevice(request.ip, port, https)));
-    server.ref.notifier(discoveryLoggerProvider).addLog('[DISCOVER/TCP] Received "/register" HTTP request: ${requestDto.alias} (${request.ip})');
+    await server.ref
+        .redux(nearbyDevicesProvider)
+        .dispatchAsync(RegisterDeviceAction(requestDto.toDevice(request.ip, port, https)));
+    server.ref
+        .notifier(discoveryLoggerProvider)
+        .addLog('[DISCOVER/TCP] Received "/register" HTTP request: ${requestDto.alias} (${request.ip})');
 
     final deviceInfo = server.ref.read(deviceInfoProvider);
 
@@ -230,7 +233,11 @@ class ReceiveController {
           sessionId: sessionId,
           status: SessionStatus.waiting,
           sender: dto.info.toDevice(request.ip, port, https),
-          senderAlias: server.ref.read(favoritesProvider).firstWhereOrNull((e) => e.fingerprint == dto.info.fingerprint)?.alias ?? dto.info.alias,
+          senderAlias: server.ref
+                  .read(favoritesProvider)
+                  .firstWhereOrNull((e) => e.fingerprint == dto.info.fingerprint)
+                  ?.alias ??
+              dto.info.alias,
           files: {
             for (final file in dto.files.values)
               file.id: ReceivingFile(
@@ -247,7 +254,9 @@ class ReceiveController {
           endTime: null,
           destinationDirectory: destinationDir,
           cacheDirectory: cacheDir,
-          saveToGallery: checkPlatformWithGallery() && settings.saveToGallery && dto.files.values.every((f) => !f.fileName.contains('/')),
+          saveToGallery: checkPlatformWithGallery() &&
+              settings.saveToGallery &&
+              dto.files.values.every((f) => !f.fileName.contains('/')),
           createdDirectories: {},
           responseHandler: streamController,
         ),
@@ -269,7 +278,10 @@ class ReceiveController {
         for (final f in dto.files.values) f.id: f.fileName,
       };
     } else {
-      if (checkPlatformHasTray() && (await windowManager.isMinimized() || !(await windowManager.isVisible()) || !(await windowManager.isFocused()))) {
+      if (checkPlatformHasTray() &&
+          (await windowManager.isMinimized() ||
+              !(await windowManager.isVisible()) ||
+              !(await windowManager.isFocused()))) {
         await showFromTray();
       }
 
@@ -288,7 +300,9 @@ class ReceiveController {
               timestamp: DateTime.now().toUtc(),
             ));
       } else {
-        server.ref.notifier(selectedReceivingFilesProvider).setFiles(server.getState().session!.files.values.map((f) => f.file).toList());
+        server.ref
+            .notifier(selectedReceivingFilesProvider)
+            .setFiles(server.getState().session!.files.values.map((f) => f.file).toList());
       }
 
       server.ref.redux(receivePageControllerProvider).dispatch(InitReceivePageAction());
@@ -356,11 +370,13 @@ class ReceiveController {
     }
 
     final files = {
-      for (final file in server.getState().session!.files.values.where((f) => f.token != null)) file.file.id: file.token,
+      for (final file in server.getState().session!.files.values.where((f) => f.token != null))
+        file.file.id: file.token,
     };
 
     if (checkPlatform([TargetPlatform.android, TargetPlatform.iOS])) {
-      if (checkPlatform([TargetPlatform.android]) && !server.getState().session!.destinationDirectory.startsWith('/storage/emulated/0/Download')) {
+      if (checkPlatform([TargetPlatform.android]) &&
+          !server.getState().session!.destinationDirectory.startsWith('/storage/emulated/0/Download')) {
         // Android requires more permission to save files outside of the Download directory
         try {
           final result = await Permission.storage.request();
@@ -545,7 +561,8 @@ class ReceiveController {
       final quickSaveFromFavorites = settings.quickSaveFromFavorites && server.getState().session?.message == null;
       if (quickSaveFromFavorites) {
         // dto is not defined here. I must check sender fingerprint
-        final bool isFavorite = server.ref.read(favoritesProvider).any((e) => e.fingerprint == session.sender.fingerprint);
+        final bool isFavorite =
+            server.ref.read(favoritesProvider).any((e) => e.fingerprint == session.sender.fingerprint);
         if (isFavorite) {
           quickSave = true;
         }
@@ -559,14 +576,14 @@ class ReceiveController {
           // ignore: use_build_context_synchronously
           Routerino.context.pushRootImmediately(() => const HomePage(initialTab: HomeTab.receive, appStart: false));
 
-          // open the dialog to open file instantly
+          /* open the dialog to open file instantly*/
           if (destinationPath.isNotEmpty) {
             OpenFileDialog.open(
-              Routerino.context, // ignore: use_build_context_synchronously
-              filePath: destinationPath,
-              fileType: fileType,
-              openGallery: saveToGallery,
-            );
+                // ignore: use_build_context_synchronously
+                Routerino.context,
+                filePath: destinationPath,
+                fileName: receivingFile.desiredName!,
+                fileType: fileType);
           }
         });
       }
@@ -675,7 +692,9 @@ class ReceiveController {
 
         final Map<String, dynamic> jsonBody = jsonDecode(body);
         final List<String> args = (jsonBody['args'] as List?)?.cast<String>() ?? <String>[];
-        final filesAdded = await server.ref.redux(selectedSendingFilesProvider).dispatchAsyncTakeResult(LoadSelectionFromArgsAction(args));
+        final filesAdded = await server.ref
+            .redux(selectedSendingFilesProvider)
+            .dispatchAsyncTakeResult(LoadSelectionFromArgsAction(args));
         if (filesAdded) {
           server.ref.redux(homePageControllerProvider).dispatch(ChangeTabAction(HomeTab.send));
         }
@@ -742,7 +761,10 @@ class ReceiveController {
     // notify sender
     try {
       // ignore: unawaited_futures
-      server.ref.read(httpProvider).discovery.post(ApiRoute.cancel.target(session.sender, query: {'sessionId': session.sessionId}));
+      server.ref
+          .read(httpProvider)
+          .discovery
+          .post(ApiRoute.cancel.target(session.sender, query: {'sessionId': session.sessionId}));
     } catch (e) {
       _logger.warning('Failed to notify sender', e);
     }

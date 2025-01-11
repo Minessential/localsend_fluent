@@ -11,12 +11,42 @@
     }
   },
   "settingsTab": {
+    "toggleSwitch": {
+      "on": "On",
+      "off": "Off"
+    },
     "general": {
+      "colorOptions": {
+        "yellow": "Yellow",
+        "orange": "Orange",
+        "red": "Red",
+        "magenta": "Magenta",
+        "purple": "Purple",
+        "blue": "Blue",
+        "green": "Green"
+      },
       "saveWindowPlacementWindows": "Save window position after exit"
+    },
+    "network": {
+      "network": "Network",
+      "networkOptions": {
+        "all": "All",
+        "filtered": "Filtered"
+      }
     }
+  },
+  "networkInterfacesPage": {
+    "title": "Network Interfaces",
+    "info": "By default, LocalSend uses all available network interfaces. You can exclude unwanted networks here. You need to restart the server to apply the changes.",
+    "preview": "Preview",
+    "whitelist": "Whitelist",
+    "blacklist": "Blacklist"
   },
   "sendPage": {
     "tooManyAttempts": "@:web.tooManyAttempts"
+  },
+  "progressPage": {
+    "retry": "Retry"
   },
   "webSharePage": {
     "encryptionHint": "LocalSend uses a self-signed certificate. You need to accept it in your browser."

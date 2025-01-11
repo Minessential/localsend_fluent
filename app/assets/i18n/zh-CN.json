@@ -1,6 +1,6 @@
 {
   "locale": "简体中文",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "接受",
     "accepted": "已接受",
@@ -86,6 +86,10 @@
   },
   "settingsTab": {
     "title": "设置",
+    "toggleSwitch": {
+      "on": "开",
+      "off": "关"
+    },
     "general": {
       "title": "通用",
       "brightness": "主题",
@@ -97,7 +101,13 @@
       "color": "颜色",
       "colorOptions": {
         "system": "跟随系统",
-        "oled": "OLED"
+        "yellow": "黄",
+        "orange": "橘",
+        "red": "红",
+        "magenta": "洋红",
+        "purple": "紫",
+        "blue": "蓝",
+        "green": "绿"
       },
       "language": "语言",
       "languageOptions": {
@@ -134,6 +144,11 @@
       "deviceType": "设备类型",
       "deviceModel": "设备型号",
       "port": "端口",
+      "network": "网络",
+      "networkOptions": {
+        "all": "所有",
+        "filtered": "已过滤"
+      },
       "discoveryTimeout": "搜索设备超时",
       "useSystemName": "使用系统名称",
       "generateRandomAlias": "生成随机昵称",
@@ -169,6 +184,13 @@
       "symptom": "双方设备均无法发现对方或者分享文件。",
       "solution": "当问题发生在双方设备上时，请先确认双方设备处于同一个 Wi‑Fi 网络上，且共享相同的网络配置（端口、多线程广播地址、加密选项）。若因 Wi‑Fi 不允许参与者间通信，那么请在路由器中关闭“接入点 (AP) 隔离”选项。"
     }
+  },
+  "networkInterfacesPage": {
+    "title": "网络接口",
+    "info": "默认情况下，LocalSend使用所有可用的网络接口。你可以在这里排除不需要的网络。您需要重新启动服务器来应用更改。",
+    "preview": "预览",
+    "whitelist": "白名单",
+    "blacklist": "黑名单"
   },
   "receiveHistoryPage": {
     "title": "历史",
@@ -227,7 +249,8 @@
       "count": "文件：{curr} / {n}",
       "size": "大小：{curr} / {n}",
       "speed": "速度：{speed}/s"
-    }
+    },
+    "retry": "重试"
   },
   "webSharePage": {
     "title": "分享为链接",

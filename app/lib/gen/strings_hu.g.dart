@@ -33,7 +33,7 @@ class TranslationsHu extends Translations {
   @override
   String get locale => 'Magyar';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralHu general = _TranslationsGeneralHu._(_root);
   @override
@@ -1470,8 +1470,6 @@ class _TranslationsSettingsTabGeneralColorOptionsHu extends TranslationsSettings
   // Translations
   @override
   String get system => 'Rendszer';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

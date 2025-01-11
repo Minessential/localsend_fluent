@@ -33,7 +33,7 @@ class TranslationsHi extends Translations {
   @override
   String get locale => 'Hindi';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralHi general = _TranslationsGeneralHi._(_root);
   @override
@@ -1542,8 +1542,6 @@ class _TranslationsSettingsTabGeneralColorOptionsHi extends TranslationsSettings
   // Translations
   @override
   String get system => 'सिस्टम';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

@@ -1,14 +1,14 @@
 import 'package:common/isolate.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/config/init_error.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
+import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
 import 'package:localsend_app/widget/watcher/life_cycle_watcher.dart';
 import 'package:localsend_app/widget/watcher/shortcut_watcher.dart';
@@ -16,6 +16,7 @@ import 'package:localsend_app/widget/watcher/tray_watcher.dart';
 import 'package:localsend_app/widget/watcher/window_watcher.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
+import 'package:window_manager/window_manager.dart';
 
 Future<void> main(List<String> args) async {
   final RefenaContainer container;
@@ -27,6 +28,22 @@ Future<void> main(List<String> args) async {
       stackTrace: stackTrace,
     );
     return;
+  }
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (checkPlatformIsDesktop()) {
+    await WindowManager.instance.ensureInitialized();
+    WindowOptions windowOptions = WindowOptions(
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+    );
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.setMinimumSize(const Size(450, 700));
+      await windowManager.show();
+      await windowManager.focus();
+      await windowManager.setPreventClose(true);
+    });
   }
 
   runApp(RefenaScope.withContainer(
@@ -43,7 +60,8 @@ class LocalSendApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ref = context.ref;
-    final (themeMode, colorMode) = ref.watch(settingsProvider.select((settings) => (settings.theme, settings.colorMode)));
+    final (themeMode, colorMode) =
+        ref.watch(settingsProvider.select((settings) => (settings.theme, settings.colorMode)));
     final dynamicColors = ref.watch(dynamicColorsProvider);
     return TrayWatcher(
       child: WindowWatcher(
@@ -63,18 +81,18 @@ class LocalSendApp extends StatelessWidget {
             }
           },
           child: ShortcutWatcher(
-            child: MaterialApp(
+            child: FluentApp(
               title: t.appName,
               locale: TranslationProvider.of(context).flutterLocale,
               supportedLocales: AppLocaleUtils.supportedLocales,
               localizationsDelegates: GlobalMaterialLocalizations.delegates,
               debugShowCheckedModeBanner: false,
-              theme: getTheme(colorMode, Brightness.light, dynamicColors),
-              darkTheme: getTheme(colorMode, Brightness.dark, dynamicColors),
-              themeMode: colorMode == ColorMode.oled ? ThemeMode.dark : themeMode,
+              theme: getTheme(colorMode, Brightness.light, is10footScreen(context), dynamicColors),
+              darkTheme: getTheme(colorMode, Brightness.dark, is10footScreen(context), dynamicColors),
+              themeMode: themeMode,
               navigatorKey: Routerino.navigatorKey,
               home: RouterinoHome(
-                builder: () => const HomePage(
+                builder: () => HomePage(
                   initialTab: HomeTab.receive,
                   appStart: true,
                 ),

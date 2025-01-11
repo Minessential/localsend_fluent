@@ -1,9 +1,10 @@
 import 'package:common/util/sleep.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/cross_file.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
@@ -42,7 +43,8 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
 
   void _init({required bool encrypted}) async {
     final settings = ref.read(settingsProvider);
-    final (beforeAutoAccept, beforePin) = ref.read(serverProvider.select((state) => (state?.webSendState?.autoAccept, state?.webSendState?.pin)));
+    final (beforeAutoAccept, beforePin) =
+        ref.read(serverProvider.select((state) => (state?.webSendState?.autoAccept, state?.webSendState?.pin)));
     setState(() {
       _stateEnum = _ServerState.initializing;
       _encrypted = encrypted;
@@ -80,6 +82,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
 
   @override
   Widget build(BuildContext context) {
+    final theme = FluentTheme.of(context);
     return PopScope(
       onPopInvokedWithResult: (_, __) async {
         if (_stateEnum != _ServerState.running) {
@@ -98,10 +101,9 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
         }
       },
       canPop: false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(t.webSharePage.title),
-        ),
+      child: BaseNormalPage(
+        windowTitle: t.webSharePage.title,
+        headerTitle: t.webSharePage.title,
         body: Builder(
           builder: (context) {
             if (_stateEnum != _ServerState.running) {
@@ -111,23 +113,23 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (_stateEnum == _ServerState.initializing || _stateEnum == _ServerState.stopping) ...[
-                    const CircularProgressIndicator(),
+                    const ProgressRing(),
                     const SizedBox(height: 20),
                     Center(
                       child: Text(
                         _stateEnum == _ServerState.initializing ? t.webSharePage.loading : t.webSharePage.stopping,
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: theme.typography.subtitle,
                       ),
                     ),
                   ] else if (_initializedError != null) ...[
-                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                    Icon(FluentIcons.error, size: 48, color: Colors.red),
                     const SizedBox(height: 10),
                     Center(
-                      child: Text(t.webSharePage.error, style: Theme.of(context).textTheme.titleLarge),
+                      child: Text(t.webSharePage.error, style: theme.typography.subtitle),
                     ),
                     const SizedBox(height: 10),
                     Center(
-                      child: SelectableText(_initializedError!, style: Theme.of(context).textTheme.bodyMedium),
+                      child: SelectableText('_initializedError!', style: theme.typography.bodyLarge),
                     ),
                   ],
                 ],
@@ -141,85 +143,69 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
             return ResponsiveListView(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               children: [
-                Text(t.webSharePage.openLink(n: networkState.localIps.length), style: Theme.of(context).textTheme.titleMedium),
+                Text(t.webSharePage.openLink(n: networkState.localIps.length), style: theme.typography.subtitle),
                 const SizedBox(height: 10),
                 Card(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...networkState.localIps.map((ip) {
-                          final url = '${_encrypted ? 'https' : 'http'}://$ip:${serverState.port}';
-                          final urlWithPin = switch (webSendState.pin) {
-                            String() => '$url/?pin=${Uri.encodeQueryComponent(webSendState.pin!)}',
-                            null => url,
-                          };
-                          return Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Row(
-                              children: [
-                                SelectableText(
-                                  url,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                const SizedBox(width: 5),
-                                InkWell(
-                                  onTap: () async {
-                                    await Clipboard.setData(ClipboardData(text: url));
-                                    if (context.mounted && checkPlatformIsDesktop()) {
-                                      context.showSnackBar(t.general.copiedToClipboard);
-                                    }
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    child: Icon(Icons.content_copy, size: 16),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (_) => QrDialog(
-                                        data: urlWithPin,
-                                        label: url,
-                                        listenIncomingWebSendRequests: true,
-                                        pin: webSendState.pin,
-                                      ),
-                                    );
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    child: Icon(Icons.qr_code, size: 16),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (_) => ZoomDialog(
-                                        label: url,
-                                        pin: webSendState.pin,
-                                        listenIncomingWebSendRequests: true,
-                                      ),
-                                    );
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    child: Icon(Icons.tv, size: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...networkState.localIps.map((ip) {
+                        final url = '${_encrypted ? 'https' : 'http'}://$ip:${serverState.port}';
+                        final urlWithPin = switch (webSendState.pin) {
+                          String() => '$url/?pin=${Uri.encodeQueryComponent(webSendState.pin!)}',
+                          null => url,
+                        };
+                        return Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Row(
+                            children: [
+                              SelectableText(url, style: theme.typography.bodyStrong),
+                              const SizedBox(width: 15),
+                              IconButton(
+                                onPressed: () async {
+                                  await Clipboard.setData(ClipboardData(text: url));
+                                  if (context.mounted && checkPlatformIsDesktop()) {
+                                    context.showSnackBar(t.general.copiedToClipboard);
+                                  }
+                                },
+                                icon: Icon(FluentIcons.copy, size: 16),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (_) => QrDialog(
+                                      data: urlWithPin,
+                                      label: url,
+                                      listenIncomingWebSendRequests: true,
+                                      pin: webSendState.pin,
+                                    ),
+                                  );
+                                },
+                                icon: Icon(FluentIcons.q_r_code, size: 16),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (_) => ZoomDialog(
+                                      label: url,
+                                      pin: webSendState.pin,
+                                      listenIncomingWebSendRequests: true,
+                                    ),
+                                  );
+                                },
+                                icon: Icon(FluentIcons.t_v_monitor, size: 16),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(t.webSharePage.requests, style: Theme.of(context).textTheme.titleMedium),
+                Text(t.webSharePage.requests, style: theme.typography.subtitle),
                 const SizedBox(height: 10),
                 if (webSendState.sessions.isEmpty)
                   Padding(
@@ -231,125 +217,96 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    session.deviceInfo,
-                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                          color: session.responseHandler != null ? Theme.of(context).colorScheme.warning : null,
-                                        ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(session.ip, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.grey)),
-                                ],
-                              ),
-                            ),
-                            if (session.responseHandler != null) ...[
-                              TextButton(
-                                onPressed: () {
-                                  ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Theme.of(context).colorScheme.onSurface,
-                                ),
-                                child: const Icon(Icons.close),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  ref.notifier(serverProvider).acceptWebSendRequest(session.sessionId);
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Theme.of(context).colorScheme.onSurface,
-                                ),
-                                child: const Icon(Icons.check_circle),
-                              ),
-                            ] else
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Text(
-                                  t.general.accepted,
-                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                        color: Theme.of(context).colorScheme.onSecondaryContainer,
-                                      ),
+                      child: Row(children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                session.deviceInfo,
+                                style: theme.typography.bodyStrong?.copyWith(
+                                  color: session.responseHandler != null ? Colors.warningPrimaryColor : null,
                                 ),
                               ),
-                          ],
+                              const SizedBox(height: 5),
+                              Text(session.ip, style: theme.typography.body?.copyWith(color: theme.autoGrey)),
+                            ],
+                          ),
                         ),
-                      ),
+                        if (session.responseHandler != null) ...[
+                          IconButton(
+                            onPressed: () {
+                              ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
+                            },
+                            icon: const Icon(FluentIcons.chrome_close, size: 13),
+                          ),
+                          SizedBox(width: 10),
+                          IconButton(
+                            onPressed: () {
+                              ref.notifier(serverProvider).acceptWebSendRequest(session.sessionId);
+                            },
+                            icon: const Icon(FluentIcons.accept_medium, size: 13),
+                          ),
+                        ] else
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(t.general.accepted, style: theme.typography.body),
+                          ),
+                      ]),
                     ),
                   );
                 }),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(t.webSharePage.encryption, style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(width: 10),
-                    Checkbox(
-                      value: _encrypted,
-                      onChanged: (value) {
-                        _init(encrypted: value == true);
-                      },
-                    ),
-                  ],
+                Checkbox(
+                  checked: _encrypted,
+                  content: Text(t.webSharePage.encryption, style: theme.typography.bodyStrong),
+                  onChanged: (value) {
+                    _init(encrypted: value == true);
+                  },
                 ),
-                if (_encrypted)
+                const SizedBox(height: 5),
+                if (_encrypted) ...[
                   Text(
                     t.webSharePage.encryptionHint,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.warning),
+                    style: theme.typography.body?.copyWith(color: Colors.warningPrimaryColor),
                   ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(t.webSharePage.autoAccept, style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(width: 10),
-                    Checkbox(
-                      value: webSendState.autoAccept,
-                      onChanged: (value) {
-                        ref.notifier(serverProvider).setWebSendAutoAccept(value == true);
-                      },
-                    ),
-                  ],
+                  const SizedBox(height: 5),
+                ],
+                Checkbox(
+                  checked: webSendState.autoAccept,
+                  content: Text(t.webSharePage.autoAccept, style: theme.typography.bodyStrong),
+                  onChanged: (value) {
+                    ref.notifier(serverProvider).setWebSendAutoAccept(value == true);
+                  },
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(t.webSharePage.requirePin, style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(width: 10),
-                    Checkbox(
-                      value: webSendState.pin != null,
-                      onChanged: (value) async {
-                        final currentPIN = webSendState.pin;
-                        if (currentPIN != null) {
-                          ref.notifier(serverProvider).setWebSendPin(null);
-                        } else {
-                          final String? newPin = await showDialog<String>(
-                            context: context,
-                            builder: (_) => const PinDialog(
-                              obscureText: false,
-                              generateRandom: true,
-                            ),
-                          );
+                const SizedBox(height: 5),
+                Checkbox(
+                  checked: webSendState.pin != null,
+                  content: Text(t.webSharePage.requirePin, style: theme.typography.bodyStrong),
+                  onChanged: (value) async {
+                    final currentPIN = webSendState.pin;
+                    if (currentPIN != null) {
+                      ref.notifier(serverProvider).setWebSendPin(null);
+                    } else {
+                      final String? newPin = await showDialog<String>(
+                        context: context,
+                        builder: (_) => const PinDialog(
+                          obscureText: false,
+                          generateRandom: true,
+                        ),
+                      );
 
-                          if (newPin != null && newPin.isNotEmpty) {
-                            ref.notifier(serverProvider).setWebSendPin(newPin);
-                          }
-                        }
-                      },
-                    ),
-                  ],
+                      if (newPin != null && newPin.isNotEmpty) {
+                        ref.notifier(serverProvider).setWebSendPin(newPin);
+                      }
+                    }
+                  },
                 ),
-                if (webSendState.pin != null) ...[
+                const SizedBox(height: 5),
+                if (webSendState.pin != null)
                   Text(
                     t.webSharePage.pinHint(pin: webSendState.pin!),
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.warning),
+                    style: theme.typography.body?.copyWith(color: Colors.warningPrimaryColor),
                   ),
-                ],
               ],
             );
           },

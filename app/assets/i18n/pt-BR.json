@@ -1,6 +1,6 @@
 {
   "locale": "Português (Brasil)",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Aceitar",
     "accepted": "Aceito",
@@ -96,8 +96,7 @@
       },
       "color": "Cores",
       "colorOptions": {
-        "system": "Sistema",
-        "oled": "OLED"
+        "system": "Sistema"
       },
       "language": "Idioma",
       "languageOptions": {

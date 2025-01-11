@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:common/model/file_type.dart';
 import 'package:common/util/sleep.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
@@ -35,12 +35,12 @@ final _logger = Logger('FilePickerHelper');
 final _uriContent = UriContent();
 
 enum FilePickerOption {
-  file(Icons.description),
-  folder(Icons.folder),
-  media(Icons.image),
-  text(Icons.subject),
-  app(Icons.apps),
-  clipboard(Icons.paste);
+  file(FluentIcons.open_file),
+  folder(FluentIcons.fabric_folder_upload),
+  media(FluentIcons.media_add),
+  text(FluentIcons.fabric_text_highlight),
+  app(FluentIcons.app_icon_default_add),
+  clipboard(FluentIcons.clipboard_list_add);
 
   const FilePickerOption(this.icon);
 
@@ -234,7 +234,7 @@ Future<void> _pickFolder(BuildContext context, Ref ref) async {
 }
 
 Future<void> _pickMedia(BuildContext context, Ref ref) async {
-  final oldBrightness = Theme.of(context).brightness;
+  final oldBrightness = FluentTheme.of(context).brightness;
   // ignore: use_build_context_synchronously
   final List<AssetEntity>? result = await AssetPicker.pickAssets(
     context,
@@ -330,9 +330,9 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     return;
   }
 
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(t.general.noItemInClipboard),
-  ));
+  await displayInfoBar(context, duration: Duration(milliseconds: 1500), builder: (context, close) {
+    return InfoBar(title: Text(t.general.noItemInClipboard));
+  });
 }
 
 Future<void> _pickApp(BuildContext context) async {

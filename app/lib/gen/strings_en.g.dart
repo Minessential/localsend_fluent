@@ -35,7 +35,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
   // Translations
   String get locale => 'English';
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   late final TranslationsGeneralEn general = TranslationsGeneralEn.internal(_root);
   late final TranslationsReceiveTabEn receiveTab = TranslationsReceiveTabEn.internal(_root);
   late final TranslationsSendTabEn sendTab = TranslationsSendTabEn.internal(_root);
@@ -150,6 +150,7 @@ class TranslationsSettingsTabEn {
 
   // Translations
   String get title => 'Settings';
+  late final TranslationsSettingsTabToggleSwitchEn toggleSwitch = TranslationsSettingsTabToggleSwitchEn.internal(_root);
   late final TranslationsSettingsTabGeneralEn general = TranslationsSettingsTabGeneralEn.internal(_root);
   late final TranslationsSettingsTabReceiveEn receive = TranslationsSettingsTabReceiveEn.internal(_root);
   late final TranslationsSettingsTabSendEn send = TranslationsSettingsTabSendEn.internal(_root);
@@ -281,6 +282,7 @@ class TranslationsProgressPageEn {
   String get titleReceiving => 'Receiving files';
   String get savedToGallery => 'Saved in Photos';
   late final TranslationsProgressPageTotalEn total = TranslationsProgressPageTotalEn.internal(_root);
+  String get retry => 'Retry';
 }
 
 // Path: webSharePage
@@ -605,6 +607,17 @@ class TranslationsSendTabSendModesEn {
   String get single => 'Single recipient';
   String get multiple => 'Multiple recipients';
   String get link => 'Share via link';
+}
+
+// Path: settingsTab.toggleSwitch
+class TranslationsSettingsTabToggleSwitchEn {
+  TranslationsSettingsTabToggleSwitchEn.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+  String get on => 'On';
+  String get off => 'Off';
 }
 
 // Path: settingsTab.general
@@ -1077,7 +1090,13 @@ class TranslationsSettingsTabGeneralColorOptionsEn {
 
   // Translations
   String get system => 'System';
-  String get oled => 'OLED';
+  String get yellow => 'Yellow';
+  String get orange => 'Orange';
+  String get red => 'Red';
+  String get magenta => 'Magenta';
+  String get purple => 'Purple';
+  String get blue => 'Blue';
+  String get green => 'Green';
 }
 
 // Path: settingsTab.general.languageOptions

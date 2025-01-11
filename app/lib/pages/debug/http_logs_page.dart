@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:intl/intl.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/logging/http_logs_provider.dart';
 import 'package:localsend_app/widget/copyable_text.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
@@ -13,16 +14,15 @@ class HttpLogsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logs = context.ref.watch(httpLogsProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HTTP Logs'),
-      ),
+    return BaseNormalPage(
+      windowTitle: 'HTTP Logs',
+      headerTitle: 'HTTP Logs',
       body: ResponsiveListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         children: [
           Row(
             children: [
-              ElevatedButton(
+              FilledButton(
                 onPressed: () => context.ref.notifier(httpLogsProvider).clear(),
                 child: const Text('Clear'),
               ),
@@ -32,7 +32,7 @@ class HttpLogsPage extends StatelessWidget {
           ...logs.map((log) => CopyableText(
                 prefix: TextSpan(
                   text: '[${_dateFormat.format(log.timestamp)}] ',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
                   ),

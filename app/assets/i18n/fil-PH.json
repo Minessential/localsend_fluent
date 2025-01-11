@@ -1,6 +1,6 @@
 {
   "locale": "Filipino",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Tanggapin",
     "accepted": "Tinanggap",
@@ -96,8 +96,7 @@
       },
       "color": "Kulay",
       "colorOptions": {
-        "system": "System",
-        "oled": "OLED"
+        "system": "System"
       },
       "language": "Wika",
       "languageOptions": {

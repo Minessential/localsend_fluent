@@ -33,7 +33,7 @@ class TranslationsAz extends Translations {
   @override
   String get locale => 'Azərbaycanca';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralAz general = _TranslationsGeneralAz._(_root);
   @override
@@ -379,8 +379,6 @@ class _TranslationsSettingsTabGeneralColorOptionsAz extends TranslationsSettings
   // Translations
   @override
   String get system => 'Sistem';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

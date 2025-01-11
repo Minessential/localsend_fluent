@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/dialogs/custom_bottom_sheet.dart';
@@ -13,22 +13,24 @@ class CannotOpenFileDialog extends StatelessWidget {
     if (checkPlatformIsDesktop()) {
       await showDialog(
         context: context,
-        builder: (_) => AlertDialog(
+        builder: (_) => ContentDialog(
           title: Text(t.dialogs.cannotOpenFile.title),
           content: Text(t.dialogs.cannotOpenFile.content(file: path)),
           actions: [
-            if (onDeleteTap != null)
-              TextButton(
+            if (onDeleteTap != null) ...[
+              FilledButton(
                 onPressed: () {
                   onDeleteTap();
                   context.pop();
                 },
                 child: Text(t.receiveHistoryPage.entryActions.deleteFromHistory),
               ),
-            TextButton(
-              onPressed: () => context.pop(),
-              child: Text(t.general.close),
-            )
+              Button(onPressed: () => context.pop(), child: Text(t.general.close)),
+            ] else ...[
+              Container(),
+              FilledButton(onPressed: () => context.pop(), child: Text(t.general.close)),
+              Container(),
+            ]
           ],
         ),
       );
@@ -43,7 +45,7 @@ class CannotOpenFileDialog extends StatelessWidget {
       title: t.dialogs.cannotOpenFile.title,
       description: t.dialogs.cannotOpenFile.content(file: path),
       child: Center(
-        child: ElevatedButton(
+        child: FilledButton(
           onPressed: () => context.popUntilRoot(),
           child: Text(t.general.close),
         ),

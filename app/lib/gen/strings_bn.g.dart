@@ -33,7 +33,7 @@ class TranslationsBn extends Translations {
   @override
   String get locale => 'বাংলা';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralBn general = _TranslationsGeneralBn._(_root);
   @override
@@ -1363,8 +1363,6 @@ class _TranslationsSettingsTabGeneralColorOptionsBn extends TranslationsSettings
   // Translations
   @override
   String get system => 'পদ্ধতি';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

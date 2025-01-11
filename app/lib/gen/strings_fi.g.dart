@@ -33,7 +33,7 @@ class TranslationsFi extends Translations {
   @override
   String get locale => 'Finnish';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralFi general = _TranslationsGeneralFi._(_root);
   @override
@@ -1537,8 +1537,6 @@ class _TranslationsSettingsTabGeneralColorOptionsFi extends TranslationsSettings
   // Translations
   @override
   String get system => 'Järjestelmä';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

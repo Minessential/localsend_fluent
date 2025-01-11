@@ -1,30 +1,29 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/assets.gen.dart';
+import 'package:localsend_app/gen/strings.g.dart';
 
 class LocalSendLogo extends StatelessWidget {
   final bool withText;
+  final double size;
 
-  const LocalSendLogo({required this.withText});
+  const LocalSendLogo({required this.withText, this.size = 200});
 
   @override
   Widget build(BuildContext context) {
     final logo = ColorFiltered(
       colorFilter: ColorFilter.mode(
-        Theme.of(context).colorScheme.primary,
+        FluentTheme.of(context).accentColor,
         BlendMode.srcATop,
       ),
-      child: Assets.img.logo512.image(
-        width: 200,
-        height: 200,
-      ),
+      child: Assets.img.logo512.image(width: size, height: size),
     );
 
     if (withText) {
       return Column(
         children: [
           logo,
-          const Text(
-            'LocalSend',
+          Text(
+            t.appName,
             style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),

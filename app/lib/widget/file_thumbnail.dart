@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:common/model/file_type.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/util/file_type_ext.dart';
 import 'package:uri_content/uri_content.dart';
@@ -105,7 +105,8 @@ class FilePathThumbnail extends StatelessWidget {
       } else {
         thumbnail = Image.file(
           File(path!),
-          cacheWidth: 64, // reduce memory with low cached size; do not set cacheHeight because the image must keep its ratio
+          cacheWidth:
+              64, // reduce memory with low cached size; do not set cacheHeight because the image must keep its ratio
           errorBuilder: (_, __, ___) => Padding(
             padding: const EdgeInsets.all(10),
             child: Icon(fileType.icon, size: 32),
@@ -173,13 +174,14 @@ class _Thumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = FluentTheme.of(context);
     return SizedBox(
       width: size,
       height: size,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         child: ColoredBox(
-          color: Theme.of(context).inputDecorationTheme.fillColor!,
+          color: theme.brightness == Brightness.light ? theme.accentColor.lightest : theme.accentColor.darkest,
           child: thumbnail == null
               ? Icon(icon!, size: 32)
               : FittedBox(

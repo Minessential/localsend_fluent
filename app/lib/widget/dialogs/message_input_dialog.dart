@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:routerino/routerino.dart';
 
 class MessageInputDialog extends StatefulWidget {
@@ -28,26 +29,24 @@ class _MessageInputDialogState extends State<MessageInputDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.messageInput.title),
-      content: TextFormField(
-        controller: _textController,
-        keyboardType: TextInputType.multiline,
-        maxLines: null,
-        autofocus: true,
+      content: IntrinsicHeight(
+        child: CustomTextBox(
+          controller: _textController,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          autofocus: true,
+        ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: Text(t.general.cancel),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          ),
+        FilledButton(
           onPressed: () => context.pop(_textController.text),
           child: Text(t.general.confirm),
+        ),
+        Button(
+          onPressed: () => context.pop(),
+          child: Text(t.general.cancel),
         ),
       ],
     );

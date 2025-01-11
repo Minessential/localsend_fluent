@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:localsend_app/config/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/widget/fluent/card_ink_well.dart';
 
 class CustomListTile extends StatelessWidget {
   final Widget? icon;
@@ -20,40 +20,30 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      color: Theme.of(context).colorScheme.secondaryContainerIfDark,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: Padding(
-          padding: padding,
-          child: Row(
-            children: [
-              if (icon != null) ...[
-                icon!,
-                const SizedBox(width: 15),
-              ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FittedBox(
-                      child: title,
-                    ),
-                    const SizedBox(height: 5),
-                    subTitle,
-                  ],
+    return CardInkWell(
+      padding: padding,
+      onPressed: onTap,
+      child: Row(
+        children: [
+          if (icon != null) ...[
+            icon!,
+            const SizedBox(width: 15),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FittedBox(
+                  child: title,
                 ),
-              ),
-              if (trailing != null) trailing!,
-            ],
+                const SizedBox(height: 5),
+                subTitle,
+              ],
+            ),
           ),
-        ),
+          if (trailing != null) trailing!,
+        ],
       ),
     );
   }

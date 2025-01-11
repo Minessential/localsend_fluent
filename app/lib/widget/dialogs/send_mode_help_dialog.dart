@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/pages/home_page.dart';
 import 'package:routerino/routerino.dart';
 
 class SendModeHelpDialog extends StatelessWidget {
@@ -7,7 +8,7 @@ class SendModeHelpDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.sendModeHelp.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -30,10 +31,12 @@ class SendModeHelpDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
+        Container(),
+        FilledButton(
+          onPressed: () => context.popUntil(HomePage),
           child: Text(t.general.close),
-        )
+        ),
+        Container(),
       ],
     );
   }

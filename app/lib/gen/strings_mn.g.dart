@@ -33,7 +33,7 @@ class TranslationsMn extends Translations {
   @override
   String get locale => 'Mongolian';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralMn general = _TranslationsGeneralMn._(_root);
   @override
@@ -845,8 +845,6 @@ class _TranslationsSettingsTabGeneralColorOptionsMn extends TranslationsSettings
   // Translations
   @override
   String get system => 'Систем';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

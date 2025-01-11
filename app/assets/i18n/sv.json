@@ -1,6 +1,6 @@
 {
   "locale": "Svenska",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Acceptera",
     "accepted": "Accepterad",
@@ -96,8 +96,7 @@
       },
       "color": "Färg",
       "colorOptions": {
-        "system": "System",
-        "oled": "OLED"
+        "system": "System"
       },
       "language": "Språk",
       "languageOptions": {

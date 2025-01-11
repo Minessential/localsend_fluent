@@ -1,12 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:common/util/network_interfaces.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:local_hero/local_hero.dart';
+import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/widget/dialogs/text_field_tv.dart';
-import 'package:localsend_app/widget/labeled_checkbox.dart';
+import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
 import 'package:moform/moform.dart';
 import 'package:refena_flutter/refena_flutter.dart';
@@ -42,10 +44,11 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
     final Future<void> Function(List<String>?) updateFunction = settings.networkWhitelist != null
         ? context.notifier(settingsProvider).setNetworkWhitelist
         : context.notifier(settingsProvider).setNetworkBlacklist;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.networkInterfacesPage.title),
-      ),
+
+    final theme = FluentTheme.of(context);
+    return BaseNormalPage(
+      windowTitle: t.networkInterfacesPage.title,
+      headerTitle: t.networkInterfacesPage.title,
       body: LocalHeroScope(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
@@ -61,15 +64,13 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 t.networkInterfacesPage.preview,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: FluentTheme.of(context).typography.subtitle,
               ),
             ),
             ScrollConfiguration(
               // By default, Flutter only allows dragging with touch devices.
               // We also allow dragging with mouse.
-              behavior: const MaterialScrollBehavior().copyWith(
+              behavior: const FluentScrollBehavior().copyWith(
                 dragDevices: {
                   PointerDeviceKind.mouse,
                   PointerDeviceKind.touch,
@@ -88,8 +89,8 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
                       interface: e.$2,
                     );
                     final style = ignored
-                        ? const TextStyle(
-                            color: Colors.grey,
+                        ? TextStyle(
+                            color: theme.autoGrey,
                             decoration: TextDecoration.lineThrough,
                           )
                         : null;
@@ -116,9 +117,9 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                LabeledCheckbox(
-                  label: t.networkInterfacesPage.whitelist,
-                  value: settings.networkWhitelist != null,
+                Checkbox(
+                  content: Text(t.networkInterfacesPage.whitelist),
+                  checked: settings.networkWhitelist != null,
                   onChanged: (value) async {
                     if (value == false) {
                       await context.notifier(settingsProvider).setNetworkWhitelist(null);
@@ -133,9 +134,9 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
                     }
                   },
                 ),
-                LabeledCheckbox(
-                  label: t.networkInterfacesPage.blacklist,
-                  value: settings.networkBlacklist != null,
+                Checkbox(
+                  content: Text(t.networkInterfacesPage.blacklist),
+                  checked: settings.networkBlacklist != null,
                   onChanged: (value) async {
                     if (value == false) {
                       await context.notifier(settingsProvider).setNetworkBlacklist(null);
@@ -188,28 +189,26 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
                 tag: 'network_interfaces_bottom',
                 child: Row(
                   children: [
-                    Material(
-                      color: Colors.transparent,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${t.general.example}:',
-                          ),
-                          Text('123.123.123.123'),
-                          Text('123.123.123.*'),
-                        ],
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${t.general.example}:',
+                        ),
+                        Text('123.123.123.123'),
+                        Text('123.123.123.*'),
+                      ],
                     ),
                     const Spacer(),
-                    FilledButton.icon(
+                    CustomIconLabelButton(
+                      ButtonType.filled,
                       onPressed: () async {
                         await updateFunction([
                           ...currList,
                           '',
                         ]);
                       },
-                      icon: const Icon(Icons.add),
+                      icon: const Icon(FluentIcons.add),
                       label: Text(t.general.add),
                     ),
                   ],

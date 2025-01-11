@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// A horizontal list that adjusts the width if the screen is too small.
 /// In this case, the width increases until 10% - 50% of the next button is visible.
@@ -140,5 +140,8 @@ double _calcTotalWidthWithPartialLastItem({
   required double childPadding,
   required double lastItemPercentage,
 }) {
-  return paddingLeft + (childrenCount - 1) * childWidth + childWidth * lastItemPercentage + (childrenCount - 1) * childPadding;
+  return paddingLeft +
+      (childrenCount - 1) * childWidth +
+      childWidth * lastItemPercentage +
+      (childrenCount - 1) * childPadding;
 }

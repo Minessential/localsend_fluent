@@ -1,6 +1,6 @@
 {
   "locale": "ភាសាខ្មែរ",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "ទទួល",
     "accepted": "បានទទួល",
@@ -96,8 +96,7 @@
       },
       "color": "ពណ៌",
       "colorOptions": {
-        "system": "តាមប្រព័ន្ធ",
-        "oled": "OLED"
+        "system": "តាមប្រព័ន្ធ"
       },
       "language": "ភាសា",
       "languageOptions": {

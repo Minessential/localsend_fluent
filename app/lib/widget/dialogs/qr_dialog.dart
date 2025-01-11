@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:localsend_app/config/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/send/web/web_send_state.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
@@ -29,12 +28,13 @@ class QrDialog extends StatelessWidget {
       webSendState = null;
     }
 
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.qr.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
+          Container(
+            alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               width: 200,
@@ -45,7 +45,7 @@ class QrDialog extends StatelessWidget {
                 decoration: PrettyQrDecoration(
                   shape: PrettyQrSmoothSymbol(
                     roundFactor: 0,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: FluentTheme.of(context).typography.body?.color ?? Colors.black,
                   ),
                 ),
               ),
@@ -56,13 +56,15 @@ class QrDialog extends StatelessWidget {
           if (listenIncomingWebSendRequests && webSendState != null)
             Builder(
               builder: (context) {
-                final pending = webSendState?.sessions.values.fold<int>(0, (prev, curr) => prev + (curr.responseHandler != null ? 1 : 0)) ?? 0;
+                final pending = webSendState?.sessions.values
+                        .fold<int>(0, (prev, curr) => prev + (curr.responseHandler != null ? 1 : 0)) ??
+                    0;
                 if (pending != 0) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
                       t.webSharePage.pendingRequests(n: pending),
-                      style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                      style: TextStyle(color: Colors.warningPrimaryColor),
                       textAlign: TextAlign.center,
                     ),
                   );
@@ -77,7 +79,7 @@ class QrDialog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.vpn_key),
+                  const Icon(FluentIcons.azure_key_vault),
                   const SizedBox(width: 5),
                   Text(pin!),
                 ],
@@ -86,10 +88,12 @@ class QrDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
+        Container(),
+        FilledButton(
           onPressed: () => context.pop(),
           child: Text(t.general.close),
-        )
+        ),
+        Container(),
       ],
     );
   }

@@ -1,7 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as m;
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/pages/base/base_dialog_page.dart';
+import 'package:localsend_app/pages/base/base_material_compatibility.dart';
 import 'package:localsend_app/pages/debug/debug_page.dart';
 import 'package:localsend_app/widget/local_send_logo.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
@@ -9,9 +12,7 @@ import 'package:routerino/routerino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'contributors.dart';
-
 part 'packagers.dart';
-
 part 'translators.dart';
 
 final _translatorWithGithubRegex = RegExp(r'(.+) \(@([\w\-_]+)\)');
@@ -21,11 +22,11 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).colorScheme.primary;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.aboutPage.title),
-      ),
+    final primaryColor = FluentTheme.of(context).accentColor;
+    return BaseDialogPage(
+      // appBar: AppBar(
+      // title: Text(t.aboutPage.title),
+      // ),
       body: ResponsiveListView(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         children: [
@@ -37,7 +38,7 @@ class AboutPage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Center(
-            child: TextButton(
+            child: HyperlinkButton(
               onPressed: () async {
                 await launchUrl(Uri.parse('https://localsend.org'));
               },
@@ -130,37 +131,41 @@ class AboutPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextButton(
+              HyperlinkButton(
                 onPressed: () async {
                   await launchUrl(Uri.parse('https://localsend.org'));
                 },
                 child: const Text('Homepage'),
               ),
-              TextButton(
+              HyperlinkButton(
                 onPressed: () async {
-                  await launchUrl(Uri.parse('https://github.com/localsend/localsend'), mode: LaunchMode.externalApplication);
+                  await launchUrl(Uri.parse('https://github.com/localsend/localsend'),
+                      mode: LaunchMode.externalApplication);
                 },
                 child: const Text('Source Code (Github)'),
               ),
-              TextButton(
+              HyperlinkButton(
                 onPressed: () async {
-                  await launchUrl(Uri.parse('https://codeberg.org/localsend/localsend'), mode: LaunchMode.externalApplication);
+                  await launchUrl(Uri.parse('https://codeberg.org/localsend/localsend'),
+                      mode: LaunchMode.externalApplication);
                 },
                 child: const Text('Source Code (Codeberg)'),
               ),
-              TextButton(
+              HyperlinkButton(
                 onPressed: () async {
                   await launchUrl(Uri.parse('https://www.apache.org/licenses/LICENSE-2.0'));
                 },
                 child: const Text('Apache License 2.0'),
               ),
-              TextButton(
+              HyperlinkButton(
                 onPressed: () async {
-                  await context.push(() => const LicensePage());
+                  await context.push(
+                    () => BaseMaterialCompatibility(body: m.LicensePage()),
+                  );
                 },
                 child: const Text('License Notices'),
               ),
-              TextButton(
+              HyperlinkButton(
                 onPressed: () async {
                   await context.push(() => const DebugPage());
                 },

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/util/ui/snackbar.dart';
 
@@ -15,8 +15,9 @@ class CopyableText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: value == null
+    return IconButton(
+      style: ButtonStyle(padding: WidgetStateProperty.all(EdgeInsets.zero)),
+      onPressed: value == null
           ? null
           : () async {
               await Clipboard.setData(ClipboardData(text: value!));
@@ -24,7 +25,8 @@ class CopyableText extends StatelessWidget {
                 context.showSnackBar('Copied $name to clipboard!');
               }
             },
-      child: Text.rich(
+      icon: Text.rich(
+        textAlign: TextAlign.start,
         TextSpan(
           children: [
             if (prefix != null) prefix!,

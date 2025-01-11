@@ -1,6 +1,6 @@
 {
   "locale": "Slovenščina",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Sprejmi",
     "accepted": "Sprejeto",
@@ -91,8 +91,7 @@
       },
       "color": "Barva",
       "colorOptions": {
-        "system": "Sistem",
-        "oled": "OLED"
+        "system": "Sistem"
       },
       "language": "Jezik",
       "languageOptions": {

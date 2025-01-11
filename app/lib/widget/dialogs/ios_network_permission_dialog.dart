@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/widget/dialogs/custom_bottom_sheet.dart';
+import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:routerino/routerino.dart';
 import 'package:system_settings/system_settings.dart';
 
@@ -15,14 +16,15 @@ class IosLocalNetworkDialog extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          TextButton(
+          CustomIconLabelButton(
+            ButtonType.filled,
+            onPressed: () async => SystemSettings.app(),
+            icon: const Icon(FluentIcons.settings, size: 10),
+            label: Text(t.dialogs.localNetworkUnauthorized.gotoSettings),
+          ),
+          Button(
             onPressed: () => context.pop(),
             child: Text(t.general.close),
-          ),
-          ElevatedButton.icon(
-            onPressed: () async => SystemSettings.app(),
-            icon: const Icon(Icons.settings),
-            label: Text(t.dialogs.localNetworkUnauthorized.gotoSettings),
           ),
         ],
       ),

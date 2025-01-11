@@ -1,6 +1,6 @@
 {
   "locale": "Русский",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Принять",
     "accepted": "Принято",
@@ -96,8 +96,7 @@
       },
       "color": "Цвет",
       "colorOptions": {
-        "system": "Системный",
-        "oled": "OLED"
+        "system": "Системный"
       },
       "language": "Язык",
       "languageOptions": {

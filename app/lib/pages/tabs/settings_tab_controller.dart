@@ -1,10 +1,10 @@
 import 'package:common/isolate.dart';
 import 'package:common/model/device_info_result.dart';
 import 'package:common/util/sleep.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:localsend_app/config/theme.dart';
+import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
-import 'package:localsend_app/pages/language_page.dart';
 import 'package:localsend_app/pages/tabs/settings_tab_vm.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
@@ -15,7 +15,6 @@ import 'package:localsend_app/util/native/context_menu_helper.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
 import 'package:localsend_app/util/ui/snackbar.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:routerino/routerino.dart';
 
 final settingsTabControllerProvider = ReduxProvider<SettingsTabController, SettingsTabVm>((ref) {
   final settings = ref.notifier(settingsProvider);
@@ -69,7 +68,8 @@ class SettingsTabController extends ReduxNotifier<SettingsTabVm> {
       settings: _settingsService.state,
       serverState: _serverService.state,
       deviceInfo: _initialDeviceInfo,
-      colorModes: _supportsDynamicColors ? ColorMode.values : ColorMode.values.where((e) => e != ColorMode.system).toList(),
+      colorModes:
+          _supportsDynamicColors ? ColorMode.values : ColorMode.values.where((e) => e != ColorMode.system).toList(),
       autoStart: false,
       autoStartLaunchHidden: false,
       showInContextMenu: false,
@@ -80,15 +80,13 @@ class SettingsTabController extends ReduxNotifier<SettingsTabVm> {
           await updateSystemOverlayStyle(context);
         }
       },
-      onChangeColorMode: (colorMode) async {
-        await _settingsService.setColorMode(colorMode);
-        if (colorMode == ColorMode.oled) {
-          await _settingsService.setTheme(ThemeMode.dark);
-          await updateSystemOverlayStyleWithBrightness(Brightness.dark);
+      onChangeLanguage: (locale) async {
+        await _settingsService.setLocale(locale);
+        if (locale == null) {
+          await LocaleSettings.useDeviceLocale();
+        } else {
+          await LocaleSettings.setLocale(locale);
         }
-      },
-      onTapLanguage: (context) async {
-        await context.push(() => const LanguagePage());
       },
       onToggleAutoStart: (context) async {
         final bool success;

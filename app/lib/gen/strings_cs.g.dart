@@ -33,7 +33,7 @@ class TranslationsCs extends Translations {
   @override
   String get locale => 'Česky';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralCs general = _TranslationsGeneralCs._(_root);
   @override
@@ -1467,8 +1467,6 @@ class _TranslationsSettingsTabGeneralColorOptionsCs extends TranslationsSettings
   // Translations
   @override
   String get system => 'Systém';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

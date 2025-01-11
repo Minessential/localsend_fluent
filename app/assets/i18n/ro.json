@@ -1,6 +1,6 @@
 {
   "locale": "Română",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Acceptă",
     "accepted": "Acceptat",
@@ -96,8 +96,7 @@
       },
       "color": "Culoare",
       "colorOptions": {
-        "system": "Sistem",
-        "oled": "OLED"
+        "system": "Sistem"
       },
       "language": "Limba",
       "languageOptions": {

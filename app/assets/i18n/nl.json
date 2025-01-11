@@ -1,6 +1,6 @@
 {
   "locale": "Nederlands",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Accepteren",
     "accepted": "Geaccepteerd",
@@ -96,8 +96,7 @@
       },
       "color": "Kleur",
       "colorOptions": {
-        "system": "Systeem",
-        "oled": "OLED"
+        "system": "Systeem"
       },
       "language": "Taal",
       "languageOptions": {

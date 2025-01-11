@@ -33,7 +33,7 @@ class TranslationsUr extends Translations {
   @override
   String get locale => 'اردو';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralUr general = _TranslationsGeneralUr._(_root);
   @override
@@ -1402,8 +1402,6 @@ class _TranslationsSettingsTabGeneralColorOptionsUr extends TranslationsSettings
   // Translations
   @override
   String get system => 'نظام';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
+import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
@@ -48,25 +50,26 @@ class _ErrorAppState extends State<_ErrorApp> {
     _controller.text = 'Error: ${widget.error}\n\n${widget.stackTrace}';
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final info = await PackageInfo.fromPlatform();
-      _controller.text = 'LocalSend ${info.version} (${info.buildNumber})\n\nError: ${widget.error}\n\n${widget.stackTrace}';
+      _controller.text =
+          'LocalSend ${info.version} (${info.buildNumber})\n\nError: ${widget.error}\n\n${widget.stackTrace}';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return FluentApp(
       title: 'LocalSend: Error',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: TextFormField(
-          controller: _controller,
-          maxLines: null,
-          readOnly: true,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.all(10),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
+      home: BaseNormalPage(
+        windowLeadingType: WindowLeadingType.appLogo,
+        windowTitle: 'LocalSend: Error',
+        headerTitle: 'LocalSend: Error',
+        body: Container(
+          padding: const EdgeInsets.all(10.0),
+          child: CustomTextBox(
+            controller: _controller,
+            maxLines: null,
+            readOnly: true,
           ),
         ),
       ),

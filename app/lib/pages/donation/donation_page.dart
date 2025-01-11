@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/purchase_state.dart';
+import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/pages/donation/donation_page_vm.dart';
 // [FOSS_REMOVE_START]
 import 'package:localsend_app/provider/purchase_provider.dart';
@@ -17,13 +18,12 @@ class DonationPage extends StatelessWidget {
     return ViewModelBuilder(
       provider: donationPageVmProvider,
       // [FOSS_REMOVE_START]
-      init: (context) => context.redux(purchaseProvider).dispatchAsync(FetchPricesAndPurchasesAction()), // ignore: discarded_futures
+      init: (context) =>
+          context.redux(purchaseProvider).dispatchAsync(FetchPricesAndPurchasesAction()), // ignore: discarded_futures
       // [FOSS_REMOVE_END]
       builder: (context, vm) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(t.donationPage.title),
-          ),
+        return BaseDialogPage(
+          title: t.donationPage.title,
           body: Stack(
             children: [
               ResponsiveListView(
@@ -44,7 +44,7 @@ class DonationPage extends StatelessWidget {
                         child: Text(
                           t.donationPage.thanks,
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                          style: TextStyle(color: FluentTheme.of(context).accentColor),
                         ),
                       ),
                     ),
@@ -55,7 +55,7 @@ class DonationPage extends StatelessWidget {
                 Container(
                   color: Colors.black.withOpacity(0.1),
                   child: const Center(
-                    child: CircularProgressIndicator(),
+                    child: ProgressRing(),
                   ),
                 ),
             ],
@@ -74,22 +74,35 @@ class _StoreDonation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         ...PurchaseItem.values.map((item) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: FilledButton.icon(
+            child: FilledButton(
               onPressed: vm.purchased.contains(item) ? null : () => vm.purchase(item),
-              icon: const Icon(Icons.favorite),
-              label: Text(t.donationPage.donate(amount: vm.prices[item] ?? '...')),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(FluentIcons.heart_fill),
+                  const SizedBox(width: 5),
+                  Text(t.donationPage.donate(amount: vm.prices[item] ?? '...')),
+                ],
+              ),
             ),
           );
         }),
         const SizedBox(height: 20),
-        TextButton.icon(
+        HyperlinkButton(
           onPressed: vm.restore,
-          icon: const Icon(Icons.restore),
-          label: Text(t.donationPage.restore),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(FluentIcons.update_restore),
+              const SizedBox(width: 5),
+              Text(t.donationPage.restore),
+            ],
+          ),
         ),
       ],
     );
@@ -104,19 +117,31 @@ class _LinkDonation extends StatelessWidget {
     return Wrap(
       alignment: WrapAlignment.center,
       children: [
-        TextButton.icon(
+        HyperlinkButton(
           onPressed: () async {
             await launchUrl(Uri.parse('https://github.com/sponsors/Tienisto'), mode: LaunchMode.externalApplication);
           },
-          icon: const Icon(Icons.open_in_new),
-          label: const Text('Github'),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(FluentIcons.open_in_new_window),
+              const SizedBox(width: 5),
+              const Text('Github'),
+            ],
+          ),
         ),
-        TextButton.icon(
+        HyperlinkButton(
           onPressed: () async {
             await launchUrl(Uri.parse('https://ko-fi.com/tienisto'), mode: LaunchMode.externalApplication);
           },
-          icon: const Icon(Icons.open_in_new),
-          label: const Text('Ko-fi'),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(FluentIcons.open_in_new_window),
+              const SizedBox(width: 5),
+              const Text('Ko-fi'),
+            ],
+          ),
         ),
       ],
     );

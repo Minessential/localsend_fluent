@@ -1,6 +1,6 @@
 {
   "locale": "Italiano",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Accetta",
     "accepted": "Accettato",
@@ -96,8 +96,7 @@
       },
       "color": "Colore",
       "colorOptions": {
-        "system": "Sistema",
-        "oled": "OLED"
+        "system": "Sistema"
       },
       "language": "Lingua",
       "languageOptions": {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LifeCycleWatcher extends StatefulWidget {
   final Widget child;

@@ -33,7 +33,7 @@ class TranslationsVi extends Translations {
   @override
   String get locale => 'Tiếng Việt';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralVi general = _TranslationsGeneralVi._(_root);
   @override
@@ -1469,8 +1469,6 @@ class _TranslationsSettingsTabGeneralColorOptionsVi extends TranslationsSettings
   // Translations
   @override
   String get system => 'Hệ thống';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

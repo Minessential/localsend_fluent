@@ -61,7 +61,7 @@ class SelectedReceivingFilesNotifier extends Notifier<Map<String, String>> {
     state = Map.fromEntries(files.mapIndexed((index, element) {
       String number = (index + 1).toString();
       if (padZero) {
-        number.padLeft(maxKeyStringLength, '0');
+        number = number.padLeft(maxKeyStringLength, '0');
       }
       return MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'));
     }));

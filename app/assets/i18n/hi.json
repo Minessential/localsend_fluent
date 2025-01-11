@@ -1,6 +1,6 @@
 {
   "locale": "Hindi",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "स्वीकार करें",
     "accepted": "स्वीकृत",
@@ -96,8 +96,7 @@
       },
       "color": "रंग",
       "colorOptions": {
-        "system": "सिस्टम",
-        "oled": "OLED"
+        "system": "सिस्टम"
       },
       "language": "भाषा",
       "languageOptions": {

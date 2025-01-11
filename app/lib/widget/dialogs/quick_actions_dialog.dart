@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:legalize/legalize.dart';
-import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/provider/selection/selected_receiving_files_provider.dart';
-import 'package:localsend_app/widget/labeled_checkbox.dart';
+import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:uuid/uuid.dart';
@@ -64,30 +63,23 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ContentDialog(
       title: Text(t.dialogs.quickActions.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ToggleButtons(
-            isSelected: [_action == _QuickAction.counter, _action == _QuickAction.random],
-            onPressed: (int index) {
-              setState(() {
-                if (index == 0) {
-                  _action = _QuickAction.counter;
-                } else {
-                  _action = _QuickAction.random;
-                }
-              });
-            },
-            borderRadius: BorderRadius.circular(10),
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          Wrap(
+            spacing: 15,
             children: _QuickAction.values.map((mode) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Text(mode.label),
+              return RadioButton(
+                content: Text(mode.label),
+                checked: _action == mode,
+                onChanged: (_) {
+                  setState(() {
+                    _action = mode;
+                  });
+                },
               );
             }).toList(),
           ),
@@ -95,7 +87,7 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
           if (_action == _QuickAction.counter) ...[
             Text(t.dialogs.quickActions.prefix),
             const SizedBox(height: 5),
-            TextField(
+            CustomTextBox(
               autofocus: true,
               onChanged: (s) {
                 _validate(s);
@@ -109,12 +101,12 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
                 visible: !_isValid,
                 child: Text(
                   t.sanitization.invalid,
-                  style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                  style: TextStyle(color: Colors.warningPrimaryColor),
                 )),
             const SizedBox(height: 10),
-            LabeledCheckbox(
-              label: t.dialogs.quickActions.padZero,
-              value: _padZero,
+            Checkbox(
+              content:Text( t.dialogs.quickActions.padZero),
+              checked: _padZero,
               onChanged: (b) {
                 setState(() {
                   _padZero = b == true;
@@ -122,9 +114,9 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
               },
             ),
             const SizedBox(height: 5),
-            LabeledCheckbox(
-              label: t.dialogs.quickActions.sortBeforeCount,
-              value: _sortBeforehand,
+            Checkbox(
+              content: Text(t.dialogs.quickActions.sortBeforeCount),
+              checked: _sortBeforehand,
               onChanged: (b) {
                 setState(() {
                   _sortBeforehand = b == true;
@@ -132,21 +124,16 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
               },
             ),
             const SizedBox(height: 10),
-            if (_padZero) Text('${t.general.example}: ${_prefix}04.jpg') else Text('${t.general.example}: ${_prefix}4.jpg'),
+            if (_padZero)
+              Text('${t.general.example}: ${_prefix}04.jpg')
+            else
+              Text('${t.general.example}: ${_prefix}4.jpg'),
           ],
           if (_action == _QuickAction.random) Text('${t.general.example}: $_randomUuid.jpg'),
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => context.pop(),
-          child: Text(t.general.cancel),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          ),
+        FilledButton(
           onPressed: () {
             switch (_action) {
               case _QuickAction.counter:
@@ -166,6 +153,10 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
             context.pop();
           },
           child: Text(t.general.confirm),
+        ),
+        Button(
+          onPressed: () => context.pop(),
+          child: Text(t.general.cancel),
         ),
       ],
     );

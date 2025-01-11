@@ -1,6 +1,6 @@
 {
   "locale": "Dansk",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Accepter",
     "accepted": "Accepteret",
@@ -91,8 +91,7 @@
       },
       "color": "Farve",
       "colorOptions": {
-        "system": "System",
-        "oled": "OLED"
+        "system": "System"
       },
       "language": "Sprog",
       "languageOptions": {

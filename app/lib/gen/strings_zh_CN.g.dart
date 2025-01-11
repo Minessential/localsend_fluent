@@ -33,7 +33,7 @@ class TranslationsZhCn extends Translations {
   @override
   String get locale => '简体中文';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralZhCn general = _TranslationsGeneralZhCn._(_root);
   @override
@@ -44,6 +44,8 @@ class TranslationsZhCn extends Translations {
   late final _TranslationsSettingsTabZhCn settingsTab = _TranslationsSettingsTabZhCn._(_root);
   @override
   late final _TranslationsTroubleshootPageZhCn troubleshootPage = _TranslationsTroubleshootPageZhCn._(_root);
+  @override
+  late final _TranslationsNetworkInterfacesPageZhCn networkInterfacesPage = _TranslationsNetworkInterfacesPageZhCn._(_root);
   @override
   late final _TranslationsReceiveHistoryPageZhCn receiveHistoryPage = _TranslationsReceiveHistoryPageZhCn._(_root);
   @override
@@ -233,6 +235,8 @@ class _TranslationsSettingsTabZhCn extends TranslationsSettingsTabEn {
   @override
   String get title => '设置';
   @override
+  late final _TranslationsSettingsTabToggleSwitchZhCn toggleSwitch = _TranslationsSettingsTabToggleSwitchZhCn._(_root);
+  @override
   late final _TranslationsSettingsTabGeneralZhCn general = _TranslationsSettingsTabGeneralZhCn._(_root);
   @override
   late final _TranslationsSettingsTabReceiveZhCn receive = _TranslationsSettingsTabReceiveZhCn._(_root);
@@ -269,6 +273,27 @@ class _TranslationsTroubleshootPageZhCn extends TranslationsTroubleshootPageEn {
   late final _TranslationsTroubleshootPageNoDiscoveryZhCn noDiscovery = _TranslationsTroubleshootPageNoDiscoveryZhCn._(_root);
   @override
   late final _TranslationsTroubleshootPageNoConnectionZhCn noConnection = _TranslationsTroubleshootPageNoConnectionZhCn._(_root);
+}
+
+// Path: networkInterfacesPage
+class _TranslationsNetworkInterfacesPageZhCn extends TranslationsNetworkInterfacesPageEn {
+  _TranslationsNetworkInterfacesPageZhCn._(TranslationsZhCn root)
+      : this._root = root,
+        super.internal(root);
+
+  final TranslationsZhCn _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => '网络接口';
+  @override
+  String get info => '默认情况下，LocalSend使用所有可用的网络接口。你可以在这里排除不需要的网络。您需要重新启动服务器来应用更改。';
+  @override
+  String get preview => '预览';
+  @override
+  String get whitelist => '白名单';
+  @override
+  String get blacklist => '黑名单';
 }
 
 // Path: receiveHistoryPage
@@ -404,6 +429,8 @@ class _TranslationsProgressPageZhCn extends TranslationsProgressPageEn {
   String get savedToGallery => '已保存到相册';
   @override
   late final _TranslationsProgressPageTotalZhCn total = _TranslationsProgressPageTotalZhCn._(_root);
+  @override
+  String get retry => '重试';
 }
 
 // Path: webSharePage
@@ -869,6 +896,21 @@ class _TranslationsSendTabSendModesZhCn extends TranslationsSendTabSendModesEn {
   String get link => '通过链接分享';
 }
 
+// Path: settingsTab.toggleSwitch
+class _TranslationsSettingsTabToggleSwitchZhCn extends TranslationsSettingsTabToggleSwitchEn {
+  _TranslationsSettingsTabToggleSwitchZhCn._(TranslationsZhCn root)
+      : this._root = root,
+        super.internal(root);
+
+  final TranslationsZhCn _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get on => '开';
+  @override
+  String get off => '关';
+}
+
 // Path: settingsTab.general
 class _TranslationsSettingsTabGeneralZhCn extends TranslationsSettingsTabGeneralEn {
   _TranslationsSettingsTabGeneralZhCn._(TranslationsZhCn root)
@@ -975,6 +1017,10 @@ class _TranslationsSettingsTabNetworkZhCn extends TranslationsSettingsTabNetwork
   String get deviceModel => '设备型号';
   @override
   String get port => '端口';
+  @override
+  String get network => '网络';
+  @override
+  late final _TranslationsSettingsTabNetworkNetworkOptionsZhCn networkOptions = _TranslationsSettingsTabNetworkNetworkOptionsZhCn._(_root);
   @override
   String get discoveryTimeout => '搜索设备超时';
   @override
@@ -1533,7 +1579,19 @@ class _TranslationsSettingsTabGeneralColorOptionsZhCn extends TranslationsSettin
   @override
   String get system => '跟随系统';
   @override
-  String get oled => 'OLED';
+  String get yellow => '黄';
+  @override
+  String get orange => '橘';
+  @override
+  String get red => '红';
+  @override
+  String get magenta => '洋红';
+  @override
+  String get purple => '紫';
+  @override
+  String get blue => '蓝';
+  @override
+  String get green => '绿';
 }
 
 // Path: settingsTab.general.languageOptions
@@ -1547,6 +1605,21 @@ class _TranslationsSettingsTabGeneralLanguageOptionsZhCn extends TranslationsSet
   // Translations
   @override
   String get system => '跟随系统';
+}
+
+// Path: settingsTab.network.networkOptions
+class _TranslationsSettingsTabNetworkNetworkOptionsZhCn extends TranslationsSettingsTabNetworkNetworkOptionsEn {
+  _TranslationsSettingsTabNetworkNetworkOptionsZhCn._(TranslationsZhCn root)
+      : this._root = root,
+        super.internal(root);
+
+  final TranslationsZhCn _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get all => '所有';
+  @override
+  String get filtered => '已过滤';
 }
 
 // Path: progressPage.total.title

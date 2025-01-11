@@ -1,6 +1,6 @@
 {
   "locale": "Türkçe",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Kabul et",
     "accepted": "Kabul edildi",
@@ -91,8 +91,7 @@
       },
       "color": "Renk",
       "colorOptions": {
-        "system": "Sistem",
-        "oled": "OLED"
+        "system": "Sistem"
       },
       "language": "Dil",
       "languageOptions": {

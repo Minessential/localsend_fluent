@@ -1,6 +1,6 @@
 {
   "locale": "日本語",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "承諾",
     "accepted": "承諾済み",
@@ -96,8 +96,7 @@
       },
       "color": "カラー",
       "colorOptions": {
-        "system": "システム",
-        "oled": "OLED"
+        "system": "システム"
       },
       "language": "言語",
       "languageOptions": {

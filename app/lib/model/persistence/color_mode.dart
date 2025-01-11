@@ -1,6 +1,11 @@
 enum ColorMode {
   system, // dynamic colors
   localsend,
-  oled,
-  yaru,
+  yellow,
+  orange,
+  red,
+  magenta,
+  purple,
+  blue,
+  green,
 }

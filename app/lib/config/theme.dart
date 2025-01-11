@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
@@ -6,29 +6,17 @@ import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:yaru/yaru.dart' as yaru;
-
-final _borderRadius = BorderRadius.circular(5);
 
 /// On desktop, we need to add additional padding to achieve the same visual appearance as on mobile
 double get desktopPaddingFix => checkPlatformIsDesktop() ? 8 : 0;
 
-ThemeData getTheme(ColorMode colorMode, Brightness brightness, DynamicColors? dynamicColors) {
-  if (colorMode == ColorMode.yaru) {
-    return _getYaruTheme(brightness);
-  }
-
-  final colorScheme = _determineColorScheme(colorMode, brightness, dynamicColors);
-
-  final lightInputBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: colorScheme.secondaryContainer),
-    borderRadius: _borderRadius,
-  );
-
-  final darkInputBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: colorScheme.secondaryContainer),
-    borderRadius: _borderRadius,
-  );
+FluentThemeData getTheme(
+  ColorMode colorMode,
+  Brightness brightness,
+  bool is10footScreen,
+  DynamicColors? dynamicColors,
+) {
+  final accentColor = _determineAccentColor(colorMode, brightness, dynamicColors);
 
   // https://github.com/localsend/localsend/issues/52
   final String? fontFamily;
@@ -44,31 +32,31 @@ ThemeData getTheme(ColorMode colorMode, Brightness brightness, DynamicColors? dy
     fontFamily = null;
   }
 
-  return ThemeData(
-    colorScheme: colorScheme,
-    useMaterial3: true,
-    navigationBarTheme: colorScheme.brightness == Brightness.dark
-        ? NavigationBarThemeData(
-            iconTheme: WidgetStateProperty.all(const IconThemeData(color: Colors.white)),
-          )
-        : null,
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: colorScheme.secondaryContainer,
-      border: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      focusedBorder: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      enabledBorder: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+  return FluentThemeData(
+    accentColor: accentColor,
+    brightness: brightness,
+    visualDensity: VisualDensity.standard,
+    focusTheme: FocusThemeData(
+      glowFactor: is10footScreen ? 2.0 : 0.0,
     ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        foregroundColor: colorScheme.brightness == Brightness.dark ? Colors.white : null,
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8 + desktopPaddingFix),
+    tooltipTheme: TooltipThemeData(
+      waitDuration: Duration(milliseconds: 300),
+      showDuration: Duration(milliseconds: 300),
+    ),
+    resources: brightness.isLight
+        ? ResourceDictionary.light().copyWith(systemFillColorAttentionBackground: Color(0xFFf3f3f3))
+        : ResourceDictionary.dark().copyWith(systemFillColorAttentionBackground: Color(0xFF202020)),
+    buttonTheme: ButtonThemeData(
+      defaultButtonStyle: ButtonStyle(
+        foregroundColor: WidgetStateProperty.all(brightness.isDark ? Colors.white : null),
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 2 + desktopPaddingFix)),
       ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8 + desktopPaddingFix),
+      filledButtonStyle: ButtonStyle(
+        foregroundColor: WidgetStateProperty.all(brightness.isDark ? Colors.white : null),
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 2 + desktopPaddingFix)),
+      ),
+      hyperlinkButtonStyle: ButtonStyle(
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 2 + desktopPaddingFix)),
       ),
     ),
     fontFamily: fontFamily,
@@ -76,7 +64,7 @@ ThemeData getTheme(ColorMode colorMode, Brightness brightness, DynamicColors? dy
 }
 
 Future<void> updateSystemOverlayStyle(BuildContext context) async {
-  final brightness = Theme.of(context).brightness;
+  final brightness = FluentTheme.of(context).brightness;
   await updateSystemOverlayStyleWithBrightness(brightness);
 }
 
@@ -104,87 +92,213 @@ Future<void> updateSystemOverlayStyleWithBrightness(Brightness brightness) async
   }
 }
 
-extension ThemeDataExt on ThemeData {
-  /// This is the actual [cardColor] being used.
-  Color get cardColorWithElevation {
-    return ElevationOverlay.applySurfaceTint(cardColor, colorScheme.surfaceTint, 1);
-  }
-}
+// _determineColorScheme
+AccentColor _determineAccentColor(ColorMode mode, Brightness brightness, DynamicColors? dynamicColors) {
+  final isLight = brightness == Brightness.light;
+  final defaultAccentColor = isLight
+      ? Colors.teal.toAccentColor()
+      : Colors.teal.toAccentColor(
+          darkestFactor: 0.50,
+          darkerFactor: 0.40,
+          darkFactor: 0.25,
+          lightFactor: 0.10,
+          lighterFactor: 0.20,
+          lightestFactor: 0.30,
+        );
 
-extension ColorSchemeExt on ColorScheme {
-  Color get warning {
-    return Colors.orange;
-  }
-
-  Color? get secondaryContainerIfDark {
-    return brightness == Brightness.dark ? secondaryContainer : null;
-  }
-
-  Color? get onSecondaryContainerIfDark {
-    return brightness == Brightness.dark ? onSecondaryContainer : null;
-  }
-}
-
-extension InputDecorationThemeExt on InputDecorationTheme {
-  BorderRadius get borderRadius => _borderRadius;
-}
-
-ColorScheme _determineColorScheme(ColorMode mode, Brightness brightness, DynamicColors? dynamicColors) {
-  final defaultColorScheme = ColorScheme.fromSeed(
-    seedColor: Colors.teal,
-    brightness: brightness,
-  );
-
-  final colorScheme = switch (mode) {
-    ColorMode.system => brightness == Brightness.light ? dynamicColors?.light : dynamicColors?.dark,
+  final accentColor = switch (mode) {
+    ColorMode.system => isLight ? dynamicColors?.light : dynamicColors?.dark,
     ColorMode.localsend => null,
-    ColorMode.oled => (dynamicColors?.dark ?? defaultColorScheme).copyWith(
-        surface: Colors.black,
-      ),
-    ColorMode.yaru => throw 'Should reach here',
+    ColorMode.yellow => Colors.yellow,
+    ColorMode.orange => Colors.orange,
+    ColorMode.red => Colors.red,
+    ColorMode.magenta => Colors.magenta,
+    ColorMode.purple => Colors.purple,
+    ColorMode.blue => Colors.blue,
+    ColorMode.green => Colors.green,
   };
 
-  return colorScheme ?? defaultColorScheme;
+  return accentColor ?? defaultAccentColor;
 }
 
-ThemeData _getYaruTheme(Brightness brightness) {
-  final baseTheme = brightness == Brightness.light ? yaru.yaruLight : yaru.yaruDark;
-  final colorScheme = baseTheme.colorScheme;
+extension FluentThemeDataExt on FluentThemeData {
+  Color get autoGrey => brightness.isLight ? Colors.black.withOpacity(0.5) : Colors.white.withOpacity(0.5);
+}
 
-  final lightInputBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: colorScheme.secondaryContainer),
-    borderRadius: _borderRadius,
-  );
-
-  final darkInputBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: colorScheme.secondaryContainer),
-    borderRadius: _borderRadius,
-  );
-
-  return baseTheme.copyWith(
-    navigationBarTheme: colorScheme.brightness == Brightness.dark
-        ? NavigationBarThemeData(
-            iconTheme: WidgetStateProperty.all(const IconThemeData(color: Colors.white)),
-          )
-        : null,
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: colorScheme.secondaryContainer,
-      border: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      focusedBorder: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      enabledBorder: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        foregroundColor: colorScheme.brightness == Brightness.dark ? Colors.white : null,
-        padding: checkPlatformIsDesktop() ? const EdgeInsets.all(16) : const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        padding: checkPlatformIsDesktop() ? const EdgeInsets.all(16) : const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
-    ),
-  );
+extension ResourceDictionaryExt on ResourceDictionary {
+  /// Copy the current [ResourceDictionary] with the provided values.
+  /// can access by `FluentTheme.of(context).resources.copyWith(...)`
+  ResourceDictionary copyWith({
+    Color? textFillColorPrimary,
+    Color? textFillColorSecondary,
+    Color? textFillColorTertiary,
+    Color? textFillColorDisabled,
+    Color? textFillColorInverse,
+    Color? accentTextFillColorDisabled,
+    Color? textOnAccentFillColorSelectedText,
+    Color? textOnAccentFillColorPrimary,
+    Color? textOnAccentFillColorSecondary,
+    Color? textOnAccentFillColorDisabled,
+    Color? controlFillColorDefault,
+    Color? controlFillColorSecondary,
+    Color? controlFillColorTertiary,
+    Color? controlFillColorDisabled,
+    Color? controlFillColorTransparent,
+    Color? controlFillColorInputActive,
+    Color? controlStrongFillColorDefault,
+    Color? controlStrongFillColorDisabled,
+    Color? controlSolidFillColorDefault,
+    Color? subtleFillColorTransparent,
+    Color? subtleFillColorSecondary,
+    Color? subtleFillColorTertiary,
+    Color? subtleFillColorDisabled,
+    Color? controlAltFillColorTransparent,
+    Color? controlAltFillColorSecondary,
+    Color? controlAltFillColorTertiary,
+    Color? controlAltFillColorQuarternary,
+    Color? controlAltFillColorDisabled,
+    Color? controlOnImageFillColorDefault,
+    Color? controlOnImageFillColorSecondary,
+    Color? controlOnImageFillColorTertiary,
+    Color? controlOnImageFillColorDisabled,
+    Color? accentFillColorDisabled,
+    Color? controlStrokeColorDefault,
+    Color? controlStrokeColorSecondary,
+    Color? controlStrokeColorOnAccentDefault,
+    Color? controlStrokeColorOnAccentSecondary,
+    Color? controlStrokeColorOnAccentTertiary,
+    Color? controlStrokeColorOnAccentDisabled,
+    Color? controlStrokeColorForStrongFillWhenOnImage,
+    Color? cardStrokeColorDefault,
+    Color? cardStrokeColorDefaultSolid,
+    Color? controlStrongStrokeColorDefault,
+    Color? controlStrongStrokeColorDisabled,
+    Color? surfaceStrokeColorDefault,
+    Color? surfaceStrokeColorFlyout,
+    Color? surfaceStrokeColorInverse,
+    Color? dividerStrokeColorDefault,
+    Color? focusStrokeColorOuter,
+    Color? focusStrokeColorInner,
+    Color? cardBackgroundFillColorDefault,
+    Color? cardBackgroundFillColorSecondary,
+    Color? smokeFillColorDefault,
+    Color? layerFillColorDefault,
+    Color? layerFillColorAlt,
+    Color? layerOnAcrylicFillColorDefault,
+    Color? layerOnAccentAcrylicFillColorDefault,
+    Color? layerOnMicaBaseAltFillColorDefault,
+    Color? layerOnMicaBaseAltFillColorSecondary,
+    Color? layerOnMicaBaseAltFillColorTertiary,
+    Color? layerOnMicaBaseAltFillColorTransparent,
+    Color? solidBackgroundFillColorBase,
+    Color? solidBackgroundFillColorSecondary,
+    Color? solidBackgroundFillColorTertiary,
+    Color? solidBackgroundFillColorQuarternary,
+    Color? solidBackgroundFillColorTransparent,
+    Color? solidBackgroundFillColorBaseAlt,
+    Color? systemFillColorSuccess,
+    Color? systemFillColorCaution,
+    Color? systemFillColorCritical,
+    Color? systemFillColorNeutral,
+    Color? systemFillColorSolidNeutral,
+    Color? systemFillColorAttentionBackground,
+    Color? systemFillColorSuccessBackground,
+    Color? systemFillColorCautionBackground,
+    Color? systemFillColorCriticalBackground,
+    Color? systemFillColorNeutralBackground,
+    Color? systemFillColorSolidAttentionBackground,
+    Color? systemFillColorSolidNeutralBackground,
+  }) {
+    return ResourceDictionary.raw(
+      textFillColorPrimary: textFillColorPrimary ?? this.textFillColorPrimary,
+      textFillColorSecondary: textFillColorSecondary ?? this.textFillColorSecondary,
+      textFillColorTertiary: textFillColorTertiary ?? this.textFillColorTertiary,
+      textFillColorDisabled: textFillColorDisabled ?? this.textFillColorDisabled,
+      textFillColorInverse: textFillColorInverse ?? this.textFillColorInverse,
+      accentTextFillColorDisabled: accentTextFillColorDisabled ?? this.accentTextFillColorDisabled,
+      textOnAccentFillColorSelectedText: textOnAccentFillColorSelectedText ?? this.textOnAccentFillColorSelectedText,
+      textOnAccentFillColorPrimary: textOnAccentFillColorPrimary ?? this.textOnAccentFillColorPrimary,
+      textOnAccentFillColorSecondary: textOnAccentFillColorSecondary ?? this.textOnAccentFillColorSecondary,
+      textOnAccentFillColorDisabled: textOnAccentFillColorDisabled ?? this.textOnAccentFillColorDisabled,
+      controlFillColorDefault: controlFillColorDefault ?? this.controlFillColorDefault,
+      controlFillColorSecondary: controlFillColorSecondary ?? this.controlFillColorSecondary,
+      controlFillColorTertiary: controlFillColorTertiary ?? this.controlFillColorTertiary,
+      controlFillColorDisabled: controlFillColorDisabled ?? this.controlFillColorDisabled,
+      controlFillColorTransparent: controlFillColorTransparent ?? this.controlFillColorTransparent,
+      controlFillColorInputActive: controlFillColorInputActive ?? this.controlFillColorInputActive,
+      controlStrongFillColorDefault: controlStrongFillColorDefault ?? this.controlStrongFillColorDefault,
+      controlStrongFillColorDisabled: controlStrongFillColorDisabled ?? this.controlStrongFillColorDisabled,
+      controlSolidFillColorDefault: controlSolidFillColorDefault ?? this.controlSolidFillColorDefault,
+      subtleFillColorTransparent: subtleFillColorTransparent ?? this.subtleFillColorTransparent,
+      subtleFillColorSecondary: subtleFillColorSecondary ?? this.subtleFillColorSecondary,
+      subtleFillColorTertiary: subtleFillColorTertiary ?? this.subtleFillColorTertiary,
+      subtleFillColorDisabled: subtleFillColorDisabled ?? this.subtleFillColorDisabled,
+      controlAltFillColorTransparent: controlAltFillColorTransparent ?? this.controlAltFillColorTransparent,
+      controlAltFillColorSecondary: controlAltFillColorSecondary ?? this.controlAltFillColorSecondary,
+      controlAltFillColorTertiary: controlAltFillColorTertiary ?? this.controlAltFillColorTertiary,
+      controlAltFillColorQuarternary: controlAltFillColorQuarternary ?? this.controlAltFillColorQuarternary,
+      controlAltFillColorDisabled: controlAltFillColorDisabled ?? this.controlAltFillColorDisabled,
+      controlOnImageFillColorDefault: controlOnImageFillColorDefault ?? this.controlOnImageFillColorDefault,
+      controlOnImageFillColorSecondary: controlOnImageFillColorSecondary ?? this.controlOnImageFillColorSecondary,
+      controlOnImageFillColorTertiary: controlOnImageFillColorTertiary ?? this.controlOnImageFillColorTertiary,
+      controlOnImageFillColorDisabled: controlOnImageFillColorDisabled ?? this.controlOnImageFillColorDisabled,
+      accentFillColorDisabled: accentFillColorDisabled ?? this.accentFillColorDisabled,
+      controlStrokeColorDefault: controlStrokeColorDefault ?? this.controlStrokeColorDefault,
+      controlStrokeColorSecondary: controlStrokeColorSecondary ?? this.controlStrokeColorSecondary,
+      controlStrokeColorOnAccentDefault: controlStrokeColorOnAccentDefault ?? this.controlStrokeColorOnAccentDefault,
+      controlStrokeColorOnAccentSecondary:
+          controlStrokeColorOnAccentSecondary ?? this.controlStrokeColorOnAccentSecondary,
+      controlStrokeColorOnAccentTertiary: controlStrokeColorOnAccentTertiary ?? this.controlStrokeColorOnAccentTertiary,
+      controlStrokeColorOnAccentDisabled: controlStrokeColorOnAccentDisabled ?? this.controlStrokeColorOnAccentDisabled,
+      controlStrokeColorForStrongFillWhenOnImage:
+          controlStrokeColorForStrongFillWhenOnImage ?? this.controlStrokeColorForStrongFillWhenOnImage,
+      cardStrokeColorDefault: cardStrokeColorDefault ?? this.cardStrokeColorDefault,
+      cardStrokeColorDefaultSolid: cardStrokeColorDefaultSolid ?? this.cardStrokeColorDefaultSolid,
+      controlStrongStrokeColorDefault: controlStrongStrokeColorDefault ?? this.controlStrongStrokeColorDefault,
+      controlStrongStrokeColorDisabled: controlStrongStrokeColorDisabled ?? this.controlStrongStrokeColorDisabled,
+      surfaceStrokeColorDefault: surfaceStrokeColorDefault ?? this.surfaceStrokeColorDefault,
+      surfaceStrokeColorFlyout: surfaceStrokeColorFlyout ?? this.surfaceStrokeColorFlyout,
+      surfaceStrokeColorInverse: surfaceStrokeColorInverse ?? this.surfaceStrokeColorInverse,
+      dividerStrokeColorDefault: dividerStrokeColorDefault ?? this.dividerStrokeColorDefault,
+      focusStrokeColorOuter: focusStrokeColorOuter ?? this.focusStrokeColorOuter,
+      focusStrokeColorInner: focusStrokeColorInner ?? this.focusStrokeColorInner,
+      cardBackgroundFillColorDefault: cardBackgroundFillColorDefault ?? this.cardBackgroundFillColorDefault,
+      cardBackgroundFillColorSecondary: cardBackgroundFillColorSecondary ?? this.cardBackgroundFillColorSecondary,
+      smokeFillColorDefault: smokeFillColorDefault ?? this.smokeFillColorDefault,
+      layerFillColorDefault: layerFillColorDefault ?? this.layerFillColorDefault,
+      layerFillColorAlt: layerFillColorAlt ?? this.layerFillColorAlt,
+      layerOnAcrylicFillColorDefault: layerOnAcrylicFillColorDefault ?? this.layerOnAcrylicFillColorDefault,
+      layerOnAccentAcrylicFillColorDefault:
+          layerOnAccentAcrylicFillColorDefault ?? this.layerOnAccentAcrylicFillColorDefault,
+      layerOnMicaBaseAltFillColorDefault: layerOnMicaBaseAltFillColorDefault ?? this.layerOnMicaBaseAltFillColorDefault,
+      layerOnMicaBaseAltFillColorSecondary:
+          layerOnMicaBaseAltFillColorSecondary ?? this.layerOnMicaBaseAltFillColorSecondary,
+      layerOnMicaBaseAltFillColorTertiary:
+          layerOnMicaBaseAltFillColorTertiary ?? this.layerOnMicaBaseAltFillColorTertiary,
+      layerOnMicaBaseAltFillColorTransparent:
+          layerOnMicaBaseAltFillColorTransparent ?? this.layerOnMicaBaseAltFillColorTransparent,
+      solidBackgroundFillColorBase: solidBackgroundFillColorBase ?? this.solidBackgroundFillColorBase,
+      solidBackgroundFillColorSecondary: solidBackgroundFillColorSecondary ?? this.solidBackgroundFillColorSecondary,
+      solidBackgroundFillColorTertiary: solidBackgroundFillColorTertiary ?? this.solidBackgroundFillColorTertiary,
+      solidBackgroundFillColorQuarternary:
+          solidBackgroundFillColorQuarternary ?? this.solidBackgroundFillColorQuarternary,
+      solidBackgroundFillColorTransparent:
+          solidBackgroundFillColorTransparent ?? this.solidBackgroundFillColorTransparent,
+      solidBackgroundFillColorBaseAlt: solidBackgroundFillColorBaseAlt ?? this.solidBackgroundFillColorBaseAlt,
+      systemFillColorSuccess: systemFillColorSuccess ?? this.systemFillColorSuccess,
+      systemFillColorCaution: systemFillColorCaution ?? this.systemFillColorCaution,
+      systemFillColorCritical: systemFillColorCritical ?? this.systemFillColorCritical,
+      systemFillColorNeutral: systemFillColorNeutral ?? this.systemFillColorNeutral,
+      systemFillColorSolidNeutral: systemFillColorSolidNeutral ?? this.systemFillColorSolidNeutral,
+      systemFillColorAttentionBackground: systemFillColorAttentionBackground ?? this.systemFillColorAttentionBackground,
+      systemFillColorSuccessBackground: systemFillColorSuccessBackground ?? this.systemFillColorSuccessBackground,
+      systemFillColorCautionBackground: systemFillColorCautionBackground ?? this.systemFillColorCautionBackground,
+      systemFillColorCriticalBackground: systemFillColorCriticalBackground ?? this.systemFillColorCriticalBackground,
+      systemFillColorNeutralBackground: systemFillColorNeutralBackground ?? this.systemFillColorNeutralBackground,
+      systemFillColorSolidAttentionBackground:
+          systemFillColorSolidAttentionBackground ?? this.systemFillColorSolidAttentionBackground,
+      systemFillColorSolidNeutralBackground:
+          systemFillColorSolidNeutralBackground ?? this.systemFillColorSolidNeutralBackground,
+    );
+  }
 }

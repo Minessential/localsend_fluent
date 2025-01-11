@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:localsend_app/config/theme.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/receive_history_entry.dart';
 import 'package:localsend_app/pages/receive_page.dart';
@@ -16,6 +15,8 @@ import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/dialogs/file_info_dialog.dart';
 import 'package:localsend_app/widget/dialogs/history_clear_dialog.dart';
 import 'package:localsend_app/widget/file_thumbnail.dart';
+import 'package:localsend_app/widget/fluent/card_ink_well.dart';
+import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
 import 'package:path/path.dart' as path;
 import 'package:refena_flutter/refena_flutter.dart';
@@ -61,158 +62,174 @@ class ReceiveHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final entries = context.watch(receiveHistoryProvider);
+    final theme = FluentTheme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.receiveHistoryPage.title),
-      ),
-      body: ResponsiveListView(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                const SizedBox(width: 15),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainerIfDark,
-                    foregroundColor: Theme.of(context).colorScheme.onSecondaryContainerIfDark,
-                  ),
-                  onPressed: checkPlatform([TargetPlatform.iOS])
-                      ? null
-                      : () async {
-                          // ignore: use_build_context_synchronously
-                          final destination = context.read(settingsProvider).destination ?? await getDefaultDestinationDirectory();
-                          await openFolder(folderPath: destination);
-                        },
-                  icon: const Icon(Icons.folder),
-                  label: Text(t.receiveHistoryPage.openFolder),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondaryContainerIfDark,
-                    foregroundColor: Theme.of(context).colorScheme.onSecondaryContainerIfDark,
-                  ),
-                  onPressed: entries.isEmpty
-                      ? null
-                      : () async {
-                          final result = await showDialog(
-                            context: context,
-                            builder: (_) => const HistoryClearDialog(),
-                          );
+    return ResponsiveListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              const SizedBox(width: 15),
+              CustomIconLabelButton(
+                ButtonType.filled,
+                onPressed: checkPlatform([TargetPlatform.iOS])
+                    ? null
+                    : () async {
+                        final destination =
+                            // ignore: use_build_context_synchronously
+                            context.read(settingsProvider).destination ?? await getDefaultDestinationDirectory();
+                        await openFolder(folderPath: destination);
+                      },
+                icon: const Icon(FluentIcons.folder),
+                label: Text(t.receiveHistoryPage.openFolder),
+              ),
+              const SizedBox(width: 20),
+              CustomIconLabelButton(
+                ButtonType.filled,
+                onPressed: entries.isEmpty
+                    ? null
+                    : () async {
+                        final result = await showDialog(
+                          context: context,
+                          builder: (_) => const HistoryClearDialog(),
+                        );
 
-                          if (context.mounted && result == true) {
-                            await context.redux(receiveHistoryProvider).dispatchAsync(RemoveAllHistoryEntriesAction());
-                          }
-                        },
-                  icon: const Icon(Icons.delete),
-                  label: Text(t.receiveHistoryPage.deleteHistory),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          if (entries.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: Center(child: Text(t.receiveHistoryPage.empty, style: Theme.of(context).textTheme.headlineMedium)),
-            )
-          else
-            ...entries.map((entry) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  splashFactory: NoSplash.splashFactory,
-                  highlightColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  onTap: entry.path != null || entry.isMessage
-                      ? () async {
-                          if (entry.isMessage) {
-                            context.redux(receivePageControllerProvider).dispatch(InitReceivePageFromHistoryMessageAction(entry: entry));
-                            // ignore: unawaited_futures
-                            context.push(() => const ReceivePage());
-                            return;
-                          }
-
-                          await _openFile(context, entry, context.redux(receiveHistoryProvider));
+                        if (context.mounted && result == true) {
+                          await context.redux(receiveHistoryProvider).dispatchAsync(RemoveAllHistoryEntriesAction());
                         }
-                      : null,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FilePathThumbnail(
-                        path: entry.path,
-                        fileType: entry.fileType,
+                      },
+                icon: const Icon(FluentIcons.delete),
+                label: Text(t.receiveHistoryPage.deleteHistory),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        if (entries.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: Center(child: Text(t.receiveHistoryPage.empty, style: FluentTheme.of(context).typography.title)),
+          )
+        else
+          ...entries.map((entry) {
+            return CardInkWell(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+              onPressed: entry.path != null || entry.isMessage
+                  ? () async {
+                      if (entry.isMessage) {
+                        context
+                            .redux(receivePageControllerProvider)
+                            .dispatch(InitReceivePageFromHistoryMessageAction(entry: entry));
+                        // ignore: unawaited_futures
+                        context.push(() => const ReceivePage());
+                        return;
+                      }
+
+                      await _openFile(context, entry, context.redux(receiveHistoryProvider));
+                    }
+                  : null,
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FilePathThumbnail(
+                      path: entry.path,
+                      fileType: entry.fileType,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            entry.fileName,
+                            style: const TextStyle(fontSize: 16),
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            softWrap: false,
+                          ),
+                          // const SizedBox(height: 6),
+                          Text(
+                            '${entry.timestampString} - ${entry.fileSize.asReadableFileSize} - ${entry.senderAlias}',
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            softWrap: false,
+                            style: theme.typography.caption
+                                ?.copyWith(color: theme.typography.caption?.color?.withOpacity(0.8)),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 3),
-                            Text(
-                              entry.fileName,
-                              style: const TextStyle(fontSize: 16),
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
-                              softWrap: false,
-                            ),
-                            Text(
-                              '${entry.timestampString} - ${entry.fileSize.asReadableFileSize} - ${entry.senderAlias}',
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
-                              softWrap: false,
-                              style: const TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      PopupMenuButton<_EntryOption>(
-                        onSelected: (_EntryOption item) async {
-                          switch (item) {
-                            case _EntryOption.open:
-                              await _openFile(context, entry, context.redux(receiveHistoryProvider));
-                              break;
-                            case _EntryOption.showInFolder:
-                              if (entry.path != null) {
-                                await openFolder(
-                                  folderPath: File(entry.path!).parent.path,
-                                  fileName: path.basename(entry.path!),
-                                );
-                              }
-                              break;
-                            case _EntryOption.info:
-                              // ignore: use_build_context_synchronously
-                              await showDialog(
-                                context: context,
-                                builder: (_) => FileInfoDialog(entry: entry),
-                              );
-                              break;
-                            case _EntryOption.delete:
-                              // ignore: use_build_context_synchronously
-                              await context.redux(receiveHistoryProvider).dispatchAsync(RemoveHistoryEntryAction(entry.id));
-                              break;
-                          }
-                        },
-                        itemBuilder: (BuildContext context) {
-                          return (entry.path != null ? _optionsAll : _optionsWithoutOpen).map((e) {
-                            return PopupMenuItem<_EntryOption>(
-                              value: e,
-                              child: Text(e.label),
-                            );
-                          }).toList();
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 10),
+                    _popupMenuButton(entry),
+                  ],
                 ),
+              ),
+            );
+          }),
+      ],
+    );
+  }
+
+  FlyoutTarget _popupMenuButton(ReceiveHistoryEntry entry) {
+    final menuController = FlyoutController();
+
+    return FlyoutTarget(
+      controller: menuController,
+      child: IconButton(
+        icon: Icon(FluentIcons.more_vertical),
+        onPressed: () async {
+          await menuController.showFlyout(
+            autoModeConfiguration: FlyoutAutoConfiguration(preferredMode: FlyoutPlacementMode.topRight),
+            barrierDismissible: true,
+            dismissOnPointerMoveAway: false,
+            dismissWithEsc: true,
+            builder: (context) {
+              return MenuFlyout(
+                items: (entry.path != null ? _optionsAll : _optionsWithoutOpen).map((e) {
+                  final label = e.label;
+                  late final IconData icon;
+                  Future<void> Function()? onPressed;
+                  switch (e) {
+                    case _EntryOption.open:
+                      icon = FluentIcons.open_file;
+                      onPressed = () => _openFile(context, entry, context.redux(receiveHistoryProvider));
+                      break;
+                    case _EntryOption.showInFolder:
+                      icon = FluentIcons.open_folder_horizontal;
+                      if (entry.path != null) {
+                        onPressed = () =>
+                            openFolder(folderPath: File(entry.path!).parent.path, fileName: path.basename(entry.path!));
+                      }
+                      break;
+                    case _EntryOption.info:
+                      icon = FluentIcons.info;
+                      // ignore: use_build_context_synchronously
+                      onPressed = () => showDialog(context: context, builder: (_) => FileInfoDialog(entry: entry));
+                      break;
+                    case _EntryOption.delete:
+                      icon = FluentIcons.delete;
+                      // ignore: use_build_context_synchronously
+                      onPressed =
+                          () => context.redux(receiveHistoryProvider).dispatchAsync(RemoveHistoryEntryAction(entry.id));
+                      break;
+                  }
+                  return MenuFlyoutItem(
+                    leading: Icon(icon),
+                    text: Text(label),
+                    onPressed: () async {
+                      await onPressed?.call();
+                      if (context.mounted) Flyout.of(context).close;
+                    },
+                  );
+                }).toList(),
               );
-            }),
-        ],
+            },
+          );
+        },
       ),
     );
   }

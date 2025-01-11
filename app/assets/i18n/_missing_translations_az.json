@@ -4,6 +4,21 @@
     "After editing this file, you can run 'dart run slang apply --locale=az' to quickly apply the newly added translations."
   ],
   "settingsTab": {
+    "toggleSwitch": {
+      "on": "On",
+      "off": "Off"
+    },
+    "general": {
+      "colorOptions": {
+        "yellow": "Yellow",
+        "orange": "Orange",
+        "red": "Red",
+        "magenta": "Magenta",
+        "purple": "Purple",
+        "blue": "Blue",
+        "green": "Green"
+      }
+    },
     "receive": {
       "requirePin": "@:webSharePage.requirePin",
       "destination": "Save to folder",
@@ -23,6 +38,11 @@
       "deviceType": "Device type",
       "deviceModel": "Device model",
       "port": "Port",
+      "network": "Network",
+      "networkOptions": {
+        "all": "All",
+        "filtered": "Filtered"
+      },
       "discoveryTimeout": "Discovery Timeout",
       "useSystemName": "Use system name",
       "generateRandomAlias": "Generate random alias",
@@ -58,6 +78,13 @@
       "symptom": "Both devices cannot discover each other nor can they share files.",
       "solution": "Does the problem exist on both sides? If so, you need to make sure that both devices are on the same Wi-Fi network and share the same configuration (port, multicast address, encryption). The Wi-Fi network may not allow communication between participants due to Access Point (AP) Isolation. In this case, this option must be disabled on the router."
     }
+  },
+  "networkInterfacesPage": {
+    "title": "Network Interfaces",
+    "info": "By default, LocalSend uses all available network interfaces. You can exclude unwanted networks here. You need to restart the server to apply the changes.",
+    "preview": "Preview",
+    "whitelist": "Whitelist",
+    "blacklist": "Blacklist"
   },
   "receiveHistoryPage": {
     "title": "History",
@@ -116,7 +143,8 @@
       "count": "Files: {curr} / {n}",
       "size": "Size: {curr} / {n}",
       "speed": "Speed: {speed}/s"
-    }
+    },
+    "retry": "Retry"
   },
   "webSharePage": {
     "title": "Share via link",

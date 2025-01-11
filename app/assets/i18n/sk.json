@@ -1,6 +1,6 @@
 {
   "locale": "Slovenčina",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Prijať",
     "accepted": "Prijaté",
@@ -96,8 +96,7 @@
       },
       "color": "Farba",
       "colorOptions": {
-        "system": "Systémová",
-        "oled": "OLED"
+        "system": "Systémová"
       },
       "language": "Jazyk",
       "languageOptions": {

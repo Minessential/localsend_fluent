@@ -1,6 +1,6 @@
 {
   "locale": "Ελληνικά",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Αποδοχή",
     "accepted": "Αποδεκτό",
@@ -96,8 +96,7 @@
       },
       "color": "Χρώμα",
       "colorOptions": {
-        "system": "Σύστημα",
-        "oled": "OLED"
+        "system": "Σύστημα"
       },
       "language": "Γλώσσα",
       "languageOptions": {

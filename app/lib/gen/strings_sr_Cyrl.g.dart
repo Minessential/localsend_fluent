@@ -33,7 +33,7 @@ class TranslationsSrCyrl extends Translations {
   @override
   String get locale => 'Српски (ћирилица)';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralSrCyrl general = _TranslationsGeneralSrCyrl._(_root);
   @override
@@ -1544,8 +1544,6 @@ class _TranslationsSettingsTabGeneralColorOptionsSrCyrl extends TranslationsSett
   // Translations
   @override
   String get system => 'Системска';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

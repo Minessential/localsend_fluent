@@ -33,7 +33,7 @@ class TranslationsPtBr extends Translations {
   @override
   String get locale => 'Português (Brasil)';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralPtBr general = _TranslationsGeneralPtBr._(_root);
   @override
@@ -1536,8 +1536,6 @@ class _TranslationsSettingsTabGeneralColorOptionsPtBr extends TranslationsSettin
   // Translations
   @override
   String get system => 'Sistema';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

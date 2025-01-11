@@ -33,7 +33,7 @@ class TranslationsSv extends Translations {
   @override
   String get locale => 'Svenska';
   @override
-  String get appName => 'LocalSend';
+  String get appName => 'LocalSend(Fluent)';
   @override
   late final _TranslationsGeneralSv general = _TranslationsGeneralSv._(_root);
   @override
@@ -1542,8 +1542,6 @@ class _TranslationsSettingsTabGeneralColorOptionsSv extends TranslationsSettings
   // Translations
   @override
   String get system => 'System';
-  @override
-  String get oled => 'OLED';
 }
 
 // Path: settingsTab.general.languageOptions

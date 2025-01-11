@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/dialogs/custom_bottom_sheet.dart';
@@ -11,14 +11,16 @@ class EncryptionDisabledNotice extends StatelessWidget {
     if (checkPlatformIsDesktop()) {
       await showDialog(
         context: context,
-        builder: (_) => AlertDialog(
+        builder: (_) => ContentDialog(
           title: Text(t.dialogs.encryptionDisabledNotice.title),
           content: Text(t.dialogs.encryptionDisabledNotice.content),
           actions: [
-            TextButton(
+            Container(),
+            FilledButton(
               onPressed: () => context.pop(),
               child: Text(t.general.close),
-            )
+            ),
+            Container(),
           ],
         ),
       );
@@ -33,7 +35,7 @@ class EncryptionDisabledNotice extends StatelessWidget {
       title: t.dialogs.encryptionDisabledNotice.title,
       description: t.dialogs.encryptionDisabledNotice.content,
       child: Center(
-        child: ElevatedButton(
+        child: FilledButton(
           onPressed: () => context.popUntilRoot(),
           child: Text(t.general.close),
         ),

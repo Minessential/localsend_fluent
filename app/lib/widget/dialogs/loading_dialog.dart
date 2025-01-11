@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+
+import 'package:fluent_ui/fluent_ui.dart';
 
 class LoadingDialog extends StatelessWidget {
   const LoadingDialog();
@@ -8,7 +9,7 @@ class LoadingDialog extends StatelessWidget {
     return const PopScope(
       canPop: false,
       child: Center(
-        child: CircularProgressIndicator(),
+        child: ProgressRing(),
       ),
     );
   }

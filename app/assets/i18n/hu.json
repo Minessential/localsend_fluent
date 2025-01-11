@@ -1,6 +1,6 @@
 {
   "locale": "Magyar",
-  "appName": "LocalSend",
+  "appName": "LocalSend(Fluent)",
   "general": {
     "accept": "Elfogad",
     "accepted": "Elfogadva",
@@ -96,8 +96,7 @@
       },
       "color": "Színek",
       "colorOptions": {
-        "system": "Rendszer",
-        "oled": "OLED"
+        "system": "Rendszer"
       },
       "language": "Nyelv",
       "languageOptions": {
