@@ -69,6 +69,7 @@ class _OpenFileDialogState extends State<OpenFileDialog> {
     return ContentDialog(
       title: Text(t.dialogs.openFile.title),
       content: Text(t.dialogs.openFile.content),
+      constraints: BoxConstraints(maxWidth: 568.0, maxHeight: 756.0),
       actions: [
         FilledButton(
           onPressed: () async => openFile(context, widget.fileType, widget.filePath),
@@ -79,7 +80,7 @@ class _OpenFileDialogState extends State<OpenFileDialog> {
             folderPath: File(widget.filePath).parent.path,
             fileName: path.basename(widget.filePath),
           ),
-          child: Text(t.receiveHistoryPage.entryActions.showInFolder),
+          child: Text(t.receiveHistoryPage.entryActions.showInFolder, maxLines: 1),
         ),
         Button(
           onPressed: () {
