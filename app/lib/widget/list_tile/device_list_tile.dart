@@ -1,5 +1,6 @@
 import 'package:common/model/device.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/util/device_type_ext.dart';
 import 'package:localsend_app/util/ip_helper.dart';
 import 'package:localsend_app/widget/custom_progress_bar.dart';
@@ -46,7 +47,7 @@ class DeviceListTile extends StatelessWidget {
         spacing: 10,
         children: [
           if (info != null)
-            Text(info!, style: const TextStyle(color: Colors.grey))
+            Text(info!, style: TextStyle(color: FluentTheme.of(context).autoGrey))
           else if (progress != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),

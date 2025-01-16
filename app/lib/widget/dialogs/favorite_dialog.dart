@@ -1,5 +1,6 @@
 import 'package:common/isolate.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/favorite_device.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
@@ -66,7 +67,7 @@ class _FavoritesDialogState extends State<FavoritesDialog> with Refena {
           if (favorites.isEmpty)
             Text(
               t.dialogs.favoriteDialog.noFavorites,
-              style: const TextStyle(color: Colors.grey),
+              style: TextStyle(color: FluentTheme.of(context).autoGrey),
             ),
           for (final favorite in favorites)
             CardInkWell(

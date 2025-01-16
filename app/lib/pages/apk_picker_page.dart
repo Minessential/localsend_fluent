@@ -1,6 +1,7 @@
 import 'package:common/model/file_type.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/apk_provider.dart';
@@ -237,7 +238,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                                             : FluentIcons.checkbox_composite,
                                         color: _selectedApps.contains(app)
                                             ? FluentTheme.of(context).iconTheme.color
-                                            : Colors.grey,
+                                            : FluentTheme.of(context).autoGrey,
                                       )
                                   ],
                                 ),
