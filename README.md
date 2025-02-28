@@ -11,6 +11,8 @@ Fluent UI for LocalSend, just tested on Windows!
 ![image](/readme_img/screenshot_1.png)
 ![image](/readme_img/screenshot_2.png)
 
+## Note
+if the msix can't install pleast install `Mine.LocalSend.Fluent.cer` in release.
 ---
 Here are the original LocalSend instructions.
 # LocalSend
