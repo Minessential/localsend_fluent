@@ -89,8 +89,7 @@
       },
       "color": "สี",
       "colorOptions": {
-        "system": "ตามระบบ",
-        "oled": "โอเล็ด"
+        "system": "ตามระบบ"
       },
       "language": "ภาษา",
       "languageOptions": {

@@ -1,23 +1,8 @@
 {
   "@@info": [
     "Here are translations that exist in secondary locales but not in <en>.",
-    "[--full enabled] Furthermore, translations not used in 'lib/' according to the 't.<path>' pattern are written into <en>."
+    "You may run 'dart run slang analyze --full' to also check translations not used in the source code."
   ],
-  "en": {
-    "locale": "English",
-    "general": {
-      "online": "Online",
-      "save": "Save"
-    },
-    "sendTab": {
-      "thisDevice": "This Device"
-    },
-    "dialogs": {
-      "messageInput": {
-        "multiline": "Multiline"
-      }
-    }
-  },
   "ar": {},
   "az": {},
   "bg": {},
@@ -45,6 +30,7 @@
   "ja": {},
   "km": {},
   "ko": {},
+  "ml": {},
   "mn": {},
   "ms": {},
   "ne": {},

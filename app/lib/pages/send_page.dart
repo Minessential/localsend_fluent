@@ -159,7 +159,7 @@ class _SendPageState extends State<SendPage> with Refena {
                                       IconButton(
                                         onPressed: () async => showDialog(
                                           context: context,
-                                          builder: (_) => ErrorDialog(error: 'sendState.errorMessage!'),
+                                          builder: (_) => ErrorDialog(error: sendState.errorMessage!),
                                         ),
                                         icon: const Icon(FluentIcons.info, color: Colors.warningPrimaryColor),
                                       ),

@@ -4,19 +4,6 @@
     "After editing this file, you can run 'dart run slang apply --locale=bn' to quickly apply the newly added translations."
   ],
   "appNameF": "LocalSend(Fluent)",
-  "general": {
-    "quickSaveFromFavorites": "Quick Save for \"Favorites\""
-  },
-  "receiveTab": {
-    "quickSave": {
-      "off": "@:general.off",
-      "favorites": "Favorites",
-      "on": "@:general.on"
-    }
-  },
-  "sendTab": {
-    "manualSending": "Manual sending"
-  },
   "settingsTab": {
     "toggleSwitch": {
       "on": "On",
@@ -31,12 +18,9 @@
         "purple": "Purple",
         "blue": "Blue",
         "green": "Green"
-      },
-      "saveWindowPlacementWindows": "Save window position after exit",
-      "showInContextMenu": "Show LocalSend in context menu"
+      }
     },
     "receive": {
-      "quickSaveFromFavorites": "@:general.quickSaveFromFavorites",
       "requirePin": "@:webSharePage.requirePin"
     },
     "send": {

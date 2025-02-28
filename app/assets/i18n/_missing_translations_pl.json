@@ -19,21 +19,7 @@
         "blue": "Blue",
         "green": "Green"
       }
-    },
-    "network": {
-      "network": "Network",
-      "networkOptions": {
-        "all": "All",
-        "filtered": "Filtered"
-      }
     }
-  },
-  "networkInterfacesPage": {
-    "title": "Network Interfaces",
-    "info": "By default, LocalSend uses all available network interfaces. You can exclude unwanted networks here. You need to restart the server to apply the changes.",
-    "preview": "Preview",
-    "whitelist": "Whitelist",
-    "blacklist": "Blacklist"
   },
   "progressPage": {
     "retry": "Retry"
