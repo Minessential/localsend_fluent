@@ -157,8 +157,7 @@ final sendTabVmProvider = ViewProvider((ref) {
           return;
         } else if (session.status == SessionStatus.sending || session.status == SessionStatus.finishedWithErrors) {
           ref.notifier(sendProvider).setBackground(session.sessionId, false);
-          await context
-              .push(() => ProgressPage(showAppBar: true, closeSessionOnClose: false, sessionId: session.sessionId));
+          await context.push(() => ProgressPage(closeSessionOnClose: false, sessionId: session.sessionId));
           ref.notifier(sendProvider).setBackground(session.sessionId, true);
           return;
         }

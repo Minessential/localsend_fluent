@@ -297,11 +297,7 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
         removeUntil: HomePage,
         transition: RouterinoTransition.fade(),
         // immediately is not possible: https://github.com/flutter/flutter/issues/121910
-        builder: () => ProgressPage(
-          showAppBar: background,
-          closeSessionOnClose: !background,
-          sessionId: sessionId,
-        ),
+        builder: () => ProgressPage(closeSessionOnClose: !background, sessionId: sessionId),
       );
     }
 

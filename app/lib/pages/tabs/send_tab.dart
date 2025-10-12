@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:common/model/device.dart';
 import 'package:common/model/session_status.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/send_mode.dart';
@@ -24,13 +25,13 @@ import 'package:localsend_app/widget/big_button.dart';
 import 'package:localsend_app/widget/dialogs/add_file_dialog.dart';
 import 'package:localsend_app/widget/dialogs/send_mode_help_dialog.dart';
 import 'package:localsend_app/widget/file_thumbnail.dart';
+import 'package:localsend_app/widget/fluent/base_pane_body.dart';
 import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/horizontal_clip_list_view.dart';
 import 'package:localsend_app/widget/list_tile/device_list_tile.dart';
 import 'package:localsend_app/widget/list_tile/device_placeholder_list_tile.dart';
 import 'package:localsend_app/widget/opacity_slideshow.dart';
 import 'package:localsend_app/widget/responsive_builder.dart';
-import 'package:localsend_app/widget/responsive_list_view.dart';
 import 'package:localsend_app/widget/rotating_widget.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
@@ -51,8 +52,8 @@ class SendTab extends StatelessWidget {
         final sizingInformation = SizingInformation(MediaQuery.sizeOf(context).width);
         final buttonWidth = sizingInformation.isDesktop ? BigButton.desktopWidth : BigButton.mobileWidth;
         final ref = context.ref;
-        return ResponsiveListView(
-          padding: EdgeInsets.symmetric(horizontal: 3),
+        return BasePaneBody.scrollable(
+          title: HomeTab.send.label,
           children: [
             const SizedBox(height: 20),
             if (vm.selectedFiles.isEmpty) ...[
@@ -99,7 +100,7 @@ class SendTab extends StatelessWidget {
                             onPressed: () => ref.redux(selectedSendingFilesProvider).dispatch(ClearSelectionAction()),
                             icon: Padding(
                                 padding: EdgeInsets.all(3),
-                                child: Icon(FluentIcons.chrome_close, color: theme.accentColor)),
+                                child: Icon(FluentIcons.dismiss_16_filled, size: 16, color: theme.accentColor)),
                           ),
                           const SizedBox(width: 5),
                         ],
@@ -150,7 +151,7 @@ class SendTab extends StatelessWidget {
                                 options: _options,
                               );
                             },
-                            icon: const Icon(FluentIcons.add),
+                            icon: const Icon(FluentIcons.add_16_filled),
                             label: Text(t.general.add),
                           ),
                           const SizedBox(width: 15),
@@ -176,14 +177,14 @@ class SendTab extends StatelessWidget {
                   message: t.sendTab.manualSending,
                   child: IconButton(
                     onPressed: () async => vm.onTapAddress(context),
-                    icon: const Icon(FluentIcons.input_address),
+                    icon: const Icon(FluentIcons.target_edit_20_regular, size: 18),
                   ),
                 ),
                 Tooltip(
                   message: t.dialogs.favoriteDialog.title,
                   child: IconButton(
                     onPressed: () async => await vm.onTapFavorite(context),
-                    icon: const Icon(FluentIcons.favorite_star),
+                    icon: const Icon(FluentIcons.star_20_regular, size: 18),
                   ),
                 ),
                 _SendModeButton(onSelect: (mode) async => vm.onTapSendMode(context, mode)),
@@ -335,7 +336,7 @@ class _ScanButton extends StatelessWidget {
             duration: const Duration(seconds: 2),
             spinning: spinning,
             reverse: false,
-            child: Icon(FluentIcons.sync, color: iconColor),
+            child: Icon(FluentIcons.arrow_sync_20_regular, size: 18, color: iconColor),
           ),
         ),
       );
@@ -359,7 +360,7 @@ class _ScanButton extends StatelessWidget {
         duration: const Duration(seconds: 2),
         spinning: spinning,
         reverse: false,
-        child: Icon(FluentIcons.sync, color: iconColor),
+        child: Icon(FluentIcons.arrow_sync_20_regular, size: 18, color: iconColor),
       ),
     );
   }
@@ -378,7 +379,7 @@ class _RotatingSyncIcon extends StatelessWidget {
       duration: const Duration(seconds: 2),
       spinning: scanningIps.contains(ip),
       reverse: false,
-      child: const Icon(FluentIcons.sync, size: 11),
+      child: const Icon(FluentIcons.arrow_sync_20_regular, size: 18),
     );
   }
 }
@@ -407,14 +408,14 @@ class _SendModeButton extends StatelessWidget {
           ),
           const MenuFlyoutSeparator(),
           MenuFlyoutItem(
-            leading: Icon(FluentIcons.help, size: 11),
+            leading: Icon(FluentIcons.question_circle_16_regular, size: 16),
             text: Text(t.sendTab.sendModeHelp),
             onPressed: () async {
               await showDialog(context: context, builder: (_) => const SendModeHelpDialog());
             },
           ),
         ],
-        child: Icon(FluentIcons.settings),
+        child: Icon(FluentIcons.settings_20_regular, size: 18),
       );
     });
   }

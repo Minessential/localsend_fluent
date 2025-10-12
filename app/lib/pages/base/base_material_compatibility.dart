@@ -1,8 +1,8 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' as m;
 import 'package:localsend_app/widget/fluent/window_buttons.dart';
-import 'package:routerino/routerino.dart';
 import 'package:window_manager/window_manager.dart';
 
 class BaseMaterialCompatibility extends StatelessWidget {
@@ -21,7 +21,10 @@ class BaseMaterialCompatibility extends StatelessWidget {
           return DragToMoveArea(child: Container());
         }(),
         leading: needMaterialApp
-            ? IconButton(icon: const Icon(FluentIcons.back), onPressed: () => context.pop())
+            ? IconButton(
+                icon: const Icon(FluentIcons.arrow_left_20_regular, size: 20),
+                onPressed: () => Navigator.of(context).maybePop(),
+              )
             : const SizedBox.shrink(),
         actions: const WindowButtons(),
       ),

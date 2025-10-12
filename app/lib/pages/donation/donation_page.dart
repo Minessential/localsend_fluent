@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/purchase_state.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
@@ -84,7 +85,7 @@ class _StoreDonation extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(FluentIcons.heart_fill),
+                  const Icon(FluentIcons.heart_16_filled, size: 16),
                   const SizedBox(width: 5),
                   Text(t.donationPage.donate(amount: vm.prices[item] ?? '...')),
                 ],
@@ -98,7 +99,7 @@ class _StoreDonation extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(FluentIcons.update_restore),
+              const Icon(FluentIcons.history_16_regular, size: 16),
               const SizedBox(width: 5),
               Text(t.donationPage.restore),
             ],
@@ -124,7 +125,7 @@ class _LinkDonation extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(FluentIcons.open_in_new_window),
+              const Icon(FluentIcons.open_16_regular, size: 16),
               const SizedBox(width: 5),
               const Text('Github'),
             ],
@@ -137,7 +138,7 @@ class _LinkDonation extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(FluentIcons.open_in_new_window),
+              const Icon(FluentIcons.open_16_regular, size: 16),
               const SizedBox(width: 5),
               const Text('Ko-fi'),
             ],

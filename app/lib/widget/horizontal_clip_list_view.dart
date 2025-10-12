@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 /// A horizontal list that adjusts the width if the screen is too small.
@@ -30,29 +31,40 @@ class HorizontalClipListView extends StatelessWidget {
           minChildWidth: minChildWidth,
           childPadding: childPadding,
         );
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: outerHorizontalPadding,
-              vertical: outerVerticalPadding,
-            ),
-            child: Row(
-              children: [
-                for (int i = 0; i < children.length; i++)
-                  i == children.length - 1
-                      ? SizedBox(
-                          width: childWidth,
-                          child: children[i],
-                        )
-                      : Padding(
-                          padding: EdgeInsetsDirectional.only(end: childPadding),
-                          child: SizedBox(
+        return ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            dragDevices: {
+              PointerDeviceKind.touch,
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.trackpad,
+            },
+            scrollbars: false,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: outerHorizontalPadding,
+                vertical: outerVerticalPadding,
+              ),
+              child: Row(
+                children: [
+                  for (int i = 0; i < children.length; i++)
+                    i == children.length - 1
+                        ? SizedBox(
                             width: childWidth,
                             child: children[i],
+                          )
+                        : Padding(
+                            padding: EdgeInsetsDirectional.only(end: childPadding),
+                            child: SizedBox(
+                              width: childWidth,
+                              child: children[i],
+                            ),
                           ),
-                        ),
-              ],
+                ],
+              ),
             ),
           ),
         );

@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/widget/dialogs/custom_bottom_sheet.dart';
 import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
@@ -19,7 +20,7 @@ class IosLocalNetworkDialog extends StatelessWidget {
           CustomIconLabelButton(
             ButtonType.filled,
             onPressed: () async => SystemSettings.app(),
-            icon: const Icon(FluentIcons.settings, size: 10),
+            icon: const Icon(FluentIcons.settings_16_regular, size: 10),
             label: Text(t.dialogs.localNetworkUnauthorized.gotoSettings),
           ),
           Button(

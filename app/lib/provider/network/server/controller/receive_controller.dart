@@ -362,11 +362,7 @@ class ReceiveController {
 
     if (quickSave) {
       // ignore: use_build_context_synchronously, unawaited_futures
-      Routerino.context.pushImmediately(() => ProgressPage(
-            showAppBar: false,
-            closeSessionOnClose: true,
-            sessionId: sessionId,
-          ));
+      Routerino.context.pushImmediately(() => ProgressPage(closeSessionOnClose: true, sessionId: sessionId));
     }
 
     final files = {

@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
@@ -17,10 +18,10 @@ import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
 enum HomeTab {
-  receive(FluentIcons.internet_sharing),
-  send(FluentIcons.send),
-  settings(FluentIcons.settings),
-  history(FluentIcons.history);
+  receive(FluentIcons.live_24_regular),
+  send(FluentIcons.send_24_regular),
+  settings(FluentIcons.settings_24_regular),
+  history(FluentIcons.history_24_regular);
 
   const HomeTab(this.icon);
 
@@ -64,25 +65,17 @@ class _HomePageState extends State<HomePage> with Refena {
     PaneItem(
       icon: Icon(HomeTab.receive.icon),
       title: Text(HomeTab.receive.label),
-      body: _NavigationBodyItem(
-        content: ReceiveTab(),
-      ),
+      body: ScaffoldPage(content: ReceiveTab()),
     ),
     PaneItem(
       icon: Icon(HomeTab.send.icon),
       title: Text(HomeTab.send.label),
-      body: _NavigationBodyItem(
-        header: HomeTab.send.label,
-        content: SendTab(),
-      ),
+      body: SendTab(),
     ),
     PaneItem(
       icon: Icon(HomeTab.history.icon),
       title: Text(HomeTab.history.label),
-      body: _NavigationBodyItem(
-        header: HomeTab.history.label,
-        content: ReceiveHistoryPage(),
-      ),
+      body: ReceiveHistoryPage(),
     ),
   ];
 
@@ -156,10 +149,7 @@ class _HomePageState extends State<HomePage> with Refena {
                     PaneItem(
                       icon: Icon(HomeTab.settings.icon),
                       title: Text(HomeTab.settings.label),
-                      body: _NavigationBodyItem(
-                        header: HomeTab.settings.label,
-                        content: SettingsTab(),
-                      ),
+                      body: SettingsTab(),
                     ),
                   ],
                 ),
@@ -173,7 +163,7 @@ class _HomePageState extends State<HomePage> with Refena {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(FluentIcons.download, size: 128),
+                      const Icon(FluentIcons.share_48_regular, size: 128),
                       const SizedBox(height: 30),
                       Text(t.sendTab.placeItems, style: FluentTheme.of(context).typography.titleLarge),
                     ],
@@ -192,23 +182,5 @@ class _HomePageState extends State<HomePage> with Refena {
     } else {
       return PaneDisplayMode.auto;
     }
-  }
-}
-
-class _NavigationBodyItem extends StatelessWidget {
-  const _NavigationBodyItem({
-    this.header,
-    this.content,
-  });
-
-  final String? header;
-  final Widget? content;
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaffoldPage(
-      header: header != null ? PageHeader(title: Text(header!)) : null,
-      content: content ?? const SizedBox.shrink(),
-    );
   }
 }

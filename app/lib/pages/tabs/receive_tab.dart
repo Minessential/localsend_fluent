@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/pages/home_page_controller.dart';
@@ -150,7 +151,7 @@ class _CornerButtons extends StatelessWidget {
         child: IconButton(
           key: const ValueKey('info-btn'),
           onPressed: toggleAdvanced,
-          icon: const Icon(FluentIcons.info, size: 20.0),
+          icon: const Icon(FluentIcons.info_20_regular, size: 20.0),
         ),
       ),
     );

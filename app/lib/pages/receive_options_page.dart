@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
@@ -32,7 +33,7 @@ class ReceiveOptionsPage extends StatelessWidget {
       headerTitle: t.receiveOptionsPage.title,
       body: ResponsiveListView(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        tabletPadding:const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        tabletPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         children: [
           Row(
             children: [
@@ -47,7 +48,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                         ref.notifier(serverProvider).setSessionDestinationDir(directory);
                       }
                     },
-                    icon: const Icon(FluentIcons.edit),
+                    icon: const Icon(FluentIcons.edit_16_regular, size: 16),
                   ),
                 ),
             ],
@@ -96,7 +97,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                   onPressed: () async {
                     await showDialog(context: context, builder: (_) => const QuickActionsDialog());
                   },
-                  icon: const Icon(FluentIcons.lightbulb),
+                  icon: const Icon(FluentIcons.lightbulb_16_regular, size: 16),
                 ),
               ),
               const SizedBox(width: 8),
@@ -108,7 +109,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                         .notifier(selectedReceivingFilesProvider)
                         .setFiles(receiveSession.files.values.map((f) => f.file).toList());
                   },
-                  icon: const Icon(FluentIcons.undo),
+                  icon: const Icon(FluentIcons.arrow_undo_16_regular, size: 16),
                 ),
               ),
             ],
@@ -167,7 +168,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                                     ref.notifier(selectedReceivingFilesProvider).rename(file.file.id, result);
                                   }
                                 },
-                          icon: const Icon(FluentIcons.edit, size: 15),
+                          icon: const Icon(FluentIcons.edit_16_regular, size: 16),
                         ),
                       ),
                       SizedBox(width: 10),

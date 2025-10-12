@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
@@ -114,7 +115,7 @@ class _TroubleshootItemState extends State<_TroubleshootItem> {
                         onPressed: () {
                           setState(() => _showCommands = !_showCommands);
                         },
-                        icon: const Icon(FluentIcons.info, size: 20),
+                        icon: const Icon(FluentIcons.info_20_regular, size: 20),
                       ),
                     ],
                   ],

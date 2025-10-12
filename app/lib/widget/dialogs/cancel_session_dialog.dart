@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/dialogs/custom_bottom_sheet.dart';
@@ -13,7 +14,7 @@ class CancelSessionDialog extends StatelessWidget {
       CustomIconLabelButton(
         ButtonType.filled,
         onPressed: () => context.pop(true),
-        icon: const Icon(FluentIcons.chrome_close, size: 10),
+        icon: const Icon(FluentIcons.dismiss_16_filled, size: 10),
         label: Text(t.general.cancel),
       ),
       Button(

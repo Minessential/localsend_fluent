@@ -128,11 +128,7 @@ class InitReceivePageAction extends ReduxAction<ReceivePageController, ReceivePa
 
         await Routerino.context.pushAndRemoveUntilImmediately(
           removeUntil: ReceivePage,
-          builder: () => ProgressPage(
-            showAppBar: false,
-            closeSessionOnClose: true,
-            sessionId: sessionId,
-          ),
+          builder: () => ProgressPage(closeSessionOnClose: true, sessionId: sessionId),
         );
       },
       onDecline: () {

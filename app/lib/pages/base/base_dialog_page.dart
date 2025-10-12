@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class BaseDialogPage extends StatelessWidget {
   final Widget body;
@@ -34,7 +35,7 @@ class BaseDialogPage extends StatelessWidget {
               padding: EdgeInsets.zero,
               child: IconButton(
                 style: ButtonStyle(padding: WidgetStateProperty.all(EdgeInsets.all(10))),
-                icon: const Icon(FluentIcons.chrome_close),
+                icon: const Icon(FluentIcons.dismiss_20_regular, size: 20),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),

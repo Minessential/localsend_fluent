@@ -24,7 +24,7 @@ class BigButton extends StatelessWidget {
     final buttonWidth = sizingInformation.isDesktop ? desktopWidth : mobileWidth;
     return SizedBox(
       width: buttonWidth,
-      height: 65.0,
+      height: 68.0,
       child: FilledButton(
         style: ButtonStyle(
           padding: WidgetStateProperty.all(
@@ -36,7 +36,7 @@ class BigButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(icon, size: 23),
+            Icon(icon, size: 22),
             FittedBox(
               alignment: Alignment.bottomCenter,
               child: Text(label, maxLines: 1),

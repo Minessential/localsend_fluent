@@ -1,6 +1,7 @@
 import 'package:common/isolate.dart';
 import 'package:common/model/device.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/favorite_device.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
@@ -102,7 +103,7 @@ class _FavoriteEditDialogState extends State<FavoriteEditDialog> with Refena {
                             builder: (_) => ErrorDialog(error: _error!),
                           );
                         },
-                        icon: Icon(FluentIcons.info, color: Colors.warningPrimaryColor, size: 20),
+                        icon: Icon(FluentIcons.info_20_regular, color: Colors.warningPrimaryColor, size: 20),
                       ),
                     ],
                   ],
@@ -138,6 +139,7 @@ class _FavoriteEditDialogState extends State<FavoriteEditDialog> with Refena {
                           alias: trimmedNewAlias,
                           customAlias: existingFavorite.customAlias || trimmedNewAlias != existingFavorite.alias,
                         )));
+                    if (context.mounted) context.pop();
                   } else {
                     // Add new favorite
                     final ip = _ipController.text;

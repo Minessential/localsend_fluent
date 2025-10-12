@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:common/util/network_interfaces.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:local_hero/local_hero.dart';
 import 'package:localsend_app/config/theme.dart';
@@ -208,7 +209,7 @@ class _NetworkInterfacesPageState extends State<NetworkInterfacesPage> {
                           '',
                         ]);
                       },
-                      icon: const Icon(FluentIcons.add),
+                      icon: const Icon(FluentIcons.add_20_filled),
                       label: Text(t.general.add),
                     ),
                   ],

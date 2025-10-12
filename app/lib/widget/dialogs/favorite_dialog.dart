@@ -1,5 +1,6 @@
 import 'package:common/isolate.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/favorite_device.dart';
@@ -81,7 +82,7 @@ class _FavoritesDialogState extends State<FavoritesDialog> with Refena {
                       message: t.general.edit,
                       child: IconButton(
                         onPressed: _fetching ? null : () async => await _showDeviceDialog(favorite),
-                        icon: const Icon(FluentIcons.edit),
+                        icon: const Icon(FluentIcons.edit_20_regular, size: 18),
                       ),
                     ),
                     SizedBox(width: 5),
@@ -102,7 +103,7 @@ class _FavoritesDialogState extends State<FavoritesDialog> with Refena {
                                       .dispatchAsync(RemoveFavoriteAction(deviceFingerprint: favorite.fingerprint));
                                 }
                               },
-                        icon: const Icon(FluentIcons.delete),
+                        icon: const Icon(FluentIcons.delete_20_regular, size: 18),
                       ),
                     ),
                   ],
@@ -124,7 +125,7 @@ class _FavoritesDialogState extends State<FavoritesDialog> with Refena {
                           builder: (_) => ErrorDialog(error: _error!),
                         );
                       },
-                      icon: Icon(FluentIcons.info, color: Colors.warningPrimaryColor, size: 20),
+                      icon: Icon(FluentIcons.info_20_regular, color: Colors.warningPrimaryColor, size: 20),
                     ),
                   ],
                 ],

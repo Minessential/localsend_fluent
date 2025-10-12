@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:common/isolate.dart';
 import 'package:common/model/device.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
@@ -214,7 +215,7 @@ class _AddressInputDialogState extends State<AddressInputDialog> with Refena {
                       },
                       icon: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Icon(FluentIcons.info, color: Colors.warningPrimaryColor, size: 20),
+                        child: Icon(FluentIcons.info_20_regular, color: Colors.warningPrimaryColor, size: 20),
                       ),
                     ),
                   ],

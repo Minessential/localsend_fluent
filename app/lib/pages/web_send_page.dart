@@ -1,5 +1,6 @@
 import 'package:common/util/sleep.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
@@ -122,7 +123,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                       ),
                     ),
                   ] else if (_initializedError != null) ...[
-                    Icon(FluentIcons.error, size: 48, color: Colors.red),
+                    Icon(FluentIcons.error_circle_48_regular, size: 48, color: Colors.red),
                     const SizedBox(height: 10),
                     Center(
                       child: Text(t.webSharePage.error, style: theme.typography.subtitle),
@@ -168,7 +169,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                                     context.showSnackBar(t.general.copiedToClipboard);
                                   }
                                 },
-                                icon: Icon(FluentIcons.copy, size: 16),
+                                icon: Icon(FluentIcons.copy_20_regular, size: 16),
                               ),
                               IconButton(
                                 onPressed: () async {
@@ -182,7 +183,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                                     ),
                                   );
                                 },
-                                icon: Icon(FluentIcons.q_r_code, size: 16),
+                                icon: Icon(FluentIcons.qr_code_20_regular, size: 16),
                               ),
                               IconButton(
                                 onPressed: () async {
@@ -195,7 +196,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                                     ),
                                   );
                                 },
-                                icon: Icon(FluentIcons.t_v_monitor, size: 16),
+                                icon: Icon(FluentIcons.tv_20_regular, size: 16),
                               ),
                             ],
                           ),
@@ -238,14 +239,14 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                             onPressed: () {
                               ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
                             },
-                            icon: const Icon(FluentIcons.chrome_close, size: 13),
+                            icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
                           ),
                           SizedBox(width: 10),
                           IconButton(
                             onPressed: () {
                               ref.notifier(serverProvider).acceptWebSendRequest(session.sessionId);
                             },
-                            icon: const Icon(FluentIcons.accept_medium, size: 13),
+                            icon: const Icon(FluentIcons.checkmark_16_regular, size: 16),
                           ),
                         ] else
                           Padding(

@@ -20,6 +20,7 @@ class TextFieldWithActionsDialog extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 10,
             children: [
               Expanded(
                 child: CustomTextBox(
@@ -30,9 +31,7 @@ class TextFieldWithActionsDialog extends StatelessWidget {
                   onSubmitted: (_) => context.pop(),
                 ),
               ),
-              ...actions.map(
-                (action) => Padding(padding: const EdgeInsets.only(left: 10), child: action),
-              ),
+              ...actions,
             ],
           ),
         ],

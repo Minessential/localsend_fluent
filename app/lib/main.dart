@@ -1,6 +1,5 @@
 import 'package:common/isolate.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/config/init_error.dart';
 import 'package:localsend_app/config/theme.dart';
@@ -84,8 +83,11 @@ class LocalSendApp extends StatelessWidget {
             child: FluentApp(
               title: t.appName,
               locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: AppLocaleUtils.supportedLocales,
-              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+              supportedLocales: FluentLocalizations.supportedLocales
+                  .toSet()
+                  .intersection(AppLocaleUtils.supportedLocales.toSet())
+                  .toList(),
+              localizationsDelegates: FluentLocalizations.localizationsDelegates,
               debugShowCheckedModeBanner: false,
               theme: getTheme(colorMode, Brightness.light, is10footScreen(context), dynamicColors),
               darkTheme: getTheme(colorMode, Brightness.dark, is10footScreen(context), dynamicColors),

@@ -1,5 +1,6 @@
 import 'package:common/model/device.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/util/device_type_ext.dart';
 import 'package:localsend_app/util/ip_helper.dart';
@@ -38,7 +39,7 @@ class DeviceListTile extends StatelessWidget {
       title: Text(nameOverride ?? device.alias, style: const TextStyle(fontSize: 20)),
       trailing: onFavoriteTap != null
           ? IconButton(
-              icon: Icon(isFavorite ? FluentIcons.favorite_star_fill : FluentIcons.favorite_star),
+              icon: Icon(isFavorite ? FluentIcons.star_20_filled : FluentIcons.star_20_regular, size: 18),
               onPressed: onFavoriteTap,
             )
           : null,

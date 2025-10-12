@@ -1,9 +1,9 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/fluent/window_buttons.dart';
 import 'package:localsend_app/widget/local_send_logo.dart';
-import 'package:routerino/routerino.dart';
 import 'package:window_manager/window_manager.dart';
 
 enum WindowLeadingType { back, appLogo, custom }
@@ -44,8 +44,10 @@ class BaseNormalPage extends StatelessWidget {
         leading: () {
           final appLogo = Center(child: LocalSendLogo(withText: false, size: 25));
           return switch (windowLeadingType) {
-            WindowLeadingType.back =>
-              IconButton(icon: Center(child: const Icon(FluentIcons.back)), onPressed: () => context.pop()),
+            WindowLeadingType.back => IconButton(
+                icon: Center(child: const Icon(FluentIcons.arrow_left_20_regular, size: 20)),
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
             WindowLeadingType.appLogo => checkPlatformIsDesktop() ? DragToMoveArea(child: appLogo) : appLogo,
             WindowLeadingType.custom => windowLeading,
           };

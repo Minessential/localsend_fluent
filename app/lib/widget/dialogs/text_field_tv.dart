@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/provider/tv_provider.dart';
 import 'package:localsend_app/widget/fluent/custom_text_box.dart';
@@ -66,7 +67,7 @@ class _TextFieldTvState extends State<TextFieldTv> with Refena {
         onChanged: widget.onChanged,
         suffix: widget.onDelete != null
             ? IconButton(
-                icon: Icon(FluentIcons.clear),
+                icon: Icon(FluentIcons.dismiss_16_regular, size: 16),
                 onPressed: () {
                   widget.onDelete?.call();
                 },

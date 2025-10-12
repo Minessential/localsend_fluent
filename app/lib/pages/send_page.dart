@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:common/model/device.dart';
 import 'package:common/model/session_status.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
@@ -82,7 +83,6 @@ class _SendPageState extends State<SendPage> with Refena {
       },
       canPop: true,
       child: BaseNormalPage(
-        // appBar: widget.showAppBar ? AppBar() : null,
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -101,7 +101,7 @@ class _SendPageState extends State<SendPage> with Refena {
                         const InitialFadeTransition(
                           duration: Duration(milliseconds: 300),
                           delay: Duration(milliseconds: 400),
-                          child: Icon(FluentIcons.down),
+                          child: Icon(FluentIcons.arrow_down_20_regular, size: 20),
                         ),
                         const SizedBox(height: 20),
                         Hero(
@@ -161,7 +161,11 @@ class _SendPageState extends State<SendPage> with Refena {
                                           context: context,
                                           builder: (_) => ErrorDialog(error: sendState.errorMessage!),
                                         ),
-                                        icon: const Icon(FluentIcons.info, color: Colors.warningPrimaryColor),
+                                        icon: const Icon(
+                                          FluentIcons.info_16_regular,
+                                          color: Colors.warningPrimaryColor,
+                                          size: 16,
+                                        ),
                                       ),
                                   ],
                                 ),
@@ -175,7 +179,10 @@ class _SendPageState extends State<SendPage> with Refena {
                                 _cancel();
                                 context.pop();
                               },
-                              icon: Icon(waiting ? FluentIcons.chrome_close : FluentIcons.accept_medium, size: 10),
+                              icon: Icon(
+                                waiting ? FluentIcons.dismiss_16_regular : FluentIcons.checkmark_16_regular,
+                                size: 16,
+                              ),
                               label: Text(waiting ? t.general.cancel : t.general.close),
                             ),
                           ),

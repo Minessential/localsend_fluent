@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:common/model/file_type.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
@@ -72,7 +73,7 @@ class SelectedFilesPage extends StatelessWidget {
                         options: _options,
                       );
                     },
-                    icon: const Icon(FluentIcons.add),
+                    icon: const Icon(FluentIcons.add_16_regular, size: 16),
                     label: Text(t.general.add),
                   ),
                 ],
@@ -130,7 +131,7 @@ class SelectedFilesPage extends StatelessWidget {
                                         .dispatch(UpdateMessageAction(message: result, index: index));
                                   }
                                 },
-                                icon: const Icon(FluentIcons.edit),
+                                icon: const Icon(FluentIcons.edit_16_regular, size: 16),
                               ),
                             ),
                           SizedBox(width: 5),
@@ -144,7 +145,7 @@ class SelectedFilesPage extends StatelessWidget {
                                   context.popUntilRoot();
                                 }
                               },
-                              icon: const Icon(FluentIcons.delete),
+                              icon: const Icon(FluentIcons.delete_16_regular, size: 16),
                             ),
                           ),
                         ],

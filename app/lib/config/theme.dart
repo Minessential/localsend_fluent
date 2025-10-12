@@ -125,6 +125,20 @@ extension FluentThemeDataExt on FluentThemeData {
   Color get autoGrey => brightness.isLight ? Colors.black.withOpacity(0.5) : Colors.white.withOpacity(0.5);
 }
 
+/// Get background color for cards
+WidgetStateProperty<Color> getCardBackgroundColor(FluentThemeData theme) {
+  return WidgetStateProperty.resolveWith<Color>((states) {
+    final color = theme.resources.cardBackgroundFillColorDefault;
+    if (states.contains(WidgetState.hovered)) {
+      return color.withValues(alpha: 0.1);
+    }
+    if (states.contains(WidgetState.pressed)) {
+      return color.withValues(alpha: 0.2);
+    }
+    return color;
+  });
+}
+
 extension ResourceDictionaryExt on ResourceDictionary {
   /// Copy the current [ResourceDictionary] with the provided values.
   /// can access by `FluentTheme.of(context).resources.copyWith(...)`

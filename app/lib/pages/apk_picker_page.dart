@@ -1,6 +1,7 @@
 import 'package:common/model/file_type.dart';
 import 'package:device_apps/device_apps.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
@@ -83,7 +84,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
           ? Container()
           : CustomIconLabelButton(
               ButtonType.filled,
-              icon: Icon(FluentIcons.add),
+              icon: Icon(FluentIcons.add_16_filled, size: 16),
               label: Text('Add ${_selectedApps.length} ${(_selectedApps.length == 1) ? "App" : "Apps"}'),
               onPressed: () async => await _pickApps(_selectedApps),
             ),
@@ -145,10 +146,10 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                                               .setState((old) => old.copyWith(query: ''));
                                           _textController.clear();
                                         },
-                                        icon: const Icon(FluentIcons.clear),
+                                        icon: const Icon(FluentIcons.dismiss_12_regular, size: 12),
                                       )
                                     : Text(apkParams.query),
-                                const Icon(FluentIcons.search),
+                                const Icon(FluentIcons.search_24_regular),
                               ],
                             ),
                           ),
@@ -234,8 +235,8 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                                     if (apkParams.selectMultipleApps)
                                       Icon(
                                         _selectedApps.contains(app)
-                                            ? FluentIcons.checkbox
-                                            : FluentIcons.checkbox_composite,
+                                            ? FluentIcons.checkbox_checked_16_regular
+                                            : FluentIcons.checkbox_unchecked_16_regular,
                                         color: _selectedApps.contains(app)
                                             ? FluentTheme.of(context).iconTheme.color
                                             : FluentTheme.of(context).autoGrey,

@@ -1,4 +1,5 @@
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/send/web/web_send_state.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
@@ -79,7 +80,7 @@ class QrDialog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(FluentIcons.azure_key_vault),
+                  const Icon(FluentIcons.key_16_regular),
                   const SizedBox(width: 5),
                   Text(pin!),
                 ],

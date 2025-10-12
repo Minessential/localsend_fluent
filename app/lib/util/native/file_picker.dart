@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:common/model/file_type.dart';
 import 'package:common/util/sleep.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/config/theme.dart';
@@ -35,12 +36,12 @@ final _logger = Logger('FilePickerHelper');
 final _uriContent = UriContent();
 
 enum FilePickerOption {
-  file(FluentIcons.open_file),
-  folder(FluentIcons.fabric_folder_upload),
-  media(FluentIcons.media_add),
-  text(FluentIcons.fabric_text_highlight),
-  app(FluentIcons.app_icon_default_add),
-  clipboard(FluentIcons.clipboard_list_add);
+  file(FluentIcons.document_20_regular),
+  folder(FluentIcons.document_folder_20_regular),
+  media(FluentIcons.image_multiple_20_regular),
+  text(FluentIcons.document_text_20_regular),
+  app(FluentIcons.apps_20_regular),
+  clipboard(FluentIcons.clipboard_20_regular);
 
   const FilePickerOption(this.icon);
 
@@ -205,7 +206,8 @@ Future<void> _pickFolder(BuildContext context, Ref ref) async {
   );
   await sleepAsync(200); // Wait for the dialog to be shown
   try {
-    if (defaultTargetPlatform == TargetPlatform.android && (ref.read(deviceInfoProvider).androidSdkInt ?? 0) >= android_channel.contentUriMinSdk) {
+    if (defaultTargetPlatform == TargetPlatform.android &&
+        (ref.read(deviceInfoProvider).androidSdkInt ?? 0) >= android_channel.contentUriMinSdk) {
       // Android 8 and above have more predictable content URIs that we can parse.
       final result = await android_channel.pickDirectoryAndroid();
       if (result != null) {

@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:common/model/session_status.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
@@ -215,7 +216,7 @@ class _Actions extends StatelessWidget {
             vm.onAccept();
             context.pop();
           },
-          icon: const Icon(FluentIcons.chrome_close, size: 10),
+          icon: const Icon(FluentIcons.dismiss_12_regular, size: 12),
           label: Text(t.general.close),
         ),
       );
@@ -238,7 +239,7 @@ class _Actions extends StatelessWidget {
               vm.onClose();
               context.pop();
             },
-            icon: const Icon(FluentIcons.chrome_close, size: 10),
+            icon: const Icon(FluentIcons.dismiss_12_regular, size: 12),
             label: Text(t.general.close),
           ),
         ],
@@ -254,7 +255,7 @@ class _Actions extends StatelessWidget {
             onPressed: () async {
               await context.push(() => const ReceiveOptionsPage());
             },
-            icon: const Icon(FluentIcons.settings, size: 10),
+            icon: const Icon(FluentIcons.settings_16_regular, size: 12),
             label: Text(t.receiveOptionsPage.title),
           ),
         ),
@@ -264,7 +265,7 @@ class _Actions extends StatelessWidget {
             CustomIconLabelButton(
               ButtonType.filled,
               onPressed: selectedFiles.isEmpty ? null : () => vm.onAccept(),
-              icon: const Icon(FluentIcons.accept_medium, size: 10),
+              icon: const Icon(FluentIcons.checkmark_12_regular, size: 12),
               label: Text(t.general.accept),
             ),
             const SizedBox(width: 20),
@@ -274,7 +275,7 @@ class _Actions extends StatelessWidget {
                 vm.onDecline();
                 context.pop();
               },
-              icon: const Icon(FluentIcons.chrome_close, size: 10),
+              icon: const Icon(FluentIcons.dismiss_12_regular, size: 12),
               label: Text(t.general.decline),
             ),
           ],
