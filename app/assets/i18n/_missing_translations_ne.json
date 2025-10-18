@@ -28,6 +28,12 @@
     }
   },
   "progressPage": {
+    "remainingTime": {
+      "seconds": "{n}:{ss}",
+      "minutes": "{n}:{ss}",
+      "hours": "{h}h {m}m",
+      "days": "{d}d {h}h {m}m"
+    },
     "retry": "Retry"
   },
   "dialogs": {

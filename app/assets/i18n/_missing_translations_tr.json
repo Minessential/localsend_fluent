@@ -33,6 +33,12 @@
     "info": "By default, LocalSend uses all available network interfaces. You can exclude unwanted networks here. You need to restart the server to apply the changes."
   },
   "progressPage": {
+    "remainingTime": {
+      "seconds": "{n}:{ss}",
+      "minutes": "{n}:{ss}",
+      "hours": "{h}h {m}m",
+      "days": "{d}d {h}h {m}m"
+    },
     "retry": "Retry"
   },
   "dialogs": {

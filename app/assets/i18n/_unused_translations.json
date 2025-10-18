@@ -6,7 +6,15 @@
   "ar": {},
   "az": {},
   "bg": {},
-  "bn": {},
+  "bn": {
+    "settingsTab": {
+      "general": {
+        "colorOptions": {
+          "oled": "ওলেড"
+        }
+      }
+    }
+  },
   "ca": {},
   "cs": {},
   "da": {},
@@ -30,10 +38,26 @@
   "ja": {},
   "km": {},
   "ko": {},
-  "ml": {},
+  "ml": {
+    "settingsTab": {
+      "general": {
+        "colorOptions": {
+          "oled": "OLED"
+        }
+      }
+    }
+  },
   "mn": {},
   "ms": {},
-  "ne": {},
+  "ne": {
+    "settingsTab": {
+      "general": {
+        "colorOptions": {
+          "oled": "ओ एल ई डी"
+        }
+      }
+    }
+  },
   "nl": {},
   "pl": {},
   "pt-BR": {},

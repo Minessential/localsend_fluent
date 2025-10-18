@@ -9,6 +9,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
@@ -71,9 +72,19 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
 
       // Periodically call WakelockPlus.enable() to keep the screen awake
       _wakelockPlusTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
-        try {
-          unawaited(WakelockPlus.enable());
-        } catch (_) {}
+        final finished = ref.read(serverProvider)?.session?.files.values.map((e) => e.status).isFinishedOrSkipped ??
+            ref.read(sendProvider)[widget.sessionId]?.files.values.map((e) => e.status).isFinishedOrSkipped ??
+            true;
+        if (finished) {
+          timer.cancel();
+          try {
+            unawaited(WakelockPlus.disable());
+          } catch (_) {}
+        } else {
+          try {
+            unawaited(WakelockPlus.enable());
+          } catch (_) {}
+        }
       });
 
       if (ref.read(settingsProvider).autoFinish) {
@@ -178,7 +189,13 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
     final receiveSession = ref.watch(serverProvider.select((s) => s?.session));
     final sendSession = ref.watch(sendProvider)[widget.sessionId];
 
-    final SessionStatus? status = receiveSession?.status ?? sendSession?.status;
+    final SessionState? commonSessionState = receiveSession ?? sendSession;
+
+    if (commonSessionState == null) {
+      return BaseNormalPage(body: Container());
+    }
+
+    final status = commonSessionState.status;
 
     if (status == SessionStatus.sending) {
       // ignore: discarded_futures
@@ -189,13 +206,9 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
       TaskbarHelper.visualizeStatus(status);
     }
 
-    if (status == null) {
-      return BaseNormalPage(body: Container());
-    }
-
     final title = receiveSession != null ? t.progressPage.titleReceiving : t.progressPage.titleSending;
-    final startTime = receiveSession?.startTime ?? sendSession?.startTime;
-    final endTime = receiveSession?.endTime ?? sendSession?.endTime;
+    final startTime = commonSessionState.startTime;
+    final endTime = commonSessionState.endTime;
     final int? speedInBytes;
     if (startTime != null && currBytes >= 500 * 1024) {
       speedInBytes =

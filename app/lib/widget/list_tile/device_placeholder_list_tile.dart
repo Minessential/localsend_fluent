@@ -34,12 +34,12 @@ class DevicePlaceholderListTile extends StatelessWidget {
         spacing: 10,
         children: [
           DeviceBadge(
-            backgroundColor: FluentTheme.of(context).resources.controlStrokeColorDefault.withOpacity(0.3),
+            backgroundColor: FluentTheme.of(context).resources.controlStrokeColorDefault.withValues(alpha: 0.3),
             foregroundColor: Colors.transparent,
             label: '       ',
           ),
           DeviceBadge(
-            backgroundColor: FluentTheme.of(context).resources.controlStrokeColorDefault.withOpacity(0.3),
+            backgroundColor: FluentTheme.of(context).resources.controlStrokeColorDefault.withValues(alpha: 0.3),
             foregroundColor: Colors.transparent,
             label: '              ',
           ),

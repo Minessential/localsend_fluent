@@ -1,3 +1,4 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:collection/collection.dart';
 import 'package:common/model/device.dart';
 import 'package:common/model/session_status.dart';
@@ -46,7 +47,7 @@ class SendTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = FluentTheme.of(context);
     return ViewModelBuilder(
-      provider: sendTabVmProvider,
+      provider: (ref) => sendTabVmProvider,
       init: (context) async => context.global.dispatchAsync(SendTabInitAction(context)), // ignore: discarded_futures
       builder: (context, vm) {
         final sizingInformation = SizingInformation(MediaQuery.sizeOf(context).width);
@@ -473,7 +474,7 @@ class _MultiSendDeviceListTile extends StatelessWidget {
       progress: progress,
       isFavorite: isFavorite,
       nameOverride: nameOverride,
-      onFavoriteTap: () async => await vm.onToggleFavorite(context, device),
+      onFavoriteTap: device.ip == null ? null : () async => await vm.onToggleFavorite(context, device),
       onTap: () async => await vm.onTapDeviceMultiSend(context, device),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'dart:ui';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:common/constants.dart';
 import 'package:common/model/device.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
@@ -39,7 +40,7 @@ class SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder(
-      provider: settingsTabControllerProvider,
+      provider: (ref) => settingsTabControllerProvider,
       builder: (context, vm) {
         final ref = context.ref;
         return BasePaneBody.scrollable(
@@ -370,8 +371,13 @@ class SettingsTab extends StatelessWidget {
                               message: t.settingsTab.network.useSystemName,
                               child: IconButton(
                                 onPressed: () async {
-                                  // Uses dart.io to find the systems hostname
-                                  final newAlias = Platform.localHostname;
+                                  final String newAlias;
+                                  if (Platform.isMacOS) {
+                                    final result = await Process.run('scutil', ['--get', 'ComputerName']);
+                                    newAlias = result.stdout.toString().trim();
+                                  } else {
+                                    newAlias = Platform.localHostname;
+                                  }
 
                                   vm.aliasController.text = newAlias;
                                   await ref.notifier(settingsProvider).setAlias(newAlias);

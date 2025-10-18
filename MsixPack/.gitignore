@@ -1,0 +1,67 @@
+# Visual Studio cache and temporary files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.dtbcache.v2
+*.futdcache.v2
+
+# Build artifacts and output directories
+bin/
+obj/
+ARM64/
+x64/
+x86/
+AnyCPU/
+
+# MSIX packaging artifacts
+AppPackages/
+BundleArtifacts/
+
+# Signing files and certificates
+*.pfx
+*.cer
+*.pvk
+*.snk
+
+# NuGet packages
+*.nupkg
+*.snupkg
+project.assets.json
+project.fragment.lock.json
+artifacts/
+*.nuget.props
+*.nuget.targets
+
+# Packaging resource cache
+*.pri
+*.resfiles
+*.resfiles.intermediate
+*.map.txt
+*.priconfig.xml
+*.priconfig.xml.intermediate
+resources.pri
+resources.scale-*.pri
+
+# Generated files
+*.appx
+*.msix
+*.appxbundle
+*.msixbundle
+*.appxupload
+*.msixupload
+*.appinstaller
+
+# Build recipes and manifests
+*.build.appxrecipe
+_pkginfo.txt
+filemap.*
+
+# Test artifacts
+*_Test/
+
+# Installation script artifacts
+Add-AppDevPackage.ps1
+Install.ps1
+LogSideloadingTelemetry.ps1

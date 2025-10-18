@@ -7,6 +7,7 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/native/cmd_helper.dart';
+import 'package:localsend_app/util/native/macos_channel.dart' as macos_channel;
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/dialogs/not_available_on_platform_dialog.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
@@ -47,6 +48,7 @@ class TroubleshootPage extends StatelessWidget {
                   adminPrivileges: false,
                   commands: ['wf'],
                 ),
+                TargetPlatform.macOS: _NativeFixAction(() => macos_channel.openFirewallSettings()),
               },
             ),
           ),
@@ -204,5 +206,19 @@ class _CommandFixAction extends _FixAction {
         await Process.run(c, [], runInShell: true);
       }
     }
+  }
+}
+
+class _NativeFixAction extends _FixAction {
+  final Future<void> Function() action;
+
+  _NativeFixAction(this.action);
+
+  @override
+  List<String>? get commands => null;
+
+  @override
+  void runFix() async {
+    await action();
   }
 }

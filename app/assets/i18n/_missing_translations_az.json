@@ -145,6 +145,12 @@
       "size": "Size: {curr} / {n}",
       "speed": "Speed: {speed}/s"
     },
+    "remainingTime": {
+      "seconds": "{n}:{ss}",
+      "minutes": "{n}:{ss}",
+      "hours": "{h}h {m}m",
+      "days": "{d}d {h}h {m}m"
+    },
     "retry": "Retry"
   },
   "webSharePage": {

@@ -21,8 +21,8 @@ class ChangelogPage extends StatelessWidget {
           }
           return Markdown(
             padding: EdgeInsets.only(
-              left: 15,
-              right: 15,
+              left: 15 + MediaQuery.of(context).padding.left,
+              right: 15 + MediaQuery.of(context).padding.right,
               top: 15,
               bottom: 15 + getNavBarPadding(context),
             ),

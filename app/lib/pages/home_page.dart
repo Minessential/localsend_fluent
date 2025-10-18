@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -13,6 +14,7 @@ import 'package:localsend_app/pages/tabs/send_tab.dart';
 import 'package:localsend_app/pages/tabs/settings_tab.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/native/cross_file_converters.dart';
+import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/responsive_builder.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';

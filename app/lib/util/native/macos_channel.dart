@@ -50,6 +50,14 @@ Future<void> setDockIcon(TaskbarIcon icon) async {
   await _methodChannel.invokeMethod('setDockIcon', icon.index);
 }
 
+Future<bool> isReduceMotionEnabledMacOs() async {
+  return await _methodChannel.invokeMethod('isReduceMotionEnabled') ?? false;
+}
+
+Future<void> openFirewallSettings() async {
+  await _methodChannel.invokeMethod('openFirewallSettings');
+}
+
 // This happens:
 /// - on macOS when text is dropped onto the app Dock icon
 /// - on macOS when text is dropped onto the app menu bar icon

@@ -94,7 +94,8 @@
       },
       "color": "നിറങ്ങൾ",
       "colorOptions": {
-        "system": "സിസ്റ്റം"
+        "system": "സിസ്റ്റം",
+        "oled": "OLED"
       },
       "language": "ഭാഷ",
       "languageOptions": {

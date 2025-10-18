@@ -95,7 +95,8 @@
       },
       "color": "रंग",
       "colorOptions": {
-        "system": "सिस्टम"
+        "system": "सिस्टम",
+        "oled": "ओ एल ई डी"
       },
       "language": "भाषा",
       "languageOptions": {

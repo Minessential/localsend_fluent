@@ -17,7 +17,7 @@ class DonationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder(
-      provider: donationPageVmProvider,
+      provider: (ref) => donationPageVmProvider,
       // [FOSS_REMOVE_START]
       init: (context) =>
           context.redux(purchaseProvider).dispatchAsync(FetchPricesAndPurchasesAction()), // ignore: discarded_futures
@@ -54,7 +54,7 @@ class DonationPage extends StatelessWidget {
               ),
               if (vm.pending)
                 Container(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   child: const Center(
                     child: ProgressRing(),
                   ),

@@ -55,11 +55,18 @@ class DeviceListTile extends StatelessWidget {
               child: CustomProgressBar(progress: progress! * 100),
             )
           else ...[
-            DeviceBadge(
-              backgroundColor: badgeColor,
-              foregroundColor: FluentTheme.of(context).resources.textFillColorPrimary,
-              label: '#${device.ip.visualId}',
-            ),
+            if (device.ip != null)
+              DeviceBadge(
+                backgroundColor: badgeColor,
+                foregroundColor: FluentTheme.of(context).resources.textFillColorPrimary,
+                label: 'LAN • HTTP',
+              )
+            else
+              DeviceBadge(
+                backgroundColor: badgeColor,
+                foregroundColor: FluentTheme.of(context).resources.textFillColorPrimary,
+                label: 'WebRTC',
+              ),
             if (device.deviceModel != null)
               DeviceBadge(
                 backgroundColor: badgeColor,

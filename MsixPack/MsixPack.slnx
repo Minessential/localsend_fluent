@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="../app/build/windows/arm64/runner/localsend_app.vcxproj" Id="4088fc46-fc5f-33a0-b962-b42bc4331596">
+    <Platform Project="ARM64" />
+  </Project>
+  <Project Path="LocalSendFluent.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5">
+    <Deploy />
+  </Project>
+</Solution>
