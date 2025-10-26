@@ -56,7 +56,7 @@
 					</uap:ShareTarget>
 				</uap:Extension>
 				<uap5:Extension Category="windows.startupTask">
-					<uap5:StartupTask TaskId="LocalSendFluentStartupTask" Enabled="true" DisplayName="LocalSend(Fluent)" />
+					<uap5:StartupTask TaskId="LocalSendFluentStartupTask" Enabled="false" DisplayName="LocalSend(Fluent)" />
 				</uap5:Extension>
 			</Extensions>
 		</Application>

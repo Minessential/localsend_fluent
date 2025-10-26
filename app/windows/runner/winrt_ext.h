@@ -6,4 +6,11 @@
 bool IsRunningWithIdentity();
 winrt::hstring GetSharedMedia();
 
+bool IsStartupTaskEnabled();
+bool EnableStartupTask();
+bool DisableStartupTask();
+bool IsAutoStartHidden();
+bool SetAutoStartHidden(bool value);
+bool IsLaunchedByStartupTask();
+
 #endif  // RUNNER_WINRT_EXT_H_

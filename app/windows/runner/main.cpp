@@ -24,6 +24,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
       GetCommandLineArguments();
 
   if (IsRunningWithIdentity()) {
+    if(IsLaunchedByStartupTask() && IsAutoStartHidden()){
+      command_line_arguments.push_back("--hidden");
+    }
     winrt::hstring share_arg = GetSharedMedia();
     if (!share_arg.empty()) {
       printf("share: %ls\n", share_arg.c_str());

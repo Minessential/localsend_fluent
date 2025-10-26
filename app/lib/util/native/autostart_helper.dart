@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:localsend_app/util/native/macos_channel.dart';
+import 'package:localsend_app/util/native/channel/macos_channel.dart';
+import 'package:localsend_app/util/native/channel/windows_channel.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:win32_registry/win32_registry.dart';
@@ -15,7 +16,8 @@ Future<bool> enableAutoStart({required bool startHidden}) async {
     final packageInfo = await PackageInfo.fromPlatform();
     switch (defaultTargetPlatform) {
       case TargetPlatform.linux:
-        String contents = '''
+        String contents =
+            '''
 [Desktop Entry]
 Type=Application
 Name=${packageInfo.appName}
@@ -35,11 +37,18 @@ Terminal=false
         await setLaunchAtLoginMinimized(startHidden);
         return true;
       case TargetPlatform.windows:
-        _getWindowsRegistryKey().createValue(RegistryValue(
-          _windowsRegistryKeyValue,
-          RegistryValueType.string,
-          '"${Platform.resolvedExecutable}"${startHidden ? ' $startHiddenFlag' : ''}',
-        ));
+        if (await havePackageIdentity()) {
+          await setRunAtStartupHidden(startHidden);
+          return await enableRunAtStartup();
+        } else {
+          _getWindowsRegistryKey().createValue(
+            RegistryValue(
+              _windowsRegistryKeyValue,
+              RegistryValueType.string,
+              '"${Platform.resolvedExecutable}"${startHidden ? ' $startHiddenFlag' : ''}',
+            ),
+          );
+        }
         return true;
       default:
         return false;
@@ -61,7 +70,11 @@ Future<bool> disableAutoStart() async {
         await setLaunchAtLogin(false);
         break;
       case TargetPlatform.windows:
-        _getWindowsRegistryKey().deleteValue(_windowsRegistryKeyValue);
+        if (await havePackageIdentity()) {
+          return await disableRunAtStartup();
+        } else {
+          _getWindowsRegistryKey().deleteValue(_windowsRegistryKeyValue);
+        }
         break;
       default:
         break;
@@ -81,7 +94,14 @@ Future<bool> isAutoStartEnabled() async {
     case TargetPlatform.macOS:
       return await getLaunchAtLogin();
     case TargetPlatform.windows:
-      return _getWindowsRegistryKey().getValueAsString(_windowsRegistryKeyValue)?.contains(Platform.resolvedExecutable) ?? false;
+      if (await havePackageIdentity()) {
+        return await isRunAtStartup();
+      } else {
+        return _getWindowsRegistryKey()
+                .getValueAsString(_windowsRegistryKeyValue)
+                ?.contains(Platform.resolvedExecutable) ??
+            false;
+      }
     default:
       return false;
   }
@@ -99,7 +119,11 @@ Future<bool> isAutoStartHidden() async {
     case TargetPlatform.macOS:
       return await getLaunchAtLoginMinimized();
     case TargetPlatform.windows:
-      return _getWindowsRegistryKey().getValueAsString(_windowsRegistryKeyValue)?.contains(startHiddenFlag) ?? false;
+      if (await havePackageIdentity()) {
+        return await isRunAtStartup() && await isRunAtStartupHidden();
+      } else {
+        return _getWindowsRegistryKey().getValueAsString(_windowsRegistryKeyValue)?.contains(startHiddenFlag) ?? false;
+      }
     default:
       return false;
   }

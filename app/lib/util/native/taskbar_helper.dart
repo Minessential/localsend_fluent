@@ -1,6 +1,6 @@
 import 'package:common/model/session_status.dart';
 import 'package:flutter/widgets.dart';
-import 'package:localsend_app/util/native/macos_channel.dart';
+import 'package:localsend_app/util/native/channel/macos_channel.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:windows_taskbar/windows_taskbar.dart';
 
