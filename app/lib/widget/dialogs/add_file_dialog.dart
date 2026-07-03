@@ -43,11 +43,13 @@ class AddFileDialog extends StatelessWidget {
         ),
       );
     } else {
-      await context.pushBottomSheet(() => CustomBottomSheet(
-            title: t.dialogs.addFile.title,
-            description: t.dialogs.addFile.content,
-            child: AddFileDialog(options: options),
-          ));
+      await context.pushBottomSheet(
+        () => CustomBottomSheet(
+          title: t.dialogs.addFile.title,
+          description: t.dialogs.addFile.content,
+          child: AddFileDialog(options: options),
+        ),
+      );
     }
   }
 

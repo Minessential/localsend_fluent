@@ -115,10 +115,14 @@ class _HomePageState extends State<HomePage> with Refena {
           await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddDirectoryAction(event.files.first.path));
         } else {
           // user dropped one or more files
-          await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-                files: event.files,
-                converter: CrossFileConverters.convertXFile,
-              ));
+          await ref
+              .redux(selectedSendingFilesProvider)
+              .dispatchAsync(
+                AddFilesAction(
+                  files: event.files,
+                  converter: CrossFileConverters.convertXFile,
+                ),
+              );
         }
         if (!context.mounted) return;
         context.popUntil(HomePage);

@@ -60,10 +60,12 @@ class AboutPage extends StatelessWidget {
           const SizedBox(height: 20),
           Text(t.aboutPage.contributors, style: const TextStyle(fontWeight: FontWeight.bold)),
           ..._contributors.map((contributor) {
-            return Text.rich(_buildContributor(
-              label: contributor,
-              primaryColor: primaryColor,
-            ));
+            return Text.rich(
+              _buildContributor(
+                label: contributor,
+                primaryColor: primaryColor,
+              ),
+            );
           }),
           const SizedBox(height: 20),
           Text(t.aboutPage.packagers, style: const TextStyle(fontWeight: FontWeight.bold)),

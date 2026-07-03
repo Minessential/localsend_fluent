@@ -409,6 +409,8 @@ class _TranslationsProgressPageDe extends TranslationsProgressPageEn {
   String get savedToGallery => 'in Fotos gespeichert';
   @override
   late final _TranslationsProgressPageTotalDe total = _TranslationsProgressPageTotalDe._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeDe remainingTime = _TranslationsProgressPageRemainingTimeDe._(_root);
 }
 
 // Path: webSharePage
@@ -981,6 +983,27 @@ class _TranslationsProgressPageTotalDe extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Größe: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Geschwindigkeit: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeDe extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+  final TranslationsDe _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Benutze 'h' als Abkürzung für Stunden und 'm' für Minuten
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Benutze 'd' für Tage, 'h' für Stunden und 'm' für Minuten
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile

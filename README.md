@@ -14,18 +14,6 @@ Fluent UI for LocalSend, just tested on Windows!
 ---
 # **Here are the original LocalSend instructions.**
 
-<div align="center">
-  <sup>Special thanks to:</sup>
-  <br><br>
-  <a href="https://go.warp.dev/localsend" target="_blank">
-    <img alt="Warp sponsorship" width="300" src="https://raw.githubusercontent.com/warpdotdev/brand-assets/refs/heads/main/Github/Sponsor/Warp-Github-LG-03.png">
-    <br>
-    <b>Warp, built for coding with multiple AI Agents.</b>
-    <br>
-    <sup>Available for macOS, Linux and Windows</sup>
-  </a>
-</div>
-
 # LocalSend
 
 [![CI status][ci-badge]][ci-workflow]
@@ -41,7 +29,7 @@ Fluent UI for LocalSend, just tested on Windows!
 
 [Homepage][homepage] • [Discord][discord] • [GitHub][github] • [Codeberg][codeberg]
 
-[English (Default)](README.md) • [Español](readme_i18n/README_ES.md) • [فارسی](readme_i18n/README_FA.md) • [Filipino](readme_i18n/README_PH.md) • [Français](readme_i18n/README_FR.md) • [Indonesia](readme_i18n/README_ID.md) • [Italiano](readme_i18n/README_IT.md) • [日本語](readme_i18n/README_JA.md) • [ភាសាខ្មែរ](readme_i18n/README_KM.md) • [한국어](readme_i18n/README_KO.md) • [Polski](readme_i18n/README_PL.md) • [Portugês Brasil](readme_i18n/README_PT_BR.md) • [Русский](readme_i18n/README_RU.md) • [ภาษาไทย](readme_i18n/README_TH.md) • [Türkçe](readme_i18n/README_TR.md) • [Українська](readme_i18n/README_UK.md) • [Tiếng Việt](readme_i18n/README_VI.md) • [中文](readme_i18n/README_ZH.md)
+[English (Default)](README.md) • [Español](readme_i18n/README_ES.md) • [فارسی](readme_i18n/README_FA.md) • [Filipino](readme_i18n/README_PH.md) • [Français](readme_i18n/README_FR.md) • [Indonesia](readme_i18n/README_ID.md) • [Italiano](readme_i18n/README_IT.md) • [日本語](readme_i18n/README_JA.md) • [ភាសាខ្មែរ](readme_i18n/README_KM.md) • [한국어](readme_i18n/README_KO.md) • [Polski](readme_i18n/README_PL.md) • [Português Brasil](readme_i18n/README_PT_BR.md) • [Русский](readme_i18n/README_RU.md) • [ภาษาไทย](readme_i18n/README_TH.md) • [Türkçe](readme_i18n/README_TR.md) • [Українська](readme_i18n/README_UK.md) • [Tiếng Việt](readme_i18n/README_VI.md) • [中文](readme_i18n/README_ZH.md)
 
 [homepage]: https://localsend.org
 [discord]: https://discord.gg/GSRWmQNP87
@@ -75,8 +63,8 @@ LocalSend is a cross-platform app that enables secure communication between devi
 
 Browser testing via
 
-<a href="https://www.lambdatest.com/" target="_blank">
-    <img src="https://www.lambdatest.com/blue-logo.png" style="vertical-align: middle;" width="250" height="45" />
+<a href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=localsend" target="_blank">
+    <img src="https://localsend.org/img/sponsors/tesmu.svg" style="vertical-align: middle;" width="250" height="45" />
 </a>
 
 ## Screenshots
@@ -218,7 +206,7 @@ For more information, see the [contributing guide](https://github.com/localsend/
 
 ## Building
 
-These commands are intended for maintainers only.
+These commands are intended for maintainers only. Make sure to run them from the `app` directory.
 
 ### Android
 

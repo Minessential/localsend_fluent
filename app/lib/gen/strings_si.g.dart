@@ -85,6 +85,8 @@ class TranslationsSi extends Translations {
   late final _TranslationsWebSi web = _TranslationsWebSi._(_root);
   @override
   late final _TranslationsAssetPickerSi assetPicker = _TranslationsAssetPickerSi._(_root);
+  @override
+  late final _TranslationsNetworkInterfacesPageSi networkInterfacesPage = _TranslationsNetworkInterfacesPageSi._(_root);
 }
 
 // Path: general
@@ -661,6 +663,26 @@ class _TranslationsAssetPickerSi extends TranslationsAssetPickerEn {
   String get sUnitAssetCountLabel => 'ගණන';
 }
 
+// Path: networkInterfacesPage
+class _TranslationsNetworkInterfacesPageSi extends TranslationsNetworkInterfacesPageEn {
+  _TranslationsNetworkInterfacesPageSi._(TranslationsSi root) : this._root = root, super.internal(root);
+
+  final TranslationsSi _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get info =>
+      'සාමාන්‍යයෙන් LocalSend ඔබගේ පවතින සියලු ජාල මුහුණත් භාවිතා කරයි. ඔබට අනවශ්‍ය මුහුණතක් වේ නම් එය මෙතනින් ඉවත් කළ හැක. ඔබ සිදු කරන වෙනස්කම් ක්‍රියාත්මක වීමට නම් server එක restart කළ යුතුය.';
+  @override
+  String get title => 'ජාල අතුරුමුහුණත්';
+  @override
+  String get preview => 'පෙනෙන අයුරු';
+  @override
+  String get whitelist => 'අවසර ලත් ලැයිස්තුව';
+  @override
+  String get blacklist => 'අවහිර කල ලැයිස්තුව';
+}
+
 // Path: receiveTab.infoBox
 class _TranslationsReceiveTabInfoBoxSi extends TranslationsReceiveTabInfoBoxEn {
   _TranslationsReceiveTabInfoBoxSi._(TranslationsSi root) : this._root = root, super.internal(root);
@@ -856,6 +878,10 @@ class _TranslationsSettingsTabNetworkSi extends TranslationsSettingsTabNetworkEn
   @override
   String multicastGroupWarning({required Object defaultMulticast}) =>
       'ඔබ custom multicast ලිපිනයක් භාවිතා කරන්නේ නම්, වෙනත් උපාංග වලට ඔබව හඳුනා ගත නොහැක. (default: ${defaultMulticast})';
+  @override
+  String get network => 'ජාලය';
+  @override
+  late final _TranslationsSettingsTabNetworkNetworkOptionsSi networkOptions = _TranslationsSettingsTabNetworkNetworkOptionsSi._(_root);
 }
 
 // Path: settingsTab.other
@@ -1350,6 +1376,19 @@ class _TranslationsSettingsTabGeneralLanguageOptionsSi extends TranslationsSetti
   // Translations
   @override
   String get system => 'පද්ධතිය';
+}
+
+// Path: settingsTab.network.networkOptions
+class _TranslationsSettingsTabNetworkNetworkOptionsSi extends TranslationsSettingsTabNetworkNetworkOptionsEn {
+  _TranslationsSettingsTabNetworkNetworkOptionsSi._(TranslationsSi root) : this._root = root, super.internal(root);
+
+  final TranslationsSi _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get all => 'සියල්ල';
+  @override
+  String get filtered => 'වර්ග කළ';
 }
 
 // Path: progressPage.total.title

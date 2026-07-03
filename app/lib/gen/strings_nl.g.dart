@@ -389,6 +389,8 @@ class _TranslationsProgressPageNl extends TranslationsProgressPageEn {
   String get savedToGallery => 'Opgeslagen in galerij';
   @override
   late final _TranslationsProgressPageTotalNl total = _TranslationsProgressPageTotalNl._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeNl remainingTime = _TranslationsProgressPageRemainingTimeNl._(_root);
 }
 
 // Path: webSharePage
@@ -788,9 +790,9 @@ class _TranslationsSettingsTabGeneralNl extends TranslationsSettingsTabGeneralEn
   @override
   late final _TranslationsSettingsTabGeneralLanguageOptionsNl languageOptions = _TranslationsSettingsTabGeneralLanguageOptionsNl._(_root);
   @override
-  String get saveWindowPlacement => 'Afsluiten: vensterindeling behouden';
+  String get saveWindowPlacement => 'Vensterpositie na beëindigen opslaan';
   @override
-  String get saveWindowPlacementWindows => 'Afsluiten: vensterindeling behouden';
+  String get saveWindowPlacementWindows => 'Vensterpositie na afsluiten opslaan';
   @override
   String get minimizeToTray => 'Sluiten: minimaliseren naar systeemvak/menubalk';
   @override
@@ -982,6 +984,27 @@ class _TranslationsProgressPageTotalNl extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Grootte: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Snelheid: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeNl extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeNl._(TranslationsNl root) : this._root = root, super.internal(root);
+
+  final TranslationsNl _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Gebruik 'h' als afkorting voor uren en 'm' voor minuten
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Gebruik 'd' voor dagen, 'h' voor uren en 'm' voor minuten
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile

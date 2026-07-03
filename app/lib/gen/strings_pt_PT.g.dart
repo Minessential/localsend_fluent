@@ -87,6 +87,8 @@ class TranslationsPtPt extends Translations {
   late final _TranslationsWebPtPt web = _TranslationsWebPtPt._(_root);
   @override
   late final _TranslationsAssetPickerPtPt assetPicker = _TranslationsAssetPickerPtPt._(_root);
+  @override
+  late final _TranslationsNetworkInterfacesPagePtPt networkInterfacesPage = _TranslationsNetworkInterfacesPagePtPt._(_root);
 }
 
 // Path: general
@@ -170,6 +172,8 @@ class _TranslationsGeneralPtPt extends TranslationsGeneralEn {
   String get unknown => 'Desconhecido';
   @override
   String get noItemInClipboard => 'Nenhum item na área de transferência.';
+  @override
+  String get quickSaveFromFavorites => 'Gravar rapidamente dos "Favoritos"';
 }
 
 // Path: receiveTab
@@ -183,6 +187,8 @@ class _TranslationsReceiveTabPtPt extends TranslationsReceiveTabEn {
   String get title => 'Receber';
   @override
   late final _TranslationsReceiveTabInfoBoxPtPt infoBox = _TranslationsReceiveTabInfoBoxPtPt._(_root);
+  @override
+  late final _TranslationsReceiveTabQuickSavePtPt quickSave = _TranslationsReceiveTabQuickSavePtPt._(_root);
 }
 
 // Path: sendTab
@@ -216,6 +222,8 @@ class _TranslationsSendTabPtPt extends TranslationsSendTabEn {
   String get help => 'Certifique-se de que ambos os dispositivos estejam na mesma rede Wi-Fi.';
   @override
   String get placeItems => 'Coloque os itens para partilhar.';
+  @override
+  String get manualSending => 'Envio manual';
 }
 
 // Path: settingsTab
@@ -260,6 +268,8 @@ class _TranslationsTroubleshootPagePtPt extends TranslationsTroubleshootPageEn {
   late final _TranslationsTroubleshootPageFirewallPtPt firewall = _TranslationsTroubleshootPageFirewallPtPt._(_root);
   @override
   late final _TranslationsTroubleshootPageNoConnectionPtPt noConnection = _TranslationsTroubleshootPageNoConnectionPtPt._(_root);
+  @override
+  late final _TranslationsTroubleshootPageNoDiscoveryPtPt noDiscovery = _TranslationsTroubleshootPageNoDiscoveryPtPt._(_root);
 }
 
 // Path: receiveHistoryPage
@@ -354,11 +364,13 @@ class _TranslationsSendPagePtPt extends TranslationsSendPageEn {
 
   // Translations
   @override
-  String get waiting => 'Aguardar resposta...';
+  String get waiting => 'A aguardar resposta…';
   @override
   String get rejected => 'O destinatário rejeitou o pedido.';
   @override
   String get busy => 'O destinatário está ocupado com outro pedido de transferência.';
+  @override
+  String get tooManyAttempts => _root.web.tooManyAttempts;
 }
 
 // Path: progressPage
@@ -376,6 +388,8 @@ class _TranslationsProgressPagePtPt extends TranslationsProgressPageEn {
   String get savedToGallery => 'Guardado na Galeria';
   @override
   late final _TranslationsProgressPageTotalPtPt total = _TranslationsProgressPageTotalPtPt._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimePtPt remainingTime = _TranslationsProgressPageRemainingTimePtPt._(_root);
 }
 
 // Path: webSharePage
@@ -388,9 +402,9 @@ class _TranslationsWebSharePagePtPt extends TranslationsWebSharePageEn {
   @override
   String get title => 'Partilhe via link';
   @override
-  String get loading => 'A iniciar o servidor...';
+  String get loading => 'A iniciar o servidor…';
   @override
-  String get stopping => 'A parar o servidor...';
+  String get stopping => 'A parar o servidor…';
   @override
   String get error => 'Ocorreu um erro enquanto o servidor tentava iniciar.';
   @override
@@ -411,6 +425,10 @@ class _TranslationsWebSharePagePtPt extends TranslationsWebSharePageEn {
   String get encryptionHint => 'O LocalSend utiliza um certificado assinado automaticamente. Precisa de aceitá-lo no navegador.';
   @override
   String pendingRequests({required Object n}) => 'Pedidos pendentes: ${n}';
+  @override
+  String get requirePin => 'Solicitar PIN';
+  @override
+  String pinHint({required Object pin}) => 'O PIN é "${pin}"';
 }
 
 // Path: aboutPage
@@ -433,6 +451,8 @@ class _TranslationsAboutPagePtPt extends TranslationsAboutPageEn {
   String get contributors => 'Contribuidores';
   @override
   String get translators => 'Tradutores';
+  @override
+  String get packagers => 'Empacotadores';
 }
 
 // Path: donationPage
@@ -446,7 +466,7 @@ class _TranslationsDonationPagePtPt extends TranslationsDonationPageEn {
   String get title => 'Doar';
   @override
   String get info =>
-      'O LocalSend é um software gratuito, de código aberto e sem qualquer anúncio. Se gosta da aplicação, então considere apoiar o desenvolvimento com um donativo!';
+      'O LocalSend é um software gratuito, de código aberto e sem qualquer anúncio. Se gosta da aplicação, considere apoiar o desenvolvimento com um donativo.';
   @override
   String donate({required Object amount}) => 'Doar ${amount}';
   @override
@@ -603,6 +623,13 @@ class _TranslationsDialogsPtPt extends TranslationsDialogsEn {
   late final _TranslationsDialogsSendModeHelpPtPt sendModeHelp = _TranslationsDialogsSendModeHelpPtPt._(_root);
   @override
   late final _TranslationsDialogsZoomPtPt zoom = _TranslationsDialogsZoomPtPt._(_root);
+  @override
+  late final _TranslationsDialogsQuickSaveFromFavoritesNoticePtPt quickSaveFromFavoritesNotice =
+      _TranslationsDialogsQuickSaveFromFavoritesNoticePtPt._(_root);
+  @override
+  late final _TranslationsDialogsOpenFilePtPt openFile = _TranslationsDialogsOpenFilePtPt._(_root);
+  @override
+  late final _TranslationsDialogsPinPtPt pin = _TranslationsDialogsPinPtPt._(_root);
 }
 
 // Path: sanitization
@@ -629,6 +656,8 @@ class _TranslationsTrayPtPt extends TranslationsTrayEn {
   String get open => _root.general.open;
   @override
   String get close => 'Fechar o LocalSend';
+  @override
+  String get closeWindows => 'Sair';
 }
 
 // Path: web
@@ -648,6 +677,12 @@ class _TranslationsWebPtPt extends TranslationsWebEn {
   String get fileName => 'Nome do ficheiro';
   @override
   String get size => 'Tamanho';
+  @override
+  String get enterPin => 'Digite o PIN';
+  @override
+  String get invalidPin => 'PIN inválido';
+  @override
+  String get tooManyAttempts => 'Muitas tentativas';
 }
 
 // Path: assetPicker
@@ -716,6 +751,26 @@ class _TranslationsAssetPickerPtPt extends TranslationsAssetPickerEn {
   String get sUnitAssetCountLabel => 'total';
 }
 
+// Path: networkInterfacesPage
+class _TranslationsNetworkInterfacesPagePtPt extends TranslationsNetworkInterfacesPageEn {
+  _TranslationsNetworkInterfacesPagePtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Interfaces de rede';
+  @override
+  String get info =>
+      'Por padrão, o LocalSend utiliza todas as interfaces de rede disponíveis. Pode excluir as redes indesejadas aqui. É necessário reiniciar o servidor para aplicar as alterações.';
+  @override
+  String get preview => 'Anterior';
+  @override
+  String get whitelist => 'Lista branca';
+  @override
+  String get blacklist => 'Lista negra';
+}
+
 // Path: receiveTab.infoBox
 class _TranslationsReceiveTabInfoBoxPtPt extends TranslationsReceiveTabInfoBoxEn {
   _TranslationsReceiveTabInfoBoxPtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
@@ -729,6 +784,21 @@ class _TranslationsReceiveTabInfoBoxPtPt extends TranslationsReceiveTabInfoBoxEn
   String get port => 'Porta:';
   @override
   String get alias => 'Nome do dispositivo:';
+}
+
+// Path: receiveTab.quickSave
+class _TranslationsReceiveTabQuickSavePtPt extends TranslationsReceiveTabQuickSaveEn {
+  _TranslationsReceiveTabQuickSavePtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get off => _root.general.off;
+  @override
+  String get favorites => 'Favoritos';
+  @override
+  String get on => _root.general.on;
 }
 
 // Path: sendTab.selection
@@ -813,6 +883,10 @@ class _TranslationsSettingsTabGeneralPtPt extends TranslationsSettingsTabGeneral
   String get launchMinimized => 'Início automático: Abrir minimizado';
   @override
   String get animations => 'Animações';
+  @override
+  String get saveWindowPlacementWindows => 'Gravar posição da janela ao sair';
+  @override
+  String get showInContextMenu => 'Mostrar LocalSend no menu de contexto';
 }
 
 // Path: settingsTab.receive
@@ -836,6 +910,10 @@ class _TranslationsSettingsTabReceivePtPt extends TranslationsSettingsTabReceive
   String get saveToGallery => 'Guardar na galeria';
   @override
   String get saveToHistory => 'Guardar no histórico';
+  @override
+  String get quickSaveFromFavorites => 'Gravar rapidamente dos "Favoritos"';
+  @override
+  String get requirePin => _root.webSharePage.requirePin;
 }
 
 // Path: settingsTab.send
@@ -865,7 +943,7 @@ class _TranslationsSettingsTabNetworkPtPt extends TranslationsSettingsTabNetwork
   @override
   String get server => 'Servidor';
   @override
-  String get alias => 'Nome';
+  String get alias => 'Nome do dispositivo';
   @override
   String get deviceType => 'Tipo de dispositivo';
   @override
@@ -884,6 +962,14 @@ class _TranslationsSettingsTabNetworkPtPt extends TranslationsSettingsTabNetwork
   @override
   String multicastGroupWarning({required Object defaultMulticast}) =>
       'Pode estar indetectável para outros dispositivos por estar a usar um endereço multicast personalizado. (Padrão: ${defaultMulticast})';
+  @override
+  String get generateRandomAlias => 'Gerar apelido aleatório';
+  @override
+  String get network => 'Rede';
+  @override
+  late final _TranslationsSettingsTabNetworkNetworkOptionsPtPt networkOptions = _TranslationsSettingsTabNetworkNetworkOptionsPtPt._(_root);
+  @override
+  String get useSystemName => 'Usar nome do sistema';
 }
 
 // Path: settingsTab.other
@@ -936,6 +1022,20 @@ class _TranslationsTroubleshootPageNoConnectionPtPt extends TranslationsTroubles
       'O problema existe em ambos os lados? Então precisa de ter a certeza de que os dispositivos estão na mesma rede Wi-Fi e possuem a mesma configuração (porta, endereço multicast, encriptação). A rede Wi-Fi pode não permitir a comunicação entre os participantes. Neste caso, esta opção deve ser ativada no router.';
 }
 
+// Path: troubleshootPage.noDiscovery
+class _TranslationsTroubleshootPageNoDiscoveryPtPt extends TranslationsTroubleshootPageNoDiscoveryEn {
+  _TranslationsTroubleshootPageNoDiscoveryPtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get symptom => 'Este dispositivo não consegue descobrir outros dispositivos.';
+  @override
+  String get solution =>
+      'Certifique-se de que todos os dispositivos estão na mesma rede Wi-Fi e partilham as mesmas configurações (porta, endereço multicast, criptografia). Pode tentar digitar o endereço IP do dispositivo de destino manualmente. Se isto funcionar, considere adicionar este dispositivo aos favoritos, assim ele será descoberto automaticamente no futuro.';
+}
+
 // Path: receiveHistoryPage.entryActions
 class _TranslationsReceiveHistoryPageEntryActionsPtPt extends TranslationsReceiveHistoryPageEntryActionsEn {
   _TranslationsReceiveHistoryPageEntryActionsPtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
@@ -949,6 +1049,8 @@ class _TranslationsReceiveHistoryPageEntryActionsPtPt extends TranslationsReceiv
   String get info => 'Informação';
   @override
   String get deleteFromHistory => 'Remover do histórico';
+  @override
+  String get showInFolder => 'Mostrar na pasta';
 }
 
 // Path: progressPage.total
@@ -966,6 +1068,27 @@ class _TranslationsProgressPageTotalPtPt extends TranslationsProgressPageTotalEn
   String size({required Object curr, required Object n}) => 'Tamanho: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Velocidade: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimePtPt extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimePtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Usar 'h' e 'm' para abreviar as palavras horas e minutos
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Usar 'd' para dias, 'h' para horas e 'm' para minutos
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile
@@ -1058,7 +1181,7 @@ class _TranslationsDialogsFavoriteDialogPtPt extends TranslationsDialogsFavorite
   @override
   String get title => 'Favoritos';
   @override
-  String get noFavorites => 'Ainda sem favoritos :(';
+  String get noFavorites => 'Ainda não tem dispositivos favoritos.';
   @override
   String get addFavorite => 'Adicionar';
 }
@@ -1088,7 +1211,7 @@ class _TranslationsDialogsFavoriteEditDialogPtPt extends TranslationsDialogsFavo
   @override
   String get titleEdit => 'Editar';
   @override
-  String get name => 'Apelido';
+  String get name => 'Nome do dispositivo';
   @override
   String get auto => '(auto)';
   @override
@@ -1209,7 +1332,7 @@ class _TranslationsDialogsNotAvailableOnPlatformPtPt extends TranslationsDialogs
   @override
   String get title => 'Indisponível';
   @override
-  String get content => 'Esta função está disponível apenas no: ';
+  String get content => 'Esta funcionalidade só está disponível no:';
 }
 
 // Path: dialogs.qr
@@ -1287,6 +1410,47 @@ class _TranslationsDialogsZoomPtPt extends TranslationsDialogsZoomEn {
   String get title => 'URL';
 }
 
+// Path: dialogs.quickSaveFromFavoritesNotice
+class _TranslationsDialogsQuickSaveFromFavoritesNoticePtPt extends TranslationsDialogsQuickSaveFromFavoritesNoticeEn {
+  _TranslationsDialogsQuickSaveFromFavoritesNoticePtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  List<String> get content => [
+    'Requisições de ficheiro agora são aceitas automaticamente de dispositivos da sua lista de favoritos.',
+    'Atenção! Atualmente, esta opção não é totalmente segura pois um hacker que saiba a identificação dos seus dispositivos favoritos ainda pode te enviar ficheiros sem restrições.',
+    'De qualquer forma, esta opção ainda é mais segura que permitir qualquer dispositivo.',
+  ];
+  @override
+  String get title => 'Gravar rapidamento dos "Favoritos"';
+}
+
+// Path: dialogs.openFile
+class _TranslationsDialogsOpenFilePtPt extends TranslationsDialogsOpenFileEn {
+  _TranslationsDialogsOpenFilePtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Abrir ficheiro';
+  @override
+  String get content => 'Quer abrir o ficheiro recebido?';
+}
+
+// Path: dialogs.pin
+class _TranslationsDialogsPinPtPt extends TranslationsDialogsPinEn {
+  _TranslationsDialogsPinPtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Digite o PIN';
+}
+
 // Path: settingsTab.general.brightnessOptions
 class _TranslationsSettingsTabGeneralBrightnessOptionsPtPt extends TranslationsSettingsTabGeneralBrightnessOptionsEn {
   _TranslationsSettingsTabGeneralBrightnessOptionsPtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
@@ -1322,6 +1486,19 @@ class _TranslationsSettingsTabGeneralLanguageOptionsPtPt extends TranslationsSet
   // Translations
   @override
   String get system => 'Sistema';
+}
+
+// Path: settingsTab.network.networkOptions
+class _TranslationsSettingsTabNetworkNetworkOptionsPtPt extends TranslationsSettingsTabNetworkNetworkOptionsEn {
+  _TranslationsSettingsTabNetworkNetworkOptionsPtPt._(TranslationsPtPt root) : this._root = root, super.internal(root);
+
+  final TranslationsPtPt _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get all => 'Todos';
+  @override
+  String get filtered => 'Filtrado';
 }
 
 // Path: progressPage.total.title

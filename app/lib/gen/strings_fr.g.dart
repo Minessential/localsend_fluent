@@ -351,7 +351,7 @@ class _TranslationsReceiveOptionsPageFr extends TranslationsReceiveOptionsPageEn
   @override
   String get destination => _root.settingsTab.receive.destination;
   @override
-  String get appDirectory => '(LocalSend folder)';
+  String get appDirectory => '(dossier LocalSend)';
   @override
   String get saveToGallery => _root.settingsTab.receive.saveToGallery;
   @override
@@ -390,6 +390,8 @@ class _TranslationsProgressPageFr extends TranslationsProgressPageEn {
   String get savedToGallery => 'Sauvegardé dans la Galerie';
   @override
   late final _TranslationsProgressPageTotalFr total = _TranslationsProgressPageTotalFr._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeFr remainingTime = _TranslationsProgressPageRemainingTimeFr._(_root);
 }
 
 // Path: webSharePage
@@ -982,6 +984,27 @@ class _TranslationsProgressPageTotalFr extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Taille : ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Vitesse : ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeFr extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeFr._(TranslationsFr root) : this._root = root, super.internal(root);
+
+  final TranslationsFr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n} :${ss}';
+
+  /// Utilisez « h » pour l'abréviation des heures et « m » pour les minutes
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}min';
+
+  /// Utilisez « j » pour les jours, « h » pour les heures et « m » pour les minutes
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}j ${h}h ${m}min';
 }
 
 // Path: dialogs.addFile

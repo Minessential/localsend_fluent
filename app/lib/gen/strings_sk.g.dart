@@ -388,6 +388,8 @@ class _TranslationsProgressPageSk extends TranslationsProgressPageEn {
   String get savedToGallery => 'Uložené vo Fotkách';
   @override
   late final _TranslationsProgressPageTotalSk total = _TranslationsProgressPageTotalSk._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeSk remainingTime = _TranslationsProgressPageRemainingTimeSk._(_root);
 }
 
 // Path: webSharePage
@@ -1062,6 +1064,27 @@ class _TranslationsProgressPageTotalSk extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Veľkosť: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Rýchlosť: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeSk extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeSk._(TranslationsSk root) : this._root = root, super.internal(root);
+
+  final TranslationsSk _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Použiť „h“ pre skratku hodín a „m“ pre minúty
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Použiť „d“ pre dni, „h“ pre hodiny a „m“ pre minúty
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile

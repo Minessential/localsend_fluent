@@ -385,6 +385,8 @@ class _TranslationsProgressPageZhTw extends TranslationsProgressPageEn {
   String get savedToGallery => '已儲存至相簿';
   @override
   late final _TranslationsProgressPageTotalZhTw total = _TranslationsProgressPageTotalZhTw._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeZhTw remainingTime = _TranslationsProgressPageRemainingTimeZhTw._(_root);
 }
 
 // Path: webSharePage
@@ -457,7 +459,7 @@ class _TranslationsDonationPageZhTw extends TranslationsDonationPageEn {
   @override
   String get title => '贊助';
   @override
-  String get info => 'LocalSend 是免費、開源且沒有任何廣告的。如果您喜歡此應用程式，您可以透過捐贈來支持開發。';
+  String get info => 'LocalSend 是免費、開源且沒有任何廣告的。如果您喜歡此應用程式，可以透過捐贈來支持開發。';
   @override
   String donate({required Object amount}) => '贊助 ${amount}';
   @override
@@ -686,7 +688,7 @@ class _TranslationsReceiveTabInfoBoxZhTw extends TranslationsReceiveTabInfoBoxEn
   @override
   String get port => '通訊埠：';
   @override
-  String get alias => '別名：';
+  String get alias => '裝置名稱：';
 }
 
 // Path: receiveTab.quickSave
@@ -846,7 +848,7 @@ class _TranslationsSettingsTabNetworkZhTw extends TranslationsSettingsTabNetwork
   @override
   String get server => '伺服器';
   @override
-  String get alias => '別名';
+  String get alias => '裝置名稱';
   @override
   String get deviceType => '裝置類型';
   @override
@@ -967,6 +969,19 @@ class _TranslationsProgressPageTotalZhTw extends TranslationsProgressPageTotalEn
   String speed({required Object speed}) => '速度：${speed}/s';
 }
 
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeZhTw extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+  final TranslationsZhTw _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String hours({required Object h, required Object m}) => '${h}小時 ${m}分鐘';
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}天 ${h}小時 ${m}分鐘';
+}
+
 // Path: dialogs.addFile
 class _TranslationsDialogsAddFileZhTw extends TranslationsDialogsAddFileEn {
   _TranslationsDialogsAddFileZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
@@ -1007,7 +1022,7 @@ class _TranslationsDialogsAddressInputZhTw extends TranslationsDialogsAddressInp
   @override
   String get ip => 'IP 位址';
   @override
-  String get recentlyUsed => '最近使用：';
+  String get recentlyUsed => '最近使用： ';
 }
 
 // Path: dialogs.cancelSession

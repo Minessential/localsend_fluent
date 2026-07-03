@@ -393,6 +393,8 @@ class _TranslationsProgressPageZhCn extends TranslationsProgressPageEn {
   @override
   late final _TranslationsProgressPageTotalZhCn total = _TranslationsProgressPageTotalZhCn._(_root);
   @override
+  late final _TranslationsProgressPageRemainingTimeZhCn remainingTime = _TranslationsProgressPageRemainingTimeZhCn._(_root);
+  @override
   String get retry => '重试';
 }
 
@@ -1069,6 +1071,28 @@ class _TranslationsProgressPageTotalZhCn extends TranslationsProgressPageTotalEn
   String size({required Object curr, required Object n}) => '大小：${curr} / ${n}';
   @override
   String speed({required Object speed}) => '速度：${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeZhCn extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeZhCn._(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+  final TranslationsZhCn _root; // ignore: unused_field
+
+  // Translations
+
+  /// 使用'h'作为小时缩写，使用'm'作为分钟缩写
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// 使用'd'作为天缩写，使用'h'作为小时缩写，使用'm'作为分钟缩写
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
+
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
 }
 
 // Path: dialogs.addFile

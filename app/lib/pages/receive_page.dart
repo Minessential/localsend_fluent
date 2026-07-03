@@ -46,7 +46,7 @@ class ReceivePageVm {
     required this.onAccept,
     required this.onDecline,
     required this.onClose,
-  }) : isLink = message != null && (Uri.tryParse(message)?.isAbsolute ?? false);
+  }) : isLink = message != null && !message.trim().contains(RegExp(r'\s')) && (Uri.tryParse(message.trim())?.isAbsolute ?? false);
 }
 
 class ReceivePage extends StatefulWidget {
@@ -63,12 +63,15 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch(widget.vm, listener: (prev, next) {
-      if (prev.status != next.status) {
-        // ignore: discarded_futures
-        TaskbarHelper.visualizeStatus(next.status);
-      }
-    });
+    final vm = context.watch(
+      widget.vm,
+      listener: (prev, next) {
+        if (prev.status != next.status) {
+          // ignore: discarded_futures
+          TaskbarHelper.visualizeStatus(next.status);
+        }
+      },
+    );
 
     if (vm.status == null && vm.message == null) {
       return const BaseDialogPage(body: SizedBox());

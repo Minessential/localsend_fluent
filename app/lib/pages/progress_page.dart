@@ -72,7 +72,8 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
 
       // Periodically call WakelockPlus.enable() to keep the screen awake
       _wakelockPlusTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
-        final finished = ref.read(serverProvider)?.session?.files.values.map((e) => e.status).isFinishedOrSkipped ??
+        final finished =
+            ref.read(serverProvider)?.session?.files.values.map((e) => e.status).isFinishedOrSkipped ??
             ref.read(sendProvider)[widget.sessionId]?.files.values.map((e) => e.status).isFinishedOrSkipped ??
             true;
         if (finished) {
@@ -89,7 +90,8 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
 
       if (ref.read(settingsProvider).autoFinish) {
         _finishTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-          final finished = ref.read(serverProvider)?.session?.files.values.map((e) => e.status).isFinishedOrSkipped ??
+          final finished =
+              ref.read(serverProvider)?.session?.files.values.map((e) => e.status).isFinishedOrSkipped ??
               ref.read(sendProvider)[widget.sessionId]?.files.values.map((e) => e.status).isFinishedOrSkipped ??
               true;
           if (finished) {

@@ -389,6 +389,8 @@ class _TranslationsProgressPageRu extends TranslationsProgressPageEn {
   String get savedToGallery => 'Сохранено в галереи';
   @override
   late final _TranslationsProgressPageTotalRu total = _TranslationsProgressPageTotalRu._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeRu remainingTime = _TranslationsProgressPageRemainingTimeRu._(_root);
 }
 
 // Path: webSharePage
@@ -982,6 +984,27 @@ class _TranslationsProgressPageTotalRu extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Размер: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Скорость: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeRu extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeRu._(TranslationsRu root) : this._root = root, super.internal(root);
+
+  final TranslationsRu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Используйте "h" для обозначения часов, а "m" для минут
+  @override
+  String hours({required Object h, required Object m}) => '${h}ч ${m}мин';
+
+  /// Используйте "d" для дней, "h" для часов и "m" для минут
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}д ${h}ч ${m}мин';
 }
 
 // Path: dialogs.addFile

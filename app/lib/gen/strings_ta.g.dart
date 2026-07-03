@@ -173,7 +173,7 @@ class _TranslationsGeneralTa extends TranslationsGeneralEn {
   @override
   String get unknown => 'தெரியவில்லை';
   @override
-  String get noItemInClipboard => 'கிளிப்போர்டில் உருப்படிகள் இல்லை';
+  String get noItemInClipboard => 'கிளிப்போர்டில் உருப்படிகள் இல்லை.';
 }
 
 // Path: receiveTab
@@ -778,7 +778,7 @@ class _TranslationsReceiveTabInfoBoxTa extends TranslationsReceiveTabInfoBoxEn {
 
   // Translations
   @override
-  String get ip => 'இணைய நெறிமுறை:';
+  String get ip => 'இணைய முகவரி:';
   @override
   String get port => 'போர்ட்:';
   @override
@@ -1108,7 +1108,7 @@ class _TranslationsDialogsAddressInputTa extends TranslationsDialogsAddressInput
   @override
   String get ip => 'IP முகவரி';
   @override
-  String get recentlyUsed => 'சமீபத்தில் பயன்படுத்தப்பட்டது:';
+  String get recentlyUsed => 'சமீபத்தில் பயன்படுத்தப்பட்டது: ';
 }
 
 // Path: dialogs.cancelSession

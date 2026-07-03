@@ -131,7 +131,7 @@ class _TranslationsGeneralUk extends TranslationsGeneralEn {
   @override
   String get files => 'Файли';
   @override
-  String get finished => 'Виконано';
+  String get finished => 'Завершено';
   @override
   String get hide => 'Приховати';
   @override
@@ -389,6 +389,8 @@ class _TranslationsProgressPageUk extends TranslationsProgressPageEn {
   String get savedToGallery => 'Збережено в галереї';
   @override
   late final _TranslationsProgressPageTotalUk total = _TranslationsProgressPageTotalUk._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeUk remainingTime = _TranslationsProgressPageRemainingTimeUk._(_root);
 }
 
 // Path: webSharePage
@@ -981,6 +983,27 @@ class _TranslationsProgressPageTotalUk extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Розмір: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Швидкість: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeUk extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeUk._(TranslationsUk root) : this._root = root, super.internal(root);
+
+  final TranslationsUk _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Використовуйте «h» як скорочення для годин і «m» для хвилин
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Використовуйте «d» для днів, «h» для годин і «m» для хвилин
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile

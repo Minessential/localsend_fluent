@@ -81,6 +81,10 @@ class TranslationsEu extends Translations {
   late final _TranslationsWebEu web = _TranslationsWebEu._(_root);
   @override
   late final _TranslationsAssetPickerEu assetPicker = _TranslationsAssetPickerEu._(_root);
+  @override
+  late final _TranslationsSanitizationEu sanitization = _TranslationsSanitizationEu._(_root);
+  @override
+  late final _TranslationsNetworkInterfacesPageEu networkInterfacesPage = _TranslationsNetworkInterfacesPageEu._(_root);
 }
 
 // Path: general
@@ -163,7 +167,9 @@ class _TranslationsGeneralEu extends TranslationsGeneralEn {
   @override
   String get unknown => 'Ezezaguna';
   @override
-  String get noItemInClipboard => 'Elementua ez dago arbeletan';
+  String get noItemInClipboard => 'Arbela hutsik dago.';
+  @override
+  String get quickSaveFromFavorites => '“Gogokoetan” gorde';
 }
 
 // Path: receiveTab
@@ -177,6 +183,8 @@ class _TranslationsReceiveTabEu extends TranslationsReceiveTabEn {
   String get title => 'Eskuratu';
   @override
   late final _TranslationsReceiveTabInfoBoxEu infoBox = _TranslationsReceiveTabInfoBoxEu._(_root);
+  @override
+  late final _TranslationsReceiveTabQuickSaveEu quickSave = _TranslationsReceiveTabQuickSaveEu._(_root);
 }
 
 // Path: sendTab
@@ -210,6 +218,8 @@ class _TranslationsSendTabEu extends TranslationsSendTabEn {
   String get help => 'Ziurtatu zaitez aukeratutako hartzailea zure Wi-Fi sare berean dagoela.';
   @override
   String get placeItems => 'Aukeratu elkarbanatzeko elementuak.';
+  @override
+  String get manualSending => 'Eskuzko bidalketa';
 }
 
 // Path: settingsTab
@@ -229,6 +239,10 @@ class _TranslationsSettingsTabEu extends TranslationsSettingsTabEn {
   late final _TranslationsSettingsTabNetworkEu network = _TranslationsSettingsTabNetworkEu._(_root);
   @override
   String get advancedSettings => 'Ezarpen aurreratuak';
+  @override
+  late final _TranslationsSettingsTabSendEu send = _TranslationsSettingsTabSendEu._(_root);
+  @override
+  late final _TranslationsSettingsTabOtherEu other = _TranslationsSettingsTabOtherEu._(_root);
 }
 
 // Path: troubleshootPage
@@ -250,6 +264,8 @@ class _TranslationsTroubleshootPageEu extends TranslationsTroubleshootPageEn {
   late final _TranslationsTroubleshootPageFirewallEu firewall = _TranslationsTroubleshootPageFirewallEu._(_root);
   @override
   late final _TranslationsTroubleshootPageNoConnectionEu noConnection = _TranslationsTroubleshootPageNoConnectionEu._(_root);
+  @override
+  late final _TranslationsTroubleshootPageNoDiscoveryEu noDiscovery = _TranslationsTroubleshootPageNoDiscoveryEu._(_root);
 }
 
 // Path: receiveHistoryPage
@@ -573,6 +589,28 @@ class _TranslationsAssetPickerEu extends TranslationsAssetPickerEn {
   String get sUnitAssetCountLabel => 'kontaketa';
 }
 
+// Path: sanitization
+class _TranslationsSanitizationEu extends TranslationsSanitizationEn {
+  _TranslationsSanitizationEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get invalid => 'Fitxategiaren izena karaktere baliogabeak ditu';
+}
+
+// Path: networkInterfacesPage
+class _TranslationsNetworkInterfacesPageEu extends TranslationsNetworkInterfacesPageEn {
+  _TranslationsNetworkInterfacesPageEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Sare interfazeak';
+}
+
 // Path: receiveTab.infoBox
 class _TranslationsReceiveTabInfoBoxEu extends TranslationsReceiveTabInfoBoxEn {
   _TranslationsReceiveTabInfoBoxEu._(TranslationsEu root) : this._root = root, super.internal(root);
@@ -586,6 +624,21 @@ class _TranslationsReceiveTabInfoBoxEu extends TranslationsReceiveTabInfoBoxEn {
   String get port => 'Portua:';
   @override
   String get alias => 'Aliasa:';
+}
+
+// Path: receiveTab.quickSave
+class _TranslationsReceiveTabQuickSaveEu extends TranslationsReceiveTabQuickSaveEn {
+  _TranslationsReceiveTabQuickSaveEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get off => _root.general.off;
+  @override
+  String get on => _root.general.on;
+  @override
+  String get favorites => 'Gogokoak';
 }
 
 // Path: sendTab.selection
@@ -636,7 +689,7 @@ class _TranslationsSendTabSendModesEu extends TranslationsSendTabSendModesEn {
   @override
   String get multiple => 'Hartzaile anitz';
   @override
-  String get link => 'Lotura elkarbanatu';
+  String get link => 'URL bidez partekatu';
 }
 
 // Path: settingsTab.general
@@ -670,6 +723,10 @@ class _TranslationsSettingsTabGeneralEu extends TranslationsSettingsTabGeneralEn
   String get launchMinimized => 'Hasieratze automatikoa: hasi txikituta';
   @override
   String get animations => 'Animazioak';
+  @override
+  String get saveWindowPlacementWindows => 'Irteeran leihoaren kokapena gorde';
+  @override
+  String get showInContextMenu => 'Erakutsi LocalSend testuinguru menuan';
 }
 
 // Path: settingsTab.receive
@@ -691,6 +748,10 @@ class _TranslationsSettingsTabReceiveEu extends TranslationsSettingsTabReceiveEn
   String get saveToGallery => 'Gorde galerian';
   @override
   String get saveToHistory => 'Gorde historialean';
+  @override
+  String get quickSaveFromFavorites => _root.general.quickSaveFromFavorites;
+  @override
+  String get autoFinish => 'Automatikoki amaitu';
 }
 
 // Path: settingsTab.network
@@ -703,7 +764,7 @@ class _TranslationsSettingsTabNetworkEu extends TranslationsSettingsTabNetworkEn
   @override
   String get title => 'Gorria';
   @override
-  String get needRestart => 'Berrabiarazi zerbitzaria aldaketak aplikatzeko.';
+  String get needRestart => 'Berrabiarazi zerbitzaria aldaketak aplikatzeko!';
   @override
   String get server => 'Zerbitzaria';
   @override
@@ -724,6 +785,48 @@ class _TranslationsSettingsTabNetworkEu extends TranslationsSettingsTabNetworkEn
   @override
   String multicastGroupWarning({required Object defaultMulticast}) =>
       'Multicast helbide berezi bat erabiltzen ari zarenez, agian ez zara beste gailuentzat ikusgarri izango. (Lehenetsitako multicast helbidea: ${defaultMulticast})';
+  @override
+  String get discoveryTimeout => 'Aurkikuntza denbora muga';
+  @override
+  String get useSystemName => 'Erabili sistemaren izena';
+  @override
+  String get generateRandomAlias => 'Ausazko "alias" sortu';
+  @override
+  late final _TranslationsSettingsTabNetworkNetworkOptionsEu networkOptions = _TranslationsSettingsTabNetworkNetworkOptionsEu._(_root);
+  @override
+  String get network => 'Sarea';
+}
+
+// Path: settingsTab.send
+class _TranslationsSettingsTabSendEu extends TranslationsSettingsTabSendEn {
+  _TranslationsSettingsTabSendEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Bidali';
+  @override
+  String get shareViaLinkAutoAccept => 'Eskaerak automatikoki onartu “URL bidez partekatu” moduan';
+}
+
+// Path: settingsTab.other
+class _TranslationsSettingsTabOtherEu extends TranslationsSettingsTabOtherEn {
+  _TranslationsSettingsTabOtherEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Besteak';
+  @override
+  String get support => 'LocalSend Lagundu';
+  @override
+  String get donate => 'Dohaintza egin';
+  @override
+  String get privacyPolicy => 'Pribatutasun politika';
+  @override
+  String get termsOfUse => 'Erabilera baldintzak';
 }
 
 // Path: troubleshootPage.firewall
@@ -751,10 +854,24 @@ class _TranslationsTroubleshootPageNoConnectionEu extends TranslationsTroublesho
 
   // Translations
   @override
-  String get symptom => 'Hartzaile eta bidaltzaileak ez dute elkar ikusten eta ezin diote fitxategiak elkarri bidali';
+  String get symptom => 'Hartzaile eta bidaltzaileak ez dute elkar ikusten eta ezin diote fitxategiak elkarri bidali.';
   @override
   String get solution =>
-      'Bi aldeetan dago arazoa? Ziurtatu Wi-Fi sare berdinean kokatuta daudela eta konfigurazio bera elkarbanatzen dutela (portua, multicast helbidea, zifratua). Arazoa Wi-Fi sareak partaideen arteko konexioak mugatzea ere izan liteke. Horrela bada, routerrean aukera hau aktibatu';
+      'Bi aldeetan dago arazoa? Ziurtatu Wi-Fi sare berdinean kokatuta daudela eta konfigurazio bera elkarbanatzen dutela (portua, multicast helbidea, zifratua). Arazoa Wi-Fi sareak partaideen arteko konexioak mugatzea ere izan liteke. Horrela bada, routerrean aukera hau aktibatu.';
+}
+
+// Path: troubleshootPage.noDiscovery
+class _TranslationsTroubleshootPageNoDiscoveryEu extends TranslationsTroubleshootPageNoDiscoveryEn {
+  _TranslationsTroubleshootPageNoDiscoveryEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get symptom => 'Gailu honek ezin ditu beste gailurik aurkitu.';
+  @override
+  String get solution =>
+      'Ziurtatu gailu guztiak Wi-Fi sare berean daudela eta konfigurazio bera partekatzen dutela (atea, helbide multikasta, kodeketa). Helburuko gailuaren IP helbidea eskuz idatz dezakezu. Horrek balio badu, gehitu gailu hori gogokoetan, etorkizunean automatikoki aurkitu dadin.';
 }
 
 // Path: receiveHistoryPage.entryActions
@@ -1118,6 +1235,19 @@ class _TranslationsSettingsTabGeneralLanguageOptionsEu extends TranslationsSetti
   // Translations
   @override
   String get system => 'Sistema';
+}
+
+// Path: settingsTab.network.networkOptions
+class _TranslationsSettingsTabNetworkNetworkOptionsEu extends TranslationsSettingsTabNetworkNetworkOptionsEn {
+  _TranslationsSettingsTabNetworkNetworkOptionsEu._(TranslationsEu root) : this._root = root, super.internal(root);
+
+  final TranslationsEu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get all => 'Guztiak';
+  @override
+  String get filtered => 'Iragazita';
 }
 
 // Path: progressPage.total.title

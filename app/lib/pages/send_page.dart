@@ -59,14 +59,17 @@ class _SendPageState extends State<SendPage> with Refena {
 
   @override
   Widget build(BuildContext context) {
-    final sendState = ref.watch(sendProvider.select((state) => state[widget.sessionId]), listener: (prev, next) {
-      final prevStatus = prev[widget.sessionId]?.status;
-      final nextStatus = next[widget.sessionId]?.status;
-      if (prevStatus != nextStatus) {
-        // ignore: discarded_futures
-        TaskbarHelper.visualizeStatus(nextStatus);
-      }
-    });
+    final sendState = ref.watch(
+      sendProvider.select((state) => state[widget.sessionId]),
+      listener: (prev, next) {
+        final prevStatus = prev[widget.sessionId]?.status;
+        final nextStatus = next[widget.sessionId]?.status;
+        if (prevStatus != nextStatus) {
+          // ignore: discarded_futures
+          TaskbarHelper.visualizeStatus(nextStatus);
+        }
+      },
+    );
     if (sendState == null && _myDevice == null && _targetDevice == null) {
       return BaseNormalPage(body: Container());
     }

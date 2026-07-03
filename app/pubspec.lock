@@ -825,18 +825,18 @@ packages:
     dependency: "direct main"
     description:
       name: in_app_purchase
-      sha256: "960f26a08d9351fb8f89f08901f8a829d41b04d45a694b8f776121d9e41dcad6"
+      sha256: "5cddd7f463f3bddb1d37a72b95066e840d5822d66291331d7f8f05ce32c24b6c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.3"
   in_app_purchase_android:
     dependency: transitive
     description:
       name: in_app_purchase_android
-      sha256: fa1befc0e25374d16ca532154546503f25a865ed6e7ea5641f4f2b75b092d669
+      sha256: "518b48a385dfc1aa278080472969c6cee0c3d41ef8b9511b0071dd015473ecf1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.6+12"
+    version: "0.4.0+11"
   in_app_purchase_platform_interface:
     dependency: transitive
     description:
@@ -849,10 +849,10 @@ packages:
     dependency: transitive
     description:
       name: in_app_purchase_storekit
-      sha256: b9bc8b812d8f120463758bacc4716c34af0a422d9634612ebe0fee7b262b46ae
+      sha256: "47d63717270133fcfa1ff8e144f6aaf9d498fa3884de43e24909737da55aedd8"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.20+1"
+    version: "0.4.10+1"
   intl:
     dependency: "direct main"
     description:
@@ -993,10 +993,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
+      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
       url: "https://pub.dev"
     source: hosted
-    version: "1.16.0"
+    version: "1.17.0"
   mime:
     dependency: "direct main"
     description:
@@ -1418,9 +1418,10 @@ packages:
   rhttp:
     dependency: "direct main"
     description:
-      path: "../../rhttp/rhttp"
-      relative: true
-    source: path
+      name: rhttp
+      sha256: ea373e32d6471ed98e3b21467ce63b0679912b9a50c66a3d6bc021a5b2caa66d
+      url: "https://pub.dev"
+    source: hosted
     version: "0.14.0"
   routerino:
     dependency: "direct main"
@@ -1758,26 +1759,26 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: "65e29d831719be0591f7b3b1a32a3cda258ec98c58c7b25f7b84241bc31215bb"
+      sha256: "75906bf273541b676716d1ca7627a17e4c4070a3a16272b7a3dc7da3b9f3f6b7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.26.2"
+    version: "1.26.3"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
+      sha256: ab2726c1a94d3176a45960b6234466ec367179b87dd74f1611adb1f3b5fb9d55
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.6"
+    version: "0.7.7"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: "80bf5a02b60af04b09e14f6fe68b921aad119493e26e490deaca5993fef1b05a"
+      sha256: "0cc24b5ff94b38d2ae73e1eb43cc302b77964fbf67abad1e296025b78deb53d0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.11"
+    version: "0.6.12"
   time:
     dependency: transitive
     description:
@@ -2155,5 +2156,5 @@ packages:
     source: hosted
     version: "0.0.4"
 sdks:
-  dart: ">=3.9.0 <4.0.0"
-  flutter: ">=3.32.0 <4.0.0"
+  dart: ">=3.10.0 <4.0.0"
+  flutter: ">=3.38.0 <4.0.0"

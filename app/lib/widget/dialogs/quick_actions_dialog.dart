@@ -140,7 +140,9 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
                 if (!_isValid) {
                   return;
                 }
-                ref.notifier(selectedReceivingFilesProvider).applyCounter(
+                ref
+                    .notifier(selectedReceivingFilesProvider)
+                    .applyCounter(
                       prefix: _prefix,
                       padZero: _padZero,
                       sortFirst: _sortBeforehand,

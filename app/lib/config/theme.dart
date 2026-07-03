@@ -34,7 +34,7 @@ FluentThemeData getTheme(
       AppLocale.ko => 'Noto Sans CJK KR',
       AppLocale.zhCn => 'Noto Sans CJK SC',
       AppLocale.zhHk || AppLocale.zhTw => 'Noto Sans CJK TC',
-      _ => 'Noto Sans', 
+      _ => 'Noto Sans',
     };
   } else {
     fontFamily = null;
@@ -85,18 +85,22 @@ Future<void> updateSystemOverlayStyleWithBrightness(Brightness brightness) async
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); // ignore: unawaited_futures
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: brightness == Brightness.light ? Brightness.dark : Brightness.light,
-      systemNavigationBarColor: edgeToEdge ? Colors.transparent : (darkMode ? Colors.black : Colors.white),
-      systemNavigationBarContrastEnforced: false,
-      systemNavigationBarIconBrightness: darkMode ? Brightness.light : Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: brightness == Brightness.light ? Brightness.dark : Brightness.light,
+        systemNavigationBarColor: edgeToEdge ? Colors.transparent : (darkMode ? Colors.black : Colors.white),
+        systemNavigationBarContrastEnforced: false,
+        systemNavigationBarIconBrightness: darkMode ? Brightness.light : Brightness.dark,
+      ),
+    );
   } else {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarBrightness: brightness, // iOS
-      statusBarColor: Colors.transparent, // Not relevant to this issue
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarBrightness: brightness, // iOS
+        statusBarColor: Colors.transparent, // Not relevant to this issue
+      ),
+    );
   }
 }
 

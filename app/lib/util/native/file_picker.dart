@@ -157,17 +157,25 @@ Future<void> _pickFiles(BuildContext context, Ref ref) async {
     if (defaultTargetPlatform == TargetPlatform.android) {
       final result = await android_channel.pickFilesAndroid();
       if (result != null) {
-        await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-              files: result,
-              converter: CrossFileConverters.convertFileInfo,
-            ));
+        await ref
+            .redux(selectedSendingFilesProvider)
+            .dispatchAsync(
+              AddFilesAction(
+                files: result,
+                converter: CrossFileConverters.convertFileInfo,
+              ),
+            );
       }
     } else {
       final result = await openFiles();
-      await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-            files: result,
-            converter: CrossFileConverters.convertXFile,
-          ));
+      await ref
+          .redux(selectedSendingFilesProvider)
+          .dispatchAsync(
+            AddFilesAction(
+              files: result,
+              converter: CrossFileConverters.convertXFile,
+            ),
+          );
     }
   } catch (e) {
     if (e is PlatformException && e.code == 'CANCELED') {
@@ -247,6 +255,8 @@ Future<void> _pickMedia(BuildContext context, Ref ref) async {
     );
   }
 
+  if (!context.mounted) return;
+
   final oldBrightness = FluentTheme.of(context).brightness;
   // ignore: use_build_context_synchronously
   final List<AssetEntity>? result = await AssetPicker.pickAssets(
@@ -263,10 +273,14 @@ Future<void> _pickMedia(BuildContext context, Ref ref) async {
   });
 
   if (result != null) {
-    await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-          files: result,
-          converter: CrossFileConverters.convertAssetEntity,
-        ));
+    await ref
+        .redux(selectedSendingFilesProvider)
+        .dispatchAsync(
+          AddFilesAction(
+            files: result,
+            converter: CrossFileConverters.convertAssetEntity,
+          ),
+        );
   }
 }
 
@@ -304,17 +318,23 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     final now = DateTime.now();
     final fileName =
         'clipboard_${now.year}-${now.month.twoDigitString}-${now.day.twoDigitString}_${now.hour.twoDigitString}-${now.minute.twoDigitString}.$imageType';
-    ref.redux(selectedSendingFilesProvider).dispatch(AddBinaryAction(
-          bytes: currImage,
-          fileType: FileType.image,
-          fileName: fileName,
-        ));
+    ref
+        .redux(selectedSendingFilesProvider)
+        .dispatch(
+          AddBinaryAction(
+            bytes: currImage,
+            fileType: FileType.image,
+            fileName: fileName,
+          ),
+        );
     return;
   }
 
   final List<String> files = await Pasteboard.files();
   if (files.isNotEmpty) {
-    await ref.redux(selectedSendingFilesProvider).dispatchAsync(
+    await ref
+        .redux(selectedSendingFilesProvider)
+        .dispatchAsync(
           AddFilesAction(
             files: files.map((e) => XFile(e)).toList(),
             converter: (file) async {

@@ -149,17 +149,17 @@ class _TranslationsGeneralNe extends TranslationsGeneralEn {
   @override
   String get quickSave => 'छिटो सेव गर्नुहोस्';
   @override
-  String get renamed => 'पुन: नामाकरण गरियो';
+  String get renamed => 'नामाकरण गरियो';
   @override
-  String get reset => 'परिवर्तनहरू पूर्ववत गर्नुहोस्';
+  String get reset => 'फिर्ता लिनुहोस्';
   @override
-  String get restart => 'पुनः सुरु गर्नुहोस्';
+  String get restart => 'पुनः सुरु';
   @override
   String get settings => 'सेटिङहरू';
   @override
   String get skipped => 'छोडियो';
   @override
-  String get start => 'सुरु गर्नुहोस्';
+  String get start => 'सुरु';
   @override
   String get stop => 'रोक';
   @override
@@ -171,7 +171,9 @@ class _TranslationsGeneralNe extends TranslationsGeneralEn {
   @override
   String get delete => 'मेट्नुहोस्';
   @override
-  String get noItemInClipboard => 'क्लिपबोर्डमा कुनै वस्तुहरू छैनन्।';
+  String get noItemInClipboard => 'क्लिपबोर्ड खाली छ।';
+  @override
+  String get quickSaveFromFavorites => 'छिटो मनपर्नेमा राख्नुहोस्';
 }
 
 // Path: receiveTab
@@ -776,7 +778,7 @@ class _TranslationsReceiveTabInfoBoxNe extends TranslationsReceiveTabInfoBoxEn {
 
   // Translations
   @override
-  String get ip => 'IP:';
+  String get ip => 'आईपी :';
   @override
   String get port => 'पोर्ट:';
   @override

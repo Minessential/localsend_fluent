@@ -38,7 +38,11 @@ class ZoomDialog extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.fill,
               clipBehavior: Clip.antiAlias,
-              child: Text(label, textAlign: TextAlign.center, style: TextStyle(fontSize: fontSize)),
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: fontSize),
+              ),
             ),
           ),
           const SizedBox(height: 10),

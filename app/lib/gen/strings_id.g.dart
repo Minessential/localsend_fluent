@@ -348,11 +348,7 @@ class _TranslationsReceiveOptionsPageId extends TranslationsReceiveOptionsPageEn
   @override
   String get title => 'Pilihan';
   @override
-  String get destination => _root.settingsTab.receive.destination;
-  @override
   String get appDirectory => '(folder LocalSend)';
-  @override
-  String get saveToGallery => _root.settingsTab.receive.saveToGallery;
   @override
   String get saveToGalleryOff => 'Dimatikan secara otomatis karena ada direktori.';
 }

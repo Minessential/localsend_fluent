@@ -386,6 +386,8 @@ class _TranslationsProgressPageHu extends TranslationsProgressPageEn {
   String get savedToGallery => 'Mentve a Galériába';
   @override
   late final _TranslationsProgressPageTotalHu total = _TranslationsProgressPageTotalHu._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeHu remainingTime = _TranslationsProgressPageRemainingTimeHu._(_root);
 }
 
 // Path: webSharePage
@@ -978,6 +980,27 @@ class _TranslationsProgressPageTotalHu extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Méret: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Sebesség: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeHu extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeHu._(TranslationsHu root) : this._root = root, super.internal(root);
+
+  final TranslationsHu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Az órák rövidítéséhez használja a 'h' betűt, a percekhez pedig az 'm' betűt
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// A naphoz  a 'd', az órához a 'h', a percekhez az 'm' betűt használja
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile

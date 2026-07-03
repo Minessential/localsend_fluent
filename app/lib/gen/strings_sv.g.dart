@@ -391,6 +391,8 @@ class _TranslationsProgressPageSv extends TranslationsProgressPageEn {
   String get savedToGallery => 'Sparat i Foton';
   @override
   late final _TranslationsProgressPageTotalSv total = _TranslationsProgressPageTotalSv._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeSv remainingTime = _TranslationsProgressPageRemainingTimeSv._(_root);
 }
 
 // Path: webSharePage
@@ -1066,6 +1068,27 @@ class _TranslationsProgressPageTotalSv extends TranslationsProgressPageTotalEn {
   String size({required Object curr, required Object n}) => 'Storlek: ${curr} / ${n}';
   @override
   String speed({required Object speed}) => 'Hastighet: ${speed}/s';
+}
+
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeSv extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeSv._(TranslationsSv root) : this._root = root, super.internal(root);
+
+  final TranslationsSv _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Använd "h" som förkortning för timmar och "m" för minuter
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Använd "d" för dagar, "h" för timmar och "m" för minuter
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
 }
 
 // Path: dialogs.addFile

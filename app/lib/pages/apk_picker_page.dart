@@ -30,10 +30,14 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
   final List<Application> _selectedApps = [];
 
   Future<void> _pickApp(Application app) async {
-    await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-          files: [app],
-          converter: CrossFileConverters.convertApplication,
-        ));
+    await ref
+        .redux(selectedSendingFilesProvider)
+        .dispatchAsync(
+          AddFilesAction(
+            files: [app],
+            converter: CrossFileConverters.convertApplication,
+          ),
+        );
 
     if (mounted) {
       context.pop();
@@ -44,10 +48,14 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
     // ignore: discarded_futures
 
     for (Application app in apps) {
-      await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-            files: [app],
-            converter: CrossFileConverters.convertApplication,
-          ));
+      await ref
+          .redux(selectedSendingFilesProvider)
+          .dispatchAsync(
+            AddFilesAction(
+              files: [app],
+              converter: CrossFileConverters.convertApplication,
+            ),
+          );
     }
 
     if (mounted) {

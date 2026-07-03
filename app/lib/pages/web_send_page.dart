@@ -53,7 +53,9 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
     });
     await sleepAsync(500);
     try {
-      await ref.notifier(serverProvider).restartServer(
+      await ref
+          .notifier(serverProvider)
+          .restartServer(
             alias: settings.alias,
             port: settings.port,
             https: _encrypted,

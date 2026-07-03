@@ -211,7 +211,7 @@ class _TranslationsSendTabEsEs extends TranslationsSendTabEn {
   @override
   String get scan => 'Buscar dispositivos';
   @override
-  String get manualSending => 'Envío manual';
+  String get manualSending => 'Enviar manualmente';
   @override
   String get sendMode => 'Modo de envío';
   @override
@@ -219,7 +219,7 @@ class _TranslationsSendTabEsEs extends TranslationsSendTabEn {
   @override
   String get sendModeHelp => 'Explicación';
   @override
-  String get help => 'Por favor asegúrese que el destino elegido esté en la misma red Wi-Fi.';
+  String get help => 'Por favor asegúrese que el dispositivo de destino esté en la misma red Wi-Fi.';
   @override
   String get placeItems => 'Selecciona elementos para compartir.';
 }
@@ -297,13 +297,13 @@ class _TranslationsApkPickerPageEsEs extends TranslationsApkPickerPageEn {
 
   // Translations
   @override
-  String get title => 'Apps (APK)';
+  String get title => 'Aplicaciones (APK)';
   @override
   String get excludeSystemApps => 'Excluir apps de sistema';
   @override
   String get excludeAppsWithoutLaunchIntent => 'Excluir apps no ejecutables';
   @override
-  String apps({required Object n}) => '${n} Apps';
+  String apps({required Object n}) => '${n} Aplicaciones';
 }
 
 // Path: selectedFilesPage
@@ -347,7 +347,7 @@ class _TranslationsReceiveOptionsPageEsEs extends TranslationsReceiveOptionsPage
   @override
   String get destination => _root.settingsTab.receive.destination;
   @override
-  String get appDirectory => '(carpeta ${_root.appName})';
+  String get appDirectory => '(Carpeta LocalSend)';
   @override
   String get saveToGallery => _root.settingsTab.receive.saveToGallery;
   @override
@@ -386,6 +386,8 @@ class _TranslationsProgressPageEsEs extends TranslationsProgressPageEn {
   String get savedToGallery => 'Guardado en fotos';
   @override
   late final _TranslationsProgressPageTotalEsEs total = _TranslationsProgressPageTotalEsEs._(_root);
+  @override
+  late final _TranslationsProgressPageRemainingTimeEsEs remainingTime = _TranslationsProgressPageRemainingTimeEsEs._(_root);
 }
 
 // Path: webSharePage
@@ -646,7 +648,7 @@ class _TranslationsAssetPickerEsEs extends TranslationsAssetPickerEn {
   @override
   String get sTypeOtherLabel => 'Otros medios';
   @override
-  String get sActionPlayHint => 'play';
+  String get sActionPlayHint => 'reproducir';
   @override
   String get sActionPreviewHint => 'vista previa';
   @override
@@ -669,14 +671,14 @@ class _TranslationsNetworkInterfacesPageEsEs extends TranslationsNetworkInterfac
 
   // Translations
   @override
-  String get title => 'Interfaces de red';
+  String get title => 'Interfaces de la red';
   @override
   String get info =>
       'De forma predeterminada, LocalSend utiliza todas las interfaces de red disponibles. Aquí puede desactivar las redes no deseadas. Debe reiniciar el servidor para aplicar los cambios.';
   @override
   String get preview => 'Vista previa';
   @override
-  String get whitelist => 'Lista de permitidos';
+  String get whitelist => 'Lista blanca';
   @override
   String get blacklist => 'Lista negra';
 }
@@ -836,7 +838,7 @@ class _TranslationsSettingsTabSendEsEs extends TranslationsSettingsTabSendEn {
   @override
   String get title => 'Enviar';
   @override
-  String get shareViaLinkAutoAccept => 'Enviar enlace: Aceptar automáticamente';
+  String get shareViaLinkAutoAccept => 'Aceptar automáticamente solicitudes en el modo "Compartir mediante enlace"';
 }
 
 // Path: settingsTab.network
@@ -979,6 +981,27 @@ class _TranslationsProgressPageTotalEsEs extends TranslationsProgressPageTotalEn
   String speed({required Object speed}) => 'Velocidad: ${speed}/s';
 }
 
+// Path: progressPage.remainingTime
+class _TranslationsProgressPageRemainingTimeEsEs extends TranslationsProgressPageRemainingTimeEn {
+  _TranslationsProgressPageRemainingTimeEsEs._(TranslationsEsEs root) : this._root = root, super.internal(root);
+
+  final TranslationsEsEs _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String seconds({required Object n, required Object ss}) => '${n}:${ss}';
+  @override
+  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+
+  /// Usa «h» como abreviatura de horas y «m» para minutos
+  @override
+  String hours({required Object h, required Object m}) => '${h}h ${m}m';
+
+  /// Usa «d» para días, «h» para horas y «m» para minutos
+  @override
+  String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
+}
+
 // Path: dialogs.addFile
 class _TranslationsDialogsAddFileEsEs extends TranslationsDialogsAddFileEn {
   _TranslationsDialogsAddFileEsEs._(TranslationsEsEs root) : this._root = root, super.internal(root);
@@ -1015,7 +1038,7 @@ class _TranslationsDialogsAddressInputEsEs extends TranslationsDialogsAddressInp
   @override
   String get title => 'Introducir dirección';
   @override
-  String get hashtag => 'Hashtag';
+  String get hashtag => 'Etiqueta';
   @override
   String get ip => 'Dirección IP';
   @override
@@ -1111,7 +1134,7 @@ class _TranslationsDialogsFavoriteEditDialogEsEs extends TranslationsDialogsFavo
   @override
   String get titleAdd => 'Agregar a favoritos';
   @override
-  String get titleEdit => 'Editar';
+  String get titleEdit => 'Ajustes';
   @override
   String get name => 'Alias';
   @override
