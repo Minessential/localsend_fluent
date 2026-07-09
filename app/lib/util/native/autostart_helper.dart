@@ -42,9 +42,8 @@ Terminal=false
           return await enableRunAtStartup();
         } else {
           _getWindowsRegistryKey().createValue(
-            RegistryValue(
+            RegistryValue.string(
               _windowsRegistryKeyValue,
-              RegistryValueType.string,
               '"${Platform.resolvedExecutable}"${startHidden ? ' $startHiddenFlag' : ''}',
             ),
           );
@@ -97,10 +96,7 @@ Future<bool> isAutoStartEnabled() async {
       if (await havePackageIdentity()) {
         return await isRunAtStartup();
       } else {
-        return _getWindowsRegistryKey()
-                .getValueAsString(_windowsRegistryKeyValue)
-                ?.contains(Platform.resolvedExecutable) ??
-            false;
+        return _getWindowsRegistryKey().getStringValue(_windowsRegistryKeyValue)?.contains(Platform.resolvedExecutable) ?? false;
       }
     default:
       return false;
@@ -122,7 +118,7 @@ Future<bool> isAutoStartHidden() async {
       if (await havePackageIdentity()) {
         return await isRunAtStartup() && await isRunAtStartupHidden();
       } else {
-        return _getWindowsRegistryKey().getValueAsString(_windowsRegistryKeyValue)?.contains(startHiddenFlag) ?? false;
+        return _getWindowsRegistryKey().getStringValue(_windowsRegistryKeyValue)?.contains(startHiddenFlag) ?? false;
       }
     default:
       return false;

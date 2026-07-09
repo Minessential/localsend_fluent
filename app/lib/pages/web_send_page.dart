@@ -87,7 +87,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
   Widget build(BuildContext context) {
     final theme = FluentTheme.of(context);
     return PopScope(
-      onPopInvokedWithResult: (_, __) async {
+      onPopInvokedWithResult: (_, _) async {
         if (_stateEnum != _ServerState.running) {
           return;
         }

@@ -29,7 +29,7 @@ class CopyableText extends StatelessWidget {
         textAlign: TextAlign.start,
         TextSpan(
           children: [
-            if (prefix != null) prefix!,
+            ?prefix,
             TextSpan(text: value ?? '-'),
           ],
         ),
