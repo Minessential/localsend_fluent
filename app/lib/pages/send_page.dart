@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:common/model/device.dart';
-import 'package:common/model/session_status.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:localsend_app/common/model/device.dart';
+import 'package:localsend_app/common/model/session_status.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
@@ -125,54 +125,54 @@ class _SendPageState extends State<SendPage> with Refena {
                         children: [
                           switch (sendState.status) {
                             SessionStatus.waiting => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(t.sendPage.waiting, textAlign: TextAlign.center),
-                              ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(t.sendPage.waiting, textAlign: TextAlign.center),
+                            ),
                             SessionStatus.declined => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.rejected,
-                                  style: TextStyle(color: Colors.warningPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                t.sendPage.rejected,
+                                style: TextStyle(color: Colors.warningPrimaryColor),
+                                textAlign: TextAlign.center,
                               ),
+                            ),
                             SessionStatus.tooManyAttempts => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.tooManyAttempts,
-                                  style: TextStyle(color: Colors.warningPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                t.sendPage.tooManyAttempts,
+                                style: TextStyle(color: Colors.warningPrimaryColor),
+                                textAlign: TextAlign.center,
                               ),
+                            ),
                             SessionStatus.recipientBusy => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.busy,
-                                  style: TextStyle(color: Colors.warningPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                t.sendPage.busy,
+                                style: TextStyle(color: Colors.warningPrimaryColor),
+                                textAlign: TextAlign.center,
                               ),
+                            ),
                             SessionStatus.finishedWithErrors => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(t.general.error, style: TextStyle(color: Colors.warningPrimaryColor)),
-                                    if (sendState.errorMessage != null)
-                                      IconButton(
-                                        onPressed: () async => showDialog(
-                                          context: context,
-                                          builder: (_) => ErrorDialog(error: sendState.errorMessage!),
-                                        ),
-                                        icon: const Icon(
-                                          FluentIcons.info_16_regular,
-                                          color: Colors.warningPrimaryColor,
-                                          size: 16,
-                                        ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(t.general.error, style: TextStyle(color: Colors.warningPrimaryColor)),
+                                  if (sendState.errorMessage != null)
+                                    IconButton(
+                                      onPressed: () async => showDialog(
+                                        context: context,
+                                        builder: (_) => ErrorDialog(error: sendState.errorMessage!),
                                       ),
-                                  ],
-                                ),
+                                      icon: const Icon(
+                                        FluentIcons.info_16_regular,
+                                        color: Colors.warningPrimaryColor,
+                                        size: 16,
+                                      ),
+                                    ),
+                                ],
                               ),
+                            ),
                             _ => const SizedBox(),
                           },
                           Center(

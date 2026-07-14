@@ -3,19 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:common/api_route_builder.dart';
-import 'package:common/constants.dart';
-import 'package:common/model/device.dart';
-import 'package:common/model/dto/info_dto.dart';
-import 'package:common/model/dto/info_register_dto.dart';
-import 'package:common/model/dto/prepare_upload_request_dto.dart';
-import 'package:common/model/dto/prepare_upload_response_dto.dart';
-import 'package:common/model/dto/register_dto.dart';
-import 'package:common/model/file_status.dart';
-import 'package:common/model/file_type.dart';
-import 'package:common/model/session_status.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:localsend_app/common/api_route_builder.dart';
+import 'package:localsend_app/common/constants.dart';
+import 'package:localsend_app/common/model/device.dart';
+import 'package:localsend_app/common/model/dto/info_dto.dart';
+import 'package:localsend_app/common/model/dto/info_register_dto.dart';
+import 'package:localsend_app/common/model/dto/prepare_upload_request_dto.dart';
+import 'package:localsend_app/common/model/dto/prepare_upload_response_dto.dart';
+import 'package:localsend_app/common/model/dto/register_dto.dart';
+import 'package:localsend_app/common/model/file_status.dart';
+import 'package:localsend_app/common/model/file_type.dart';
+import 'package:localsend_app/common/model/session_status.dart';
 import 'package:localsend_app/model/state/send/send_session_state.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/model/state/server/receiving_file.dart';
@@ -166,11 +165,10 @@ class ReceiveController {
     }
 
     // Save device information
-  await server.ref
+    await server.ref
         .redux(nearbyDevicesProvider)
         .dispatchAsync(RegisterDeviceAction(requestDto.toDevice(request.ip, port, https, HttpDiscovery(ip: request.ip))));
     server.ref.notifier(discoveryLoggerProvider).addLog('[DISCOVER/TCP] Received "/register" HTTP request: ${requestDto.alias} (${request.ip})');
-
 
     final deviceInfo = server.ref.read(deviceInfoProvider);
 
@@ -252,9 +250,7 @@ class ReceiveController {
           endTime: null,
           destinationDirectory: destinationDir,
           cacheDirectory: cacheDir,
-          saveToGallery: checkPlatformWithGallery() &&
-              settings.saveToGallery &&
-              dto.files.values.every((f) => !f.fileName.contains('/')),
+          saveToGallery: checkPlatformWithGallery() && settings.saveToGallery && dto.files.values.every((f) => !f.fileName.contains('/')),
           createdDirectories: {},
           responseHandler: streamController,
         ),
@@ -276,10 +272,7 @@ class ReceiveController {
         for (final f in dto.files.values) f.id: f.fileName,
       };
     } else {
-      if (checkPlatformHasTray() &&
-          (await windowManager.isMinimized() ||
-              !(await windowManager.isVisible()) ||
-              !(await windowManager.isFocused()))) {
+      if (checkPlatformHasTray() && (await windowManager.isMinimized() || !(await windowManager.isVisible()) || !(await windowManager.isFocused()))) {
         await showFromTray();
       }
 
@@ -402,13 +395,11 @@ class ReceiveController {
     }
 
     final files = {
-      for (final file in server.getState().session!.files.values.where((f) => f.token != null))
-        file.file.id: file.token,
+      for (final file in server.getState().session!.files.values.where((f) => f.token != null)) file.file.id: file.token,
     };
 
     if (checkPlatform([TargetPlatform.android, TargetPlatform.iOS])) {
-      if (checkPlatform([TargetPlatform.android]) &&
-          !server.getState().session!.destinationDirectory.startsWith('/storage/emulated/0/Download')) {
+      if (checkPlatform([TargetPlatform.android]) && !server.getState().session!.destinationDirectory.startsWith('/storage/emulated/0/Download')) {
         // Android requires more permission to save files outside of the Download directory
         try {
           final result = await Permission.storage.request();
@@ -601,8 +592,7 @@ class ReceiveController {
       final quickSaveFromFavorites = settings.quickSaveFromFavorites && server.getState().session?.message == null;
       if (quickSaveFromFavorites) {
         // dto is not defined here. I must check sender fingerprint
-        final bool isFavorite =
-            server.ref.read(favoritesProvider).any((e) => e.fingerprint == session.sender.fingerprint);
+        final bool isFavorite = server.ref.read(favoritesProvider).any((e) => e.fingerprint == session.sender.fingerprint);
         if (isFavorite) {
           quickSave = true;
         }
@@ -735,9 +725,7 @@ class ReceiveController {
 
         final Map<String, dynamic> jsonBody = jsonDecode(body);
         final List<String> args = (jsonBody['args'] as List?)?.cast<String>() ?? <String>[];
-        final filesAdded = await server.ref
-            .redux(selectedSendingFilesProvider)
-            .dispatchAsyncTakeResult(LoadSelectionFromArgsAction(args));
+        final filesAdded = await server.ref.redux(selectedSendingFilesProvider).dispatchAsyncTakeResult(LoadSelectionFromArgsAction(args));
         if (filesAdded) {
           server.ref.redux(homePageControllerProvider).dispatch(ChangeTabAction(HomeTab.send));
         }

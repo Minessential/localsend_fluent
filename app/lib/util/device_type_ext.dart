@@ -1,6 +1,6 @@
-import 'package:common/model/device.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:localsend_app/common/model/device.dart';
 
 extension DeviceTypeExt on DeviceType {
   IconData get icon {

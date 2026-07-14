@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:common/model/device.dart';
-import 'package:common/model/session_status.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:localsend_app/common/model/device.dart';
+import 'package:localsend_app/common/model/session_status.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/receive_history_entry.dart';
 import 'package:localsend_app/pages/home_page.dart';
@@ -28,7 +28,8 @@ enum _EntryOption {
   open,
   showInFolder,
   info,
-  delete;
+  delete
+  ;
 
   String get label {
     return switch (this) {
@@ -173,8 +174,7 @@ class ReceiveHistoryPage extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.fade,
                             softWrap: false,
-                            style: theme.typography.caption
-                                ?.copyWith(color: theme.typography.caption?.color?.withOpacity(0.8)),
+                            style: theme.typography.caption?.copyWith(color: theme.typography.caption?.color?.withOpacity(0.8)),
                           ),
                         ],
                       ),
@@ -192,62 +192,65 @@ class ReceiveHistoryPage extends StatelessWidget {
 
   Widget _popupMenuButton(ReceiveHistoryEntry entry) {
     final menuController = FlyoutController();
-    return Builder(builder: (context) {
-      return FlyoutTarget(
-        controller: menuController,
-        child: IconButton(
-          icon: Icon(FluentIcons.more_vertical_24_regular),
-          onPressed: () async {
-            await menuController.showFlyout(
-              autoModeConfiguration: FlyoutAutoConfiguration(preferredMode: FlyoutPlacementMode.topRight),
-              barrierDismissible: true,
-              dismissOnPointerMoveAway: false,
-              dismissWithEsc: true,
-              builder: (ctx) {
-                return MenuFlyout(
-                  items: (entry.path != null ? _optionsAll : _optionsWithoutOpen).map((e) {
-                    final label = e.label;
-                    late final IconData icon;
-                    Future<void> Function()? onPressed;
-                    switch (e) {
-                      case _EntryOption.open:
-                        icon = FluentIcons.open_20_regular;
-                        onPressed = () => _openFile(context, entry, context.redux(receiveHistoryProvider));
-                        break;
-                      case _EntryOption.showInFolder:
-                        icon = FluentIcons.open_folder_20_regular;
-                        if (entry.path != null) {
-                          onPressed = () => openFolder(
-                              folderPath: File(entry.path!).parent.path, fileName: path.basename(entry.path!));
-                        }
-                        break;
-                      case _EntryOption.info:
-                        icon = FluentIcons.info_20_regular;
-                        // ignore: use_build_context_synchronously
-                        onPressed = () => showDialog(context: context, builder: (_) => FileInfoDialog(entry: entry));
-                        break;
-                      case _EntryOption.delete:
-                        icon = FluentIcons.delete_20_regular;
-                        // ignore: use_build_context_synchronously
-                        onPressed = () =>
-                            context.redux(receiveHistoryProvider).dispatchAsync(RemoveHistoryEntryAction(entry.id));
-                        break;
-                    }
-                    return MenuFlyoutItem(
-                      leading: Icon(icon),
-                      text: Text(label),
-                      onPressed: () async {
-                        await onPressed?.call();
-                        if (ctx.mounted) Flyout.of(ctx).close;
-                      },
-                    );
-                  }).toList(),
-                );
-              },
-            );
-          },
-        ),
-      );
-    });
+    return Builder(
+      builder: (context) {
+        return FlyoutTarget(
+          controller: menuController,
+          child: IconButton(
+            icon: Icon(FluentIcons.more_vertical_24_regular),
+            onPressed: () async {
+              await menuController.showFlyout(
+                autoModeConfiguration: FlyoutAutoConfiguration(preferredMode: FlyoutPlacementMode.topRight),
+                barrierDismissible: true,
+                dismissOnPointerMoveAway: false,
+                dismissWithEsc: true,
+                builder: (ctx) {
+                  return MenuFlyout(
+                    items: (entry.path != null ? _optionsAll : _optionsWithoutOpen).map((e) {
+                      final label = e.label;
+                      late final IconData icon;
+                      Future<void> Function()? onPressed;
+                      switch (e) {
+                        case _EntryOption.open:
+                          icon = FluentIcons.open_20_regular;
+                          onPressed = () => _openFile(context, entry, context.redux(receiveHistoryProvider));
+                          break;
+                        case _EntryOption.showInFolder:
+                          icon = FluentIcons.open_folder_20_regular;
+                          if (entry.path != null) {
+                            onPressed = () => openFolder(folderPath: File(entry.path!).parent.path, fileName: path.basename(entry.path!));
+                          }
+                          break;
+                        case _EntryOption.info:
+                          icon = FluentIcons.info_20_regular;
+                          // ignore: use_build_context_synchronously
+                          onPressed = () => showDialog(
+                            context: context,
+                            builder: (_) => FileInfoDialog(entry: entry),
+                          );
+                          break;
+                        case _EntryOption.delete:
+                          icon = FluentIcons.delete_20_regular;
+                          // ignore: use_build_context_synchronously
+                          onPressed = () => context.redux(receiveHistoryProvider).dispatchAsync(RemoveHistoryEntryAction(entry.id));
+                          break;
+                      }
+                      return MenuFlyoutItem(
+                        leading: Icon(icon),
+                        text: Text(label),
+                        onPressed: () async {
+                          await onPressed?.call();
+                          if (ctx.mounted) Flyout.of(ctx).close;
+                        },
+                      );
+                    }).toList(),
+                  );
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

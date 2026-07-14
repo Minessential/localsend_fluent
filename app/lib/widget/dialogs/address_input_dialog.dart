@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:common/model/device.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
+import 'package:localsend_app/common/model/device.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
@@ -21,7 +21,8 @@ import 'package:routerino/routerino.dart';
 
 enum _InputMode {
   hashtag,
-  ip;
+  ip
+  ;
 
   String get label {
     return switch (this) {
@@ -131,21 +132,24 @@ class _AddressInputDialogState extends State<AddressInputDialog> with Refena {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(spacing: 15, children: [
-            for (int i = 0; i < _selected.length; i++)
-              RadioButton(
-                content: Text(_InputMode.values[i].label),
-                checked: _selected[i],
-                onChanged: (checked) {
-                  setState(() {
-                    for (int j = 0; j < _selected.length; j++) {
-                      _selected[j] = j == i;
-                    }
-                  });
-                  _mode = _InputMode.values[i];
-                },
-              ),
-          ]),
+          Wrap(
+            spacing: 15,
+            children: [
+              for (int i = 0; i < _selected.length; i++)
+                RadioButton(
+                  content: Text(_InputMode.values[i].label),
+                  checked: _selected[i],
+                  onChanged: (checked) {
+                    setState(() {
+                      for (int j = 0; j < _selected.length; j++) {
+                        _selected[j] = j == i;
+                      }
+                    });
+                    _mode = _InputMode.values[i];
+                  },
+                ),
+            ],
+          ),
           const SizedBox(height: 15),
           CustomTextBox(
             key: ValueKey('input-$_mode'),
@@ -191,17 +195,18 @@ class _AddressInputDialogState extends State<AddressInputDialog> with Refena {
                 TextSpan(
                   children: [
                     TextSpan(text: t.dialogs.addressInput.recentlyUsed),
-                    ...lastDevices.mapIndexed((index, device) {
-                      return [
-                        if (index != 0) const TextSpan(text: ', '),
-                        TextSpan(
-                          text: device.ip,
-                          style: TextStyle(color: FluentTheme.of(context).accentColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async => _submit(localIps, settings.port, device.ip),
-                        )
-                      ];
-                    }).expand((e) => e),
+                    ...lastDevices
+                        .mapIndexed((index, device) {
+                          return [
+                            if (index != 0) const TextSpan(text: ', '),
+                            TextSpan(
+                              text: device.ip,
+                              style: TextStyle(color: FluentTheme.of(context).accentColor),
+                              recognizer: TapGestureRecognizer()..onTap = () async => _submit(localIps, settings.port, device.ip),
+                            ),
+                          ];
+                        })
+                        .expand((e) => e),
                   ],
                 ),
               ),

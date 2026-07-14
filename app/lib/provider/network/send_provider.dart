@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:common/isolate.dart';
-import 'package:common/model/device.dart';
-import 'package:common/model/dto/file_dto.dart';
-import 'package:common/model/file_status.dart';
-import 'package:common/model/file_type.dart';
-import 'package:common/model/session_status.dart';
-import 'package:common/util/sleep.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/common/isolate.dart';
+import 'package:localsend_app/common/model/device.dart';
+import 'package:localsend_app/common/model/dto/file_dto.dart';
+import 'package:localsend_app/common/model/file_status.dart';
+import 'package:localsend_app/common/model/file_type.dart';
+import 'package:localsend_app/common/model/session_status.dart';
+import 'package:localsend_app/common/util/sleep.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/model/send_mode.dart';
 import 'package:localsend_app/model/state/send/send_session_state.dart';
@@ -281,9 +281,7 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
 
     final sendingFiles = {
       for (final file in requestState.files.values)
-        file.file.id: fileMap.containsKey(file.file.id)
-            ? file.copyWith(token: fileMap[file.file.id])
-            : file.copyWith(status: FileStatus.skipped),
+        file.file.id: fileMap.containsKey(file.file.id) ? file.copyWith(token: fileMap[file.file.id]) : file.copyWith(status: FileStatus.skipped),
     };
 
     if (state[sessionId]?.background == false) {
@@ -481,16 +479,14 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
       state = state.updateSession(
         sessionId: sessionId,
         state: (s) => s?.copyWith(
-            sendingTasks: s.sendingTasks
-                ?.where((task) => !(task.isolateIndex == isolateIndex && task.taskId == taskResult.taskId))
-                .toList()),
+          sendingTasks: s.sendingTasks?.where((task) => !(task.isolateIndex == isolateIndex && task.taskId == taskResult.taskId)).toList(),
+        ),
       );
     }
 
     state = state.updateSession(
       sessionId: sessionId,
-      state: (s) =>
-          s?.withFileStatus(file.file.id, fileError != null ? FileStatus.failed : FileStatus.finished, fileError),
+      state: (s) => s?.withFileStatus(file.file.id, fileError != null ? FileStatus.failed : FileStatus.finished, fileError),
     );
 
     if (isRetry) {

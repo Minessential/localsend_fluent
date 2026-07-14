@@ -1,5 +1,5 @@
-import 'package:common/isolate.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:localsend_app/common/isolate.dart';
 import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/config/init_error.dart';
 import 'package:localsend_app/config/theme.dart';
@@ -61,8 +61,7 @@ class LocalSendApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ref = context.ref;
-    final (themeMode, colorMode) =
-        ref.watch(settingsProvider.select((settings) => (settings.theme, settings.colorMode)));
+    final (themeMode, colorMode) = ref.watch(settingsProvider.select((settings) => (settings.theme, settings.colorMode)));
     final dynamicColors = ref.watch(dynamicColorsProvider);
     return TrayWatcher(
       child: WindowWatcher(
@@ -85,10 +84,7 @@ class LocalSendApp extends StatelessWidget {
             child: FluentApp(
               title: t.appName,
               locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: FluentLocalizations.supportedLocales
-                  .toSet()
-                  .intersection(AppLocaleUtils.supportedLocales.toSet())
-                  .toList(),
+              supportedLocales: FluentLocalizations.supportedLocales.toSet().intersection(AppLocaleUtils.supportedLocales.toSet()).toList(),
               localizationsDelegates: FluentLocalizations.localizationsDelegates,
               debugShowCheckedModeBanner: false,
               theme: getTheme(colorMode, Brightness.light, is10footScreen(context), dynamicColors),

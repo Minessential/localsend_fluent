@@ -1,7 +1,7 @@
-import 'package:common/isolate.dart';
-import 'package:common/model/device_info_result.dart';
-import 'package:common/util/sleep.dart';
 import 'package:flutter/widgets.dart';
+import 'package:localsend_app/common/isolate.dart';
+import 'package:localsend_app/common/model/device_info_result.dart';
+import 'package:localsend_app/common/util/sleep.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
@@ -68,8 +68,7 @@ class SettingsTabController extends ReduxNotifier<SettingsTabVm> {
       settings: _settingsService.state,
       serverState: _serverService.state,
       deviceInfo: _initialDeviceInfo,
-      colorModes:
-          _supportsDynamicColors ? ColorMode.values : ColorMode.values.where((e) => e != ColorMode.system).toList(),
+      colorModes: _supportsDynamicColors ? ColorMode.values : ColorMode.values.where((e) => e != ColorMode.system).toList(),
       autoStart: false,
       autoStartLaunchHidden: false,
       showInContextMenu: false,

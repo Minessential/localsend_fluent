@@ -1,5 +1,5 @@
-import 'package:common/util/sleep.dart';
 import 'package:flutter/widgets.dart';
+import 'package:localsend_app/common/util/sleep.dart';
 
 class RotatingWidget extends StatefulWidget {
   final Duration duration;

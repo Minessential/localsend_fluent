@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:common/model/dto/file_dto.dart';
-import 'package:common/model/file_status.dart';
-import 'package:common/model/session_status.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
+import 'package:localsend_app/common/model/dto/file_dto.dart';
+import 'package:localsend_app/common/model/file_status.dart';
+import 'package:localsend_app/common/model/session_status.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
@@ -113,14 +113,12 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
           _files = receiveSession.files.values.map((f) => f.file).toList();
 
           // We previously used f.token != null here, but this may not work on very fast networks.
-          _selectedFiles =
-              receiveSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
+          _selectedFiles = receiveSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
         } else {
           final sendSession = ref.read(sendProvider)[widget.sessionId];
           if (sendSession != null) {
             _files = sendSession.files.values.map((f) => f.file).toList();
-            _selectedFiles =
-                sendSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
+            _selectedFiles = sendSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
           }
         }
 
@@ -133,8 +131,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
     final receiveSession = ref.read(serverProvider.select((s) => s?.session));
     final sendSession = ref.read(sendProvider)[widget.sessionId];
     final SessionStatus? status = receiveSession?.status ?? sendSession?.status;
-    final keepSession =
-        !closeSession && (status == SessionStatus.sending || status == SessionStatus.finishedWithErrors);
+    final keepSession = !closeSession && (status == SessionStatus.sending || status == SessionStatus.finishedWithErrors);
     final result = status == null || keepSession || await _askCancelConfirmation(status);
 
     if (result && mounted) {
@@ -184,9 +181,9 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
   Widget build(BuildContext context) {
     final progressNotifier = ref.watch(progressProvider);
     final currBytes = _files.fold<int>(
-        0,
-        (prev, curr) =>
-            prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()));
+      0,
+      (prev, curr) => prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()),
+    );
 
     final receiveSession = ref.watch(serverProvider.select((s) => s?.session));
     final sendSession = ref.watch(sendProvider)[widget.sessionId];
@@ -213,8 +210,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
     final endTime = commonSessionState.endTime;
     final int? speedInBytes;
     if (startTime != null && currBytes >= 500 * 1024) {
-      speedInBytes =
-          getFileSpeed(start: startTime, end: endTime ?? DateTime.now().millisecondsSinceEpoch, bytes: currBytes);
+      speedInBytes = getFileSpeed(start: startTime, end: endTime ?? DateTime.now().millisecondsSinceEpoch, bytes: currBytes);
 
       final now = DateTime.now().millisecondsSinceEpoch;
       if (now - _lastRemainingTimeUpdate >= 1000) {
@@ -225,8 +221,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
       speedInBytes = null;
     }
 
-    final fileStatusMap = receiveSession?.files.map((k, f) => MapEntry(k, f.status)) ??
-        sendSession!.files.map((k, f) => MapEntry(k, f.status));
+    final fileStatusMap = receiveSession?.files.map((k, f) => MapEntry(k, f.status)) ?? sendSession!.files.map((k, f) => MapEntry(k, f.status));
     final finishedCount = fileStatusMap.values.where((s) => s == FileStatus.finished).length;
     final theme = FluentTheme.of(context);
 
@@ -243,243 +238,244 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
       child: BaseNormalPage(
         windowTitle: title,
         headerTitle: title,
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 8, children: [
-          if (checkPlatformWithFileSystem() && receiveSession != null)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(text: '${t.settingsTab.receive.destination}: '),
-                    TextSpan(
-                      text: receiveSession.destinationDirectory,
-                      style: !checkPlatform([TargetPlatform.iOS])
-                          ? TextStyle(
-                              color: theme.accentColor,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 8,
+          children: [
+            if (checkPlatformWithFileSystem() && receiveSession != null)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: '${t.settingsTab.receive.destination}: '),
+                      TextSpan(
+                        text: receiveSession.destinationDirectory,
+                        style: !checkPlatform([TargetPlatform.iOS])
+                            ? TextStyle(
+                                color: theme.accentColor,
+                              )
+                            : null,
+                        recognizer: checkPlatform([TargetPlatform.iOS])
+                            ? null
+                            : (TapGestureRecognizer()
+                                ..onTap = () async {
+                                  await openFolder(folderPath: receiveSession.destinationDirectory);
+                                }),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            () {
+              // error card
+              final errorMessage = sendSession?.errorMessage;
+              if (errorMessage == null) return const SizedBox.shrink();
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SelectableText(errorMessage, style: TextStyle(color: Colors.warningPrimaryColor)),
+              );
+            }(),
+            Expanded(
+              child: ListView.separated(
+                cacheExtent: 72,
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                ),
+                itemCount: _files.length,
+                itemBuilder: (context, index) {
+                  final file = _files[index];
+                  final String fileName = receiveSession?.files[file.id]?.desiredName ?? file.fileName;
+
+                  final fileStatus = fileStatusMap[file.id]!;
+                  final savedToGallery = receiveSession?.files[file.id]?.savedToGallery ?? false;
+
+                  final String? filePath;
+                  if (receiveSession != null && fileStatus == FileStatus.finished && !savedToGallery) {
+                    filePath = receiveSession.files[file.id]!.path;
+                  } else if (sendSession != null) {
+                    filePath = sendSession.files[file.id]!.path;
+                  } else {
+                    filePath = null;
+                  }
+
+                  final String? errorMessage;
+                  if (receiveSession != null) {
+                    errorMessage = receiveSession.files[file.id]!.errorMessage;
+                  } else if (sendSession != null) {
+                    errorMessage = sendSession.files[file.id]!.errorMessage;
+                  } else {
+                    errorMessage = null;
+                  }
+
+                  final Uint8List? thumbnail;
+                  final AssetEntity? asset;
+                  if (sendSession != null) {
+                    thumbnail = sendSession.files[file.id]!.thumbnail;
+                    asset = sendSession.files[file.id]!.asset;
+                  } else {
+                    thumbnail = null;
+                    asset = null;
+                  }
+
+                  return SizedBox(
+                    height: 72,
+                    child: UniversalListItem(
+                      leading: SmartFileThumbnail(
+                        bytes: thumbnail,
+                        asset: asset,
+                        path: filePath,
+                        fileType: file.fileType,
+                      ),
+                      onPressed: filePath != null && receiveSession != null ? () async => openFile(context, file.fileType, filePath!) : null,
+                      title: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          spacing: 10,
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    fileName,
+                                    style: const TextStyle(fontSize: 16, height: 1),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    softWrap: false,
+                                  ),
+                                ),
+                                Text(
+                                  ' (${file.size.asReadableFileSize})',
+                                  style: const TextStyle(fontSize: 16, height: 1),
+                                ),
+                              ],
+                            ),
+                            if (fileStatus == FileStatus.sending)
+                              CustomProgressBar(
+                                progress: progressNotifier.getProgress(sessionId: widget.sessionId, fileId: file.id) * 100,
+                              )
+                            else
+                              Row(
+                                spacing: 5,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      savedToGallery ? t.progressPage.savedToGallery : fileStatus.label,
+                                      style: TextStyle(color: fileStatus.getColor(context), height: 1),
+                                    ),
+                                  ),
+                                  if (errorMessage != null)
+                                    IconButton(
+                                      iconButtonMode: IconButtonMode.small,
+                                      style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(2))),
+                                      onPressed: () async {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (_) => ErrorDialog(error: errorMessage!),
+                                        );
+                                      },
+                                      icon: Icon(FluentIcons.info_16_regular, color: Colors.warningPrimaryColor, size: 16),
+                                    ),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
+                      trailing: (sendSession != null && fileStatus == FileStatus.failed)
+                          ? Tooltip(
+                              message: t.progressPage.retry,
+                              child: IconButton(
+                                icon: const Icon(FluentIcons.arrow_counterclockwise_20_regular, size: 20),
+                                onPressed: () async {
+                                  await ref
+                                      .notifier(sendProvider)
+                                      .sendFile(
+                                        sessionId: widget.sessionId,
+                                        isolateIndex: 0,
+                                        file: sendSession.files[file.id]!,
+                                        isRetry: true,
+                                      );
+                                },
+                              ),
                             )
                           : null,
-                      recognizer: checkPlatform([TargetPlatform.iOS])
-                          ? null
-                          : (TapGestureRecognizer()
-                            ..onTap = () async {
-                              await openFolder(folderPath: receiveSession.destinationDirectory);
-                            }),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(height: 4),
+              ),
+            ),
+            SafeArea(
+              child: Card(
+                margin: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                padding: const EdgeInsets.only(left: 28, right: 28, bottom: 18, top: 22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 10,
+                  children: [
+                    Text(
+                      status.getLabel(remainingTime: _remainingTime ?? '-'),
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    CustomProgressBar(progress: _totalBytes == 0 ? 0 : 100 * currBytes / _totalBytes),
+                    AnimatedCrossFade(
+                      crossFadeState: _advanced ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                      duration: const Duration(milliseconds: 200),
+                      alignment: Alignment.topLeft,
+                      firstChild: Container(),
+                      secondChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(t.progressPage.total.count(curr: finishedCount, n: _selectedFiles.length)),
+                          Text(
+                            t.progressPage.total.size(
+                              curr: currBytes.asReadableFileSize,
+                              n: _totalBytes == double.maxFinite.toInt() ? '-' : _totalBytes.asReadableFileSize,
+                            ),
+                          ),
+                          if (speedInBytes != null) Text(t.progressPage.total.speed(speed: speedInBytes.asReadableFileSize)),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      spacing: 10,
+                      children: [
+                        CustomIconLabelButton(
+                          ButtonType.inkwell,
+                          onPressed: () {
+                            setState(() => _advanced = !_advanced);
+                          },
+                          icon: Icon(
+                            _advanced ? FluentIcons.chevron_circle_down_16_regular : FluentIcons.chevron_circle_up_16_regular,
+                            size: 16,
+                          ),
+                          label: Text(_advanced ? t.general.hide : t.general.advanced),
+                        ),
+                        CustomIconLabelButton(
+                          ButtonType.filled,
+                          onPressed: () => _exit(closeSession: true),
+                          icon: Icon(status == SessionStatus.sending ? FluentIcons.dismiss_16_regular : FluentIcons.checkmark_16_regular, size: 16),
+                          label: Text(
+                            status == SessionStatus.sending
+                                ? t.general.cancel
+                                : _finishTimer != null
+                                ? '${t.general.done} ($_finishCounter)'
+                                : t.general.done,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-          () {
-            // error card
-            final errorMessage = sendSession?.errorMessage;
-            if (errorMessage == null) return const SizedBox.shrink();
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SelectableText(errorMessage, style: TextStyle(color: Colors.warningPrimaryColor)),
-            );
-          }(),
-          Expanded(
-            child: ListView.separated(
-              cacheExtent: 72,
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              itemCount: _files.length,
-              itemBuilder: (context, index) {
-                final file = _files[index];
-                final String fileName = receiveSession?.files[file.id]?.desiredName ?? file.fileName;
-
-                final fileStatus = fileStatusMap[file.id]!;
-                final savedToGallery = receiveSession?.files[file.id]?.savedToGallery ?? false;
-
-                final String? filePath;
-                if (receiveSession != null && fileStatus == FileStatus.finished && !savedToGallery) {
-                  filePath = receiveSession.files[file.id]!.path;
-                } else if (sendSession != null) {
-                  filePath = sendSession.files[file.id]!.path;
-                } else {
-                  filePath = null;
-                }
-
-                final String? errorMessage;
-                if (receiveSession != null) {
-                  errorMessage = receiveSession.files[file.id]!.errorMessage;
-                } else if (sendSession != null) {
-                  errorMessage = sendSession.files[file.id]!.errorMessage;
-                } else {
-                  errorMessage = null;
-                }
-
-                final Uint8List? thumbnail;
-                final AssetEntity? asset;
-                if (sendSession != null) {
-                  thumbnail = sendSession.files[file.id]!.thumbnail;
-                  asset = sendSession.files[file.id]!.asset;
-                } else {
-                  thumbnail = null;
-                  asset = null;
-                }
-
-                return SizedBox(
-                  height: 72,
-                  child: UniversalListItem(
-                    leading: SmartFileThumbnail(
-                      bytes: thumbnail,
-                      asset: asset,
-                      path: filePath,
-                      fileType: file.fileType,
-                    ),
-                    onPressed: filePath != null && receiveSession != null
-                        ? () async => openFile(context, file.fileType, filePath!)
-                        : null,
-                    title: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        spacing: 10,
-                        children: [
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  fileName,
-                                  style: const TextStyle(fontSize: 16, height: 1),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.fade,
-                                  softWrap: false,
-                                ),
-                              ),
-                              Text(
-                                ' (${file.size.asReadableFileSize})',
-                                style: const TextStyle(fontSize: 16, height: 1),
-                              ),
-                            ],
-                          ),
-                          if (fileStatus == FileStatus.sending)
-                            CustomProgressBar(
-                              progress:
-                                  progressNotifier.getProgress(sessionId: widget.sessionId, fileId: file.id) * 100,
-                            )
-                          else
-                            Row(spacing: 5, children: [
-                              Flexible(
-                                child: Text(
-                                  savedToGallery ? t.progressPage.savedToGallery : fileStatus.label,
-                                  style: TextStyle(color: fileStatus.getColor(context), height: 1),
-                                ),
-                              ),
-                              if (errorMessage != null)
-                                IconButton(
-                                  iconButtonMode: IconButtonMode.small,
-                                  style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(2))),
-                                  onPressed: () async {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (_) => ErrorDialog(error: errorMessage!),
-                                    );
-                                  },
-                                  icon: Icon(FluentIcons.info_16_regular, color: Colors.warningPrimaryColor, size: 16),
-                                ),
-                            ]),
-                        ],
-                      ),
-                    ),
-                    trailing: (sendSession != null && fileStatus == FileStatus.failed)
-                        ? Tooltip(
-                            message: t.progressPage.retry,
-                            child: IconButton(
-                              icon: const Icon(FluentIcons.arrow_counterclockwise_20_regular, size: 20),
-                              onPressed: () async {
-                                await ref.notifier(sendProvider).sendFile(
-                                      sessionId: widget.sessionId,
-                                      isolateIndex: 0,
-                                      file: sendSession.files[file.id]!,
-                                      isRetry: true,
-                                    );
-                              },
-                            ),
-                          )
-                        : null,
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 4),
-            ),
-          ),
-          SafeArea(
-            child: Card(
-              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-              padding: const EdgeInsets.only(left: 28, right: 28, bottom: 18, top: 22),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                spacing: 10,
-                children: [
-                  Text(
-                    status.getLabel(remainingTime: _remainingTime ?? '-'),
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  CustomProgressBar(progress: _totalBytes == 0 ? 0 : 100 * currBytes / _totalBytes),
-                  AnimatedCrossFade(
-                    crossFadeState: _advanced ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                    duration: const Duration(milliseconds: 200),
-                    alignment: Alignment.topLeft,
-                    firstChild: Container(),
-                    secondChild: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(t.progressPage.total.count(curr: finishedCount, n: _selectedFiles.length)),
-                        Text(t.progressPage.total.size(
-                          curr: currBytes.asReadableFileSize,
-                          n: _totalBytes == double.maxFinite.toInt() ? '-' : _totalBytes.asReadableFileSize,
-                        )),
-                        if (speedInBytes != null)
-                          Text(t.progressPage.total.speed(speed: speedInBytes.asReadableFileSize)),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    spacing: 10,
-                    children: [
-                      CustomIconLabelButton(
-                        ButtonType.inkwell,
-                        onPressed: () {
-                          setState(() => _advanced = !_advanced);
-                        },
-                        icon: Icon(
-                          _advanced
-                              ? FluentIcons.chevron_circle_down_16_regular
-                              : FluentIcons.chevron_circle_up_16_regular,
-                          size: 16,
-                        ),
-                        label: Text(_advanced ? t.general.hide : t.general.advanced),
-                      ),
-                      CustomIconLabelButton(
-                        ButtonType.filled,
-                        onPressed: () => _exit(closeSession: true),
-                        icon: Icon(
-                            status == SessionStatus.sending
-                                ? FluentIcons.dismiss_16_regular
-                                : FluentIcons.checkmark_16_regular,
-                            size: 16),
-                        label: Text(
-                          status == SessionStatus.sending
-                              ? t.general.cancel
-                              : _finishTimer != null
-                                  ? '${t.general.done} ($_finishCounter)'
-                                  : t.general.done,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

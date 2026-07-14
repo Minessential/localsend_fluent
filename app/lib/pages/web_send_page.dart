@@ -1,7 +1,7 @@
-import 'package:common/util/sleep.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/services.dart';
+import 'package:localsend_app/common/util/sleep.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/cross_file.dart';
@@ -44,8 +44,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
 
   void _init({required bool encrypted}) async {
     final settings = ref.read(settingsProvider);
-    final (beforeAutoAccept, beforePin) =
-        ref.read(serverProvider.select((state) => (state?.webSendState?.autoAccept, state?.webSendState?.pin)));
+    final (beforeAutoAccept, beforePin) = ref.read(serverProvider.select((state) => (state?.webSendState?.autoAccept, state?.webSendState?.pin)));
     setState(() {
       _stateEnum = _ServerState.initializing;
       _encrypted = encrypted;
@@ -220,42 +219,44 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Card(
-                      child: Row(children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                session.deviceInfo,
-                                style: theme.typography.bodyStrong?.copyWith(
-                                  color: session.responseHandler != null ? Colors.warningPrimaryColor : null,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  session.deviceInfo,
+                                  style: theme.typography.bodyStrong?.copyWith(
+                                    color: session.responseHandler != null ? Colors.warningPrimaryColor : null,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(session.ip, style: theme.typography.body?.copyWith(color: theme.autoGrey)),
-                            ],
+                                const SizedBox(height: 5),
+                                Text(session.ip, style: theme.typography.body?.copyWith(color: theme.autoGrey)),
+                              ],
+                            ),
                           ),
-                        ),
-                        if (session.responseHandler != null) ...[
-                          IconButton(
-                            onPressed: () {
-                              ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
-                            },
-                            icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
-                          ),
-                          SizedBox(width: 10),
-                          IconButton(
-                            onPressed: () {
-                              ref.notifier(serverProvider).acceptWebSendRequest(session.sessionId);
-                            },
-                            icon: const Icon(FluentIcons.checkmark_16_regular, size: 16),
-                          ),
-                        ] else
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(t.general.accepted, style: theme.typography.body),
-                          ),
-                      ]),
+                          if (session.responseHandler != null) ...[
+                            IconButton(
+                              onPressed: () {
+                                ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
+                              },
+                              icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
+                            ),
+                            SizedBox(width: 10),
+                            IconButton(
+                              onPressed: () {
+                                ref.notifier(serverProvider).acceptWebSendRequest(session.sessionId);
+                              },
+                              icon: const Icon(FluentIcons.checkmark_16_regular, size: 16),
+                            ),
+                          ] else
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Text(t.general.accepted, style: theme.typography.body),
+                            ),
+                        ],
+                      ),
                     ),
                   );
                 }),

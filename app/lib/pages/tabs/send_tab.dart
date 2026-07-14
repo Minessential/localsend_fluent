@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
-import 'package:common/model/device.dart';
-import 'package:common/model/session_status.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:localsend_app/common/model/device.dart';
+import 'package:localsend_app/common/model/session_status.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/send_mode.dart';
@@ -74,10 +74,12 @@ class SendTab extends StatelessWidget {
                     icon: option.icon,
                     label: option.label,
                     filled: false,
-                    onTap: () async => ref.global.dispatchAsync(PickFileAction(
-                      option: option,
-                      context: context,
-                    )),
+                    onTap: () async => ref.global.dispatchAsync(
+                      PickFileAction(
+                        option: option,
+                        context: context,
+                      ),
+                    ),
                   );
                 }).toList(),
               ),
@@ -99,16 +101,16 @@ class SendTab extends StatelessWidget {
                           IconButton(
                             onPressed: () => ref.redux(selectedSendingFilesProvider).dispatch(ClearSelectionAction()),
                             icon: Padding(
-                                padding: EdgeInsets.all(3),
-                                child: Icon(FluentIcons.dismiss_16_filled, size: 16, color: theme.accentColor)),
+                              padding: EdgeInsets.all(3),
+                              child: Icon(FluentIcons.dismiss_16_filled, size: 16, color: theme.accentColor),
+                            ),
                           ),
                           const SizedBox(width: 5),
                         ],
                       ),
                       const SizedBox(height: 5),
                       Text(t.sendTab.selection.files(files: vm.selectedFiles.length)),
-                      Text(t.sendTab.selection
-                          .size(size: vm.selectedFiles.fold(0, (prev, curr) => prev + curr.size).asReadableFileSize)),
+                      Text(t.sendTab.selection.size(size: vm.selectedFiles.fold(0, (prev, curr) => prev + curr.size).asReadableFileSize)),
                       const SizedBox(height: 10),
                       SizedBox(
                         height: defaultThumbnailSize,
@@ -140,10 +142,12 @@ class SendTab extends StatelessWidget {
                             onPressed: () async {
                               if (_options.length == 1) {
                                 // open directly
-                                await ref.global.dispatchAsync(PickFileAction(
-                                  option: _options.first,
-                                  context: context,
-                                ));
+                                await ref.global.dispatchAsync(
+                                  PickFileAction(
+                                    option: _options.first,
+                                    context: context,
+                                  ),
+                                );
                                 return;
                               }
                               await AddFileDialog.open(
@@ -317,8 +321,7 @@ class _ScanButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (scanningFavorites, scanningIps) =
-        context.ref.watch(nearbyDevicesProvider.select((s) => (s.runningFavoriteScan, s.runningIps)));
+    final (scanningFavorites, scanningIps) = context.ref.watch(nearbyDevicesProvider.select((s) => (s.runningFavoriteScan, s.runningIps)));
     final animations = context.ref.watch(animationProvider);
 
     final spinning = (scanningFavorites || scanningIps.isNotEmpty) && animations;
@@ -391,33 +394,35 @@ class _SendModeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref) {
-      return _CircularPopupButton(
-        tooltip: t.sendTab.sendMode,
-        items: [
-          ...SendMode.values.map(
-            (e) => RadioMenuFlyoutItem<SendMode>(
-              text: Text(e.humanName),
-              value: e,
-              groupValue: ref.watch(settingsProvider.select((s) => s.sendMode)),
-              onChanged: (v) {
-                context.popUntil(HomePage);
-                onSelect(v);
+    return Consumer(
+      builder: (context, ref) {
+        return _CircularPopupButton(
+          tooltip: t.sendTab.sendMode,
+          items: [
+            ...SendMode.values.map(
+              (e) => RadioMenuFlyoutItem<SendMode>(
+                text: Text(e.humanName),
+                value: e,
+                groupValue: ref.watch(settingsProvider.select((s) => s.sendMode)),
+                onChanged: (v) {
+                  context.popUntil(HomePage);
+                  onSelect(v);
+                },
+              ),
+            ),
+            const MenuFlyoutSeparator(),
+            MenuFlyoutItem(
+              leading: Icon(FluentIcons.question_circle_16_regular, size: 16),
+              text: Text(t.sendTab.sendModeHelp),
+              onPressed: () async {
+                await showDialog(context: context, builder: (_) => const SendModeHelpDialog());
               },
             ),
-          ),
-          const MenuFlyoutSeparator(),
-          MenuFlyoutItem(
-            leading: Icon(FluentIcons.question_circle_16_regular, size: 16),
-            text: Text(t.sendTab.sendModeHelp),
-            onPressed: () async {
-              await showDialog(context: context, builder: (_) => const SendModeHelpDialog());
-            },
-          ),
-        ],
-        child: Icon(FluentIcons.settings_20_regular, size: 18),
-      );
-    });
+          ],
+          child: Icon(FluentIcons.settings_20_regular, size: 18),
+        );
+      },
+    );
   }
 }
 
@@ -457,11 +462,9 @@ class _MultiSendDeviceListTile extends StatelessWidget {
       final files = session.files.values.where((f) => f.token != null);
       final progressNotifier = ref.watch(progressProvider);
       final currBytes = files.fold<int>(
-          0,
-          (prev, curr) =>
-              prev +
-              ((progressNotifier.getProgress(sessionId: session.sessionId, fileId: curr.file.id) * curr.file.size)
-                  .round()));
+        0,
+        (prev, curr) => prev + ((progressNotifier.getProgress(sessionId: session.sessionId, fileId: curr.file.id) * curr.file.size).round()),
+      );
       final totalBytes = files.fold<int>(0, (prev, curr) => prev + curr.file.size);
       progress = totalBytes == 0 ? 0 : currBytes / totalBytes;
     } else {

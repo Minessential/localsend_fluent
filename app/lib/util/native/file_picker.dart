@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:common/model/file_type.dart';
-import 'package:common/util/sleep.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:localsend_app/common/model/file_type.dart';
+import 'package:localsend_app/common/util/sleep.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/cross_file.dart';
@@ -41,7 +41,8 @@ enum FilePickerOption {
   media(FluentIcons.image_multiple_20_regular),
   text(FluentIcons.document_text_20_regular),
   app(FluentIcons.apps_20_regular),
-  clipboard(FluentIcons.clipboard_20_regular);
+  clipboard(FluentIcons.clipboard_20_regular)
+  ;
 
   const FilePickerOption(this.icon);
 
@@ -214,8 +215,7 @@ Future<void> _pickFolder(BuildContext context, Ref ref) async {
   );
   await sleepAsync(200); // Wait for the dialog to be shown
   try {
-    if (defaultTargetPlatform == TargetPlatform.android &&
-        (ref.read(deviceInfoProvider).androidSdkInt ?? 0) >= android_channel.contentUriMinSdk) {
+    if (defaultTargetPlatform == TargetPlatform.android && (ref.read(deviceInfoProvider).androidSdkInt ?? 0) >= android_channel.contentUriMinSdk) {
       // Android 8 and above have more predictable content URIs that we can parse.
       final result = await android_channel.pickDirectoryAndroid();
       if (result != null) {
@@ -363,9 +363,13 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     return;
   }
 
-  await displayInfoBar(context, duration: Duration(milliseconds: 1500), builder: (context, close) {
-    return InfoBar(title: Text(t.general.noItemInClipboard));
-  });
+  await displayInfoBar(
+    context,
+    duration: Duration(milliseconds: 1500),
+    builder: (context, close) {
+      return InfoBar(title: Text(t.general.noItemInClipboard));
+    },
+  );
 }
 
 Future<void> _pickApp(BuildContext context) async {
