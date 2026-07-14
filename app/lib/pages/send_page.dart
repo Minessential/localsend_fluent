@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:localsend_app/common/model/device.dart';
-import 'package:localsend_app/common/model/session_status.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/isolate/model/device.dart';
+import 'package:localsend_app/isolate/model/session_status.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';

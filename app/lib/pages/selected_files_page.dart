@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:localsend_app/common/model/file_type.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/isolate/model/file_type.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/file_size_helper.dart';

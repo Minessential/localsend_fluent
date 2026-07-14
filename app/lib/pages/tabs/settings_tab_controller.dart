@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:localsend_app/common/isolate.dart';
-import 'package:localsend_app/common/model/device_info_result.dart';
-import 'package:localsend_app/common/util/sleep.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/isolate/isolate.dart';
+import 'package:localsend_app/isolate/model/device_info_result.dart';
+import 'package:localsend_app/isolate/util/sleep.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/tabs/settings_tab_vm.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';

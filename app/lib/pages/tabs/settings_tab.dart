@@ -1,14 +1,12 @@
 import 'dart:io';
-import 'dart:ui';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
-import 'package:localsend_app/common/constants.dart';
-import 'package:localsend_app/common/model/device.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/isolate/constants.dart';
+import 'package:localsend_app/isolate/model/device.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/about/about_page.dart';
 import 'package:localsend_app/pages/changelog_page.dart';
@@ -220,12 +218,9 @@ class SettingsTab extends StatelessWidget {
                   _TextIconButtonEntry(
                     label: t.settingsTab.receive.destination,
                     toolTip: vm.settings.destination,
-                    buttonLabel: vm.settings.destination != null
-                        ? vm.settings.destination!.getSuffix
-                        : t.settingsTab.receive.downloads,
+                    buttonLabel: vm.settings.destination != null ? vm.settings.destination!.getSuffix : t.settingsTab.receive.downloads,
                     prefixIcon: FluentIcons.folder_24_regular,
-                    icon:
-                        vm.settings.destination == null ? FluentIcons.edit_24_regular : FluentIcons.dismiss_24_regular,
+                    icon: vm.settings.destination == null ? FluentIcons.edit_24_regular : FluentIcons.dismiss_24_regular,
                     onTap: () async {
                       if (vm.settings.destination != null) {
                         await ref.notifier(settingsProvider).setDestination(null);
@@ -288,7 +283,8 @@ class SettingsTab extends StatelessWidget {
               title: t.settingsTab.network.title,
               children: [
                 AnimatedCrossFade(
-                  crossFadeState: vm.serverState != null &&
+                  crossFadeState:
+                      vm.serverState != null &&
                           (vm.serverState!.alias != vm.settings.alias ||
                               vm.serverState!.port != vm.settings.port ||
                               vm.serverState!.https != vm.settings.https)
@@ -425,9 +421,7 @@ class SettingsTab extends StatelessWidget {
                   _SettingsEntry(
                     icon: FluentIcons.plug_connected_24_regular,
                     label: t.settingsTab.network.port,
-                    subtitle: vm.settings.port != defaultPort
-                        ? t.settingsTab.network.portWarning(defaultPort: defaultPort)
-                        : null,
+                    subtitle: vm.settings.port != defaultPort ? t.settingsTab.network.portWarning(defaultPort: defaultPort) : null,
                     child: TextFieldTv(
                       name: t.settingsTab.network.port,
                       controller: vm.portController,
@@ -476,14 +470,17 @@ class SettingsTab extends StatelessWidget {
                       final old = vm.settings.https;
                       await ref.notifier(settingsProvider).setHttps(b);
                       if (old && !b && context.mounted) {
-                        await displayInfoBar(context, builder: (context, close) {
-                          return InfoBar(
-                            severity: InfoBarSeverity.warning,
-                            isLong: true,
-                            title: Text(t.dialogs.encryptionDisabledNotice.title),
-                            content: Text(t.dialogs.encryptionDisabledNotice.content),
-                          );
-                        });
+                        await displayInfoBar(
+                          context,
+                          builder: (context, close) {
+                            return InfoBar(
+                              severity: InfoBarSeverity.warning,
+                              isLong: true,
+                              title: Text(t.dialogs.encryptionDisabledNotice.title),
+                              content: Text(t.dialogs.encryptionDisabledNotice.content),
+                            );
+                          },
+                        );
                       }
                     },
                   ),
@@ -520,7 +517,9 @@ class SettingsTab extends StatelessWidget {
                   iconWidget: SizedBox(width: 24, height: 24, child: LocalSendLogo(withText: false)),
                   title: t.appName,
                   subTitle: '© ${DateTime.now().year} Tien Do Nam',
-                  trailing: ref.watch(versionProvider).maybeWhen(
+                  trailing: ref
+                      .watch(versionProvider)
+                      .maybeWhen(
                         data: (version) => Text(
                           version,
                           textAlign: TextAlign.center,
@@ -588,7 +587,9 @@ class SettingsTab extends StatelessWidget {
                       const SizedBox(height: 20),
                       const LocalSendLogo(withText: true),
                       const SizedBox(height: 5),
-                      ref.watch(versionProvider).maybeWhen(
+                      ref
+                          .watch(versionProvider)
+                          .maybeWhen(
                             data: (version) => Text(
                               'Version: $version',
                               textAlign: TextAlign.center,
@@ -715,8 +716,7 @@ class _SettingExpanderEntry extends StatelessWidget {
                 ],
               ),
       ),
-      trailing:
-          trailing != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 150), child: trailing) : null,
+      trailing: trailing != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 150), child: trailing) : null,
       contentPadding: EdgeInsets.zero,
       onStateChanged: onStateChanged,
       content: content,

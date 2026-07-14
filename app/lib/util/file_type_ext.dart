@@ -1,6 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:localsend_app/common/model/file_type.dart';
+import 'package:localsend_app/isolate/model/file_type.dart';
 
 extension FileTypeExt on FileType {
   IconData get icon {
