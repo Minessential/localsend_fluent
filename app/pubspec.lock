@@ -725,15 +725,7 @@ packages:
       sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.2"
-  http_profile:
-    dependency: transitive
-    description:
-      name: http_profile
-      sha256: "7e679e355b09aaee2ab5010915c932cce3f2d1c11c3b2dc177891687014ffa78"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
+    version: "4.1.2"
   image:
     dependency: "direct main"
     description:
@@ -1407,15 +1399,7 @@ packages:
       sha256: "88f41a0b55aae12a88ad40c33b0b1593581ead0c32b0bcfed1115daf6d54e6ce"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
-  rhttp:
-    dependency: "direct main"
-    description:
-      name: rhttp
-      sha256: ea373e32d6471ed98e3b21467ce63b0679912b9a50c66a3d6bc021a5b2caa66d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.14.0"
+    version: "2.1.1"
   routerino:
     dependency: "direct main"
     description:
