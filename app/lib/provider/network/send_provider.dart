@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:fluent_ui/fluent_ui.dart';
@@ -312,31 +311,13 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
       state: (s) => s?.copyWith(startTime: DateTime.now().millisecondsSinceEpoch),
     );
 
-    final queue = Queue<SendingFile>()..addAll(files.values);
-    final concurrency = ref.read(parentIsolateProvider).uploadIsolateCount;
-    _logger.info('Sending files using $concurrency concurrent isolates');
-
-    final futures = List.generate(concurrency, (index) async {
-      while (true) {
-        final file = switch (queue.isEmpty) {
-          true => null,
-          false => queue.removeFirst(),
-        };
-
-        if (file == null) {
-          break;
-        }
-
-        await sendFile(
-          sessionId: sessionId,
-          isolateIndex: index,
-          file: file,
-          isRetry: false,
-        );
-      }
-    });
-
-    await Future.wait(futures);
+    for (final file in files.values) {
+      await sendFile(
+        sessionId: sessionId,
+        file: file,
+        isRetry: false,
+      );
+    }
 
     _finish(sessionId: sessionId);
   }
@@ -380,7 +361,6 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
   /// Returns true, if the next file should be sent.
   Future<bool> sendFile({
     required String sessionId,
-    required int isolateIndex,
     required SendingFile file,
     required bool isRetry,
   }) async {
@@ -426,7 +406,6 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
         .redux(parentIsolateProvider)
         .dispatchTakeResult(
           IsolateHttpUploadAction(
-            isolateIndex: isolateIndex,
             remoteSessionId: remoteSessionId,
             remoteFileToken: token,
             fileId: file.file.id,
@@ -445,7 +424,6 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
           sendingTasks: [
             ...?s.sendingTasks,
             SendingTask(
-              isolateIndex: isolateIndex,
               taskId: taskResult.taskId,
             ),
           ],
@@ -477,7 +455,7 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
       state = state.updateSession(
         sessionId: sessionId,
         state: (s) => s?.copyWith(
-          sendingTasks: s.sendingTasks?.where((task) => !(task.isolateIndex == isolateIndex && task.taskId == taskResult.taskId)).toList(),
+          sendingTasks: s.sendingTasks?.where((task) => task.taskId != taskResult.taskId).toList(),
         ),
       );
     }
@@ -556,7 +534,6 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
           .redux(parentIsolateProvider)
           .dispatch(
             IsolateHttpUploadCancelAction(
-              isolateIndex: task.isolateIndex,
               taskId: task.taskId,
             ),
           );
