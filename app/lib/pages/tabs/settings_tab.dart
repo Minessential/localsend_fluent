@@ -5,8 +5,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/isolate/constants.dart';
-import 'package:localsend_app/isolate/model/device.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/about/about_page.dart';
 import 'package:localsend_app/pages/changelog_page.dart';
@@ -29,6 +27,8 @@ import 'package:localsend_app/widget/dialogs/text_field_with_actions_dialog.dart
 import 'package:localsend_app/widget/fluent/base_pane_body.dart';
 import 'package:localsend_app/widget/fluent/universal_list_item.dart';
 import 'package:localsend_app/widget/local_send_logo.dart';
+import 'package:localsend_isolates/constants.dart';
+import 'package:localsend_isolates/model/device.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:url_launcher/url_launcher.dart';

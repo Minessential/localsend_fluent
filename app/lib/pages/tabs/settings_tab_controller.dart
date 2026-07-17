@@ -1,9 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/isolate/isolate.dart';
-import 'package:localsend_app/isolate/model/device_info_result.dart';
-import 'package:localsend_app/isolate/util/sleep.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/tabs/settings_tab_vm.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
@@ -14,6 +11,9 @@ import 'package:localsend_app/util/native/autostart_helper.dart';
 import 'package:localsend_app/util/native/context_menu_helper.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
 import 'package:localsend_app/util/ui/snackbar.dart';
+import 'package:localsend_isolates/isolate.dart';
+import 'package:localsend_isolates/model/device_info_result.dart';
+import 'package:localsend_isolates/util/sleep.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
 final settingsTabControllerProvider = ReduxProvider<SettingsTabController, SettingsTabVm>((ref) {

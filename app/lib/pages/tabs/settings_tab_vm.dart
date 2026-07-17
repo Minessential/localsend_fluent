@@ -1,10 +1,10 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/isolate/model/device_info_result.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/model/state/server/server_state.dart';
 import 'package:localsend_app/model/state/settings_state.dart';
+import 'package:localsend_isolates/model/device_info_result.dart';
 
 part 'settings_tab_vm.mapper.dart';
 
