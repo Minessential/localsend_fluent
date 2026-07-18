@@ -12,3 +12,6 @@
 .fvm/
 
 pack/
+
+# macOS
+.DS_Store
