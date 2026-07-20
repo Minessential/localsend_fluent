@@ -44,7 +44,6 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
 
   void _init({required bool encrypted}) async {
     final settings = ref.read(settingsProvider);
-    final (beforeAutoAccept, beforePin) = ref.read(serverProvider.select((state) => (state?.webSendState?.autoAccept, state?.webSendState?.pin)));
     setState(() {
       _stateEnum = _ServerState.initializing;
       _encrypted = encrypted;
@@ -52,18 +51,15 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
     });
     await sleepAsync(500);
     try {
+      // The auto accept setting and the pin of a previous web send state are kept.
       await ref
           .notifier(serverProvider)
-          .restartServer(
+          .restartServerWithWebSend(
             alias: settings.alias,
             port: settings.port,
             https: _encrypted,
+            files: widget.files,
           );
-      await ref.notifier(serverProvider).initializeWebSend(widget.files);
-      if (beforeAutoAccept != null) {
-        ref.notifier(serverProvider).setWebSendAutoAccept(beforeAutoAccept);
-      }
-      ref.notifier(serverProvider).setWebSendPin(beforePin);
       setState(() {
         _stateEnum = _ServerState.running;
       });
@@ -138,8 +134,12 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
               );
             }
 
-            final serverState = context.watch(serverProvider)!;
-            final webSendState = serverState.webSendState!;
+            final serverState = context.watch(serverProvider);
+            final webSendState = serverState?.webSendState;
+            if (serverState == null || webSendState == null) {
+              // the server is restarting (e.g. because the pin changed)
+              return const Center(child: ProgressRing());
+            }
             final networkState = context.watch(localIpProvider);
 
             return ResponsiveListView(
@@ -228,7 +228,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                                 Text(
                                   session.deviceInfo,
                                   style: theme.typography.bodyStrong?.copyWith(
-                                    color: session.responseHandler != null ? Colors.warningPrimaryColor : null,
+                                    color: session.pending ? Colors.warningPrimaryColor : null,
                                   ),
                                 ),
                                 const SizedBox(height: 5),
@@ -236,7 +236,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                               ],
                             ),
                           ),
-                          if (session.responseHandler != null) ...[
+                          if (session.pending) ...[
                             IconButton(
                               onPressed: () {
                                 ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
@@ -289,7 +289,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                   onChanged: (value) async {
                     final currentPIN = webSendState.pin;
                     if (currentPIN != null) {
-                      ref.notifier(serverProvider).setWebSendPin(null);
+                      await ref.notifier(serverProvider).setWebSendPin(null);
                     } else {
                       final String? newPin = await showDialog<String>(
                         context: context,
@@ -300,7 +300,7 @@ class _WebSendPageState extends State<WebSendPage> with Refena {
                       );
 
                       if (newPin != null && newPin.isNotEmpty) {
-                        ref.notifier(serverProvider).setWebSendPin(newPin);
+                        await ref.notifier(serverProvider).setWebSendPin(newPin);
                       }
                     }
                   },

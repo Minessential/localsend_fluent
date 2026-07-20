@@ -12,6 +12,7 @@ import 'package:localsend_app/pages/donation/donation_page.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/pages/settings/network_interfaces_page.dart';
 import 'package:localsend_app/pages/tabs/settings_tab_controller.dart';
+import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/provider/version_provider.dart';
 import 'package:localsend_app/util/alias_generator.dart';
@@ -211,6 +212,11 @@ class SettingsTab extends StatelessWidget {
                       if (newPin != null && newPin.isNotEmpty) {
                         await ref.notifier(settingsProvider).setReceivePin(newPin);
                       }
+                    }
+
+                    // The pin is enforced by the Rust server, so it needs a restart.
+                    if (ref.read(serverProvider) != null) {
+                      await ref.notifier(serverProvider).restartServerFromSettings();
                     }
                   },
                 ),
