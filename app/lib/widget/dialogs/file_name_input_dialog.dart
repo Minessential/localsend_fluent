@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:legalize/legalize.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/util/file_path_helper.dart';
 import 'package:localsend_app/widget/fluent/custom_text_box.dart';
+import 'package:localsend_isolates/util/file_path_helper.dart';
 import 'package:routerino/routerino.dart';
 
 class FileNameInputDialog extends StatefulWidget {
@@ -88,13 +88,14 @@ class _FileNameInputDialogState extends State<FileNameInputDialog> {
           ),
           const SizedBox(height: 5),
           Visibility(
-              visible: _errorMessage.isNotEmpty,
-              child: Text(
-                _errorMessage,
-                style: TextStyle(
-                  color: Colors.warningPrimaryColor,
-                ),
-              )),
+            visible: _errorMessage.isNotEmpty,
+            child: Text(
+              _errorMessage,
+              style: TextStyle(
+                color: Colors.warningPrimaryColor,
+              ),
+            ),
+          ),
         ],
       ),
       actions: [
