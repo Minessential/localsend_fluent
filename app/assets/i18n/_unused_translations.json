@@ -20,13 +20,10 @@
   "da": {},
   "de": {},
   "el": {},
-  "en-IN": {},
-  "es-ES": {},
   "et": {},
   "eu": {},
   "fa": {},
   "fi": {},
-  "fil-PH": {},
   "fr": {},
   "gl": {},
   "gu": {},
@@ -38,6 +35,15 @@
   "ja": {},
   "km": {},
   "ko": {},
+  "lo": {
+    "settingsTab": {
+      "general": {
+        "colorOptions": {
+          "oled": "OLED"
+        }
+      }
+    }
+  },
   "ml": {
     "settingsTab": {
       "general": {
@@ -60,22 +66,33 @@
   },
   "nl": {},
   "pl": {},
-  "pt-BR": {},
-  "pt-PT": {},
   "ro": {},
   "ru": {},
   "si": {},
   "sk": {},
   "sl": {},
-  "sr": {},
-  "sr-Cyrl": {},
   "sv": {},
   "ta": {},
   "th": {},
   "tr": {},
   "uk": {},
   "ur": {},
+  "uz": {
+    "settingsTab": {
+      "general": {
+        "colorOptions": {
+          "oled": "OLED"
+        }
+      }
+    }
+  },
   "vi": {},
+  "en-IN": {},
+  "es-ES": {},
+  "fil-PH": {},
+  "pt-BR": {},
+  "pt-PT": {},
+  "sr-Cyrl": {},
   "zh-CN": {},
   "zh-HK": {},
   "zh-TW": {}

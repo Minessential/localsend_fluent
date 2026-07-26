@@ -21,6 +21,10 @@
       }
     }
   },
+  "receiveOptionsPage": {
+    "destination": "@:settingsTab.receive.destination",
+    "saveToGallery": "@:settingsTab.receive.saveToGallery"
+  },
   "progressPage": {
     "remainingTime": {
       "seconds": "{n}:{ss}",

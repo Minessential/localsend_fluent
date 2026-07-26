@@ -19,13 +19,6 @@
         "blue": "Blue",
         "green": "Green"
       }
-    },
-    "network": {
-      "network": "Network",
-      "networkOptions": {
-        "all": "All",
-        "filtered": "Filtered"
-      }
     }
   },
   "networkInterfacesPage": {
