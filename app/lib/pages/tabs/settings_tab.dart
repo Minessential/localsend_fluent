@@ -361,8 +361,8 @@ class SettingsTab extends StatelessWidget {
                                   // Generates random alias
                                   final newAlias = generateRandomAlias();
 
-                                  // Update the TextField with the new alias
-                                  vm.aliasController.text = newAlias;
+                            // Update the TextField with the new alias
+                            vm.aliasController.text = newAlias;
 
                                   // Persist the new alias using the settingsProvider
                                   await ref.notifier(settingsProvider).setAlias(newAlias);

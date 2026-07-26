@@ -38,15 +38,17 @@ class ReceiveTab extends StatelessWidget {
                     InitialFadeTransition(
                       duration: const Duration(milliseconds: 300),
                       delay: const Duration(milliseconds: 200),
-                      child: Consumer(builder: (context, ref) {
-                        final animations = ref.watch(animationProvider);
-                        final activeTab = ref.watch(homePageControllerProvider.select((state) => state.currentTab));
-                        return RotatingWidget(
-                          duration: const Duration(seconds: 15),
-                          spinning: vm.serverState != null && animations && activeTab == HomeTab.receive,
-                          child: const LocalSendLogo(withText: false),
-                        );
-                      }),
+                      child: Consumer(
+                        builder: (context, ref) {
+                          final animations = ref.watch(animationProvider);
+                          final activeTab = ref.watch(homePageControllerProvider.select((state) => state.currentTab));
+                          return RotatingWidget(
+                            duration: const Duration(seconds: 15),
+                            spinning: vm.serverState != null && animations && activeTab == HomeTab.receive,
+                            child: const LocalSendLogo(withText: false),
+                          );
+                        },
+                      ),
                     ),
                     FittedBox(
                       fit: BoxFit.scaleDown,
@@ -56,9 +58,7 @@ class ReceiveTab extends StatelessWidget {
                       duration: const Duration(milliseconds: 300),
                       delay: const Duration(milliseconds: 500),
                       child: Text(
-                        vm.serverState == null
-                            ? t.general.offline
-                            : vm.localIps.map((ip) => '#${ip.visualId}').toSet().join(' '),
+                        vm.serverState == null ? t.general.offline : vm.localIps.map((ip) => '#${ip.visualId}').toSet().join(' '),
                         style: const TextStyle(fontSize: 24),
                         textAlign: TextAlign.center,
                       ),
@@ -91,8 +91,8 @@ class ReceiveTab extends StatelessWidget {
                         value: !vm.quickSaveSettings && !vm.quickSaveFromFavoritesSettings
                             ? _QuickSaveMode.off
                             : vm.quickSaveFromFavoritesSettings
-                                ? _QuickSaveMode.favorites
-                                : _QuickSaveMode.on,
+                            ? _QuickSaveMode.favorites
+                            : _QuickSaveMode.on,
                         onChanged: (selection) async {
                           if (selection == _QuickSaveMode.off) {
                             await vm.onSetQuickSave(context, false);

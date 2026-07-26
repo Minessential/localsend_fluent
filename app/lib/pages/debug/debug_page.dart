@@ -80,10 +80,12 @@ class DebugPage extends StatelessWidget {
               ),
               if (kDebugMode)
                 FilledButton(
-                  onPressed: () async => context.push(() => BaseMaterialCompatibility(
-                        needMaterialApp: true,
-                        body: const RefenaTracingPage(),
-                      )),
+                  onPressed: () async => context.push(
+                    () => BaseMaterialCompatibility(
+                      needMaterialApp: true,
+                      body: const RefenaTracingPage(),
+                    ),
+                  ),
                   child: const Text('Refena Tracing'),
                 ),
               FilledButton(
