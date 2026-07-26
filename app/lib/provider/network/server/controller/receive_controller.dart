@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
@@ -34,6 +33,7 @@ import 'package:localsend_isolates/model/file_type.dart';
 import 'package:localsend_isolates/model/session_status.dart';
 import 'package:localsend_isolates/rust/api/server.dart' show SessionEndReasonV2;
 import 'package:localsend_isolates/util/rust.dart';
+import 'package:localsend_isolates/util/transfer_notification.dart';
 import 'package:logging/logging.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:refena_flutter/refena_flutter.dart';
@@ -267,6 +267,38 @@ class ReceiveController {
           fileId: event.fileId,
           progress: event.progress,
         );
+
+    _updateForegroundServiceProgress(receiveState);
+  }
+
+  /// Reports the total session progress to the foreground service notification,
+  /// so that it stays up to date while the app is minimized.
+  void _updateForegroundServiceProgress(ReceiveSessionState session) {
+    if (!TransferNotification.shouldUpdate) {
+      // Checked before the sum below because progress events arrive several times per second per file.
+      return;
+    }
+
+    final progress = server.ref.read(progressProvider);
+    int currentBytes = 0;
+    int totalBytes = 0;
+    for (final receivingFile in session.files.values) {
+      if (receivingFile.desiredName == null) {
+        // not accepted by the user
+        continue;
+      }
+      final size = receivingFile.file.size;
+      totalBytes += size;
+      currentBytes += (progress.getProgress(sessionId: session.sessionId, fileId: receivingFile.file.id) * size).round();
+    }
+
+    TransferNotification.update(
+      sessionId: session.sessionId,
+      currentBytes: currentBytes,
+      totalBytes: totalBytes,
+      startTime: session.startTime,
+      endTime: session.endTime,
+    );
   }
 
   /// A file has been received completely (or failed) by the server isolate.
@@ -344,7 +376,12 @@ class ReceiveController {
       return;
     }
 
+    _updateForegroundServiceProgress(session);
+
     if (allowedStates.contains(session.status) && session.files.values.map((e) => e.status).isFinishedOrError) {
+      // The transfer is over, the process no longer needs to be kept alive for it.
+      TransferNotification.stop(session.sessionId);
+
       final hasError = session.files.values.any((f) => f.status == FileStatus.failed);
       server.setState(
         (oldState) => oldState?.copyWith(
@@ -524,6 +561,13 @@ class ReceiveController {
       }
     }
 
+    // Keep the process alive for the whole transfer. Started here because:
+    // - the app is still in the foreground, and Android 12+ rejects starting a foreground service
+    //   from the background,
+    // - the service may ask for the notification permission, which Android cancels when it overlaps
+    //   with the storage permission requests above.
+    TransferNotification.start(sessionId: session.sessionId, receiving: true);
+
     // From here on, the server isolate receives all accepted files on its own
     // and reports back via upload progress/result events.
     final updatedSession = server.getStateOrNull()?.session;
@@ -617,6 +661,8 @@ class ReceiveController {
       return;
     }
 
+    TransferNotification.stop(sessionId);
+
     server.setState(
       (oldState) => oldState?.copyWith(
         session: null,
@@ -631,6 +677,8 @@ void _cancelBySender(ServerUtils server) {
   if (receiveSession == null) {
     return;
   }
+
+  TransferNotification.stop(receiveSession.sessionId);
 
   if (receiveSession.status == SessionStatus.waiting) {
     // received cancel during accept/decline

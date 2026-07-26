@@ -2,7 +2,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/receive_history_entry.dart';
 import 'package:localsend_app/pages/home_page.dart';
-import 'package:localsend_app/util/file_size_helper.dart';
+import 'package:localsend_isolates/util/file_size_helper.dart';
 import 'package:routerino/routerino.dart';
 
 class FileInfoDialog extends StatelessWidget {
