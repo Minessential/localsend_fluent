@@ -444,6 +444,9 @@ class Translations$sendPage$en {
 
   // Translations
 
+  /// en: 'Calculating checksum ({curr} / {n})'
+  String calculatingChecksum({required Object curr, required Object n}) => 'Calculating checksum (${curr} / ${n})';
+
   /// en: 'Waiting for response…'
   String get waiting => 'Waiting for response…';
 
