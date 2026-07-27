@@ -21,6 +21,9 @@
       }
     }
   },
+  "sendPage": {
+    "calculatingChecksum": "Calculating checksum ({curr} / {n})"
+  },
   "progressPage": {
     "retry": "Retry"
   }
