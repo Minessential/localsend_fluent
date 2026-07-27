@@ -41,7 +41,7 @@ class _FavoritesDialogState extends State<FavoritesDialog> with Refena {
       final payload = ref.read(deviceFullInfoProvider).toRegisterDto();
       final response = await ref
           .read(httpProvider)
-          .v2
+          .discovery
           .register(
             protocol: https ? ProtocolType.https : ProtocolType.http,
             ip: favorite.ip,
