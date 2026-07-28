@@ -221,8 +221,8 @@ class ReceiveController {
 
     const allowedStates = {SessionStatus.sending, SessionStatus.finishedWithErrors};
     if (receiveState == null || receiveState.sessionId != event.sessionId || !allowedStates.contains(receiveState.status)) {
-      _logger.warning('Rejecting upload of file ${event.fileId}: no matching active session');
-      // Reject the upload (and any further ones) by cancelling the session on the Rust side.
+      _logger.warning('Failing upload of file ${event.fileId}: no matching active session');
+      // Fail the upload (and any further ones) by cancelling the session on the Rust side.
       server.ref.redux(parentIsolateProvider).dispatch(IsolateHttpServerCancelSessionAction(sessionId: event.sessionId));
       return;
     }
@@ -626,7 +626,7 @@ class ReceiveController {
   }
 
   /// In addition to [closeSession], this method also
-  /// - cancels the session on the Rust server so that further uploads are rejected
+  /// - cancels the session on the Rust server so that further uploads fail
   /// - notifies the sender that the session has been canceled
   void cancelSession() async {
     final session = server.getStateOrNull()?.session;
@@ -635,7 +635,7 @@ class ReceiveController {
       return;
     }
 
-    // reject further uploads
+    // fail further uploads
     server.ref.redux(parentIsolateProvider).dispatch(IsolateHttpServerCancelSessionAction(sessionId: session.sessionId));
 
     // notify sender
