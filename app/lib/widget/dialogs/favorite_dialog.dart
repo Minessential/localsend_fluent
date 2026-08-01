@@ -11,7 +11,6 @@ import 'package:localsend_app/widget/dialogs/error_dialog.dart';
 import 'package:localsend_app/widget/dialogs/favorite_delete_dialog.dart';
 import 'package:localsend_app/widget/dialogs/favorite_edit_dialog.dart';
 import 'package:localsend_app/widget/fluent/card_ink_well.dart';
-import 'package:localsend_isolates/model/device.dart';
 import 'package:localsend_isolates/rust/api/model.dart';
 import 'package:localsend_isolates/util/rust.dart';
 import 'package:refena_flutter/refena_flutter.dart';
@@ -49,7 +48,7 @@ class _FavoritesDialogState extends State<FavoritesDialog> with Refena {
             payload: payload,
           );
 
-      final device = response.body.toDevice(favorite.ip, favorite.port, https, HttpDiscovery(ip: favorite.ip));
+      final device = response.body.toDevice(favorite.ip, favorite.port, https);
 
       if (mounted) {
         context.pop(device);

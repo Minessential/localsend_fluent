@@ -129,7 +129,7 @@ class ReceiveHistoryPage extends StatelessWidget {
                               deviceModel: 'deviceModel',
                               deviceType: DeviceType.web,
                               download: true,
-                              discoveryMethods: const {},
+                              channels: const [],
                             ),
                             showSenderInfo: false,
                             files: [],
