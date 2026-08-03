@@ -1,5 +1,4 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/widget/responsive_builder.dart';
 
 class BigButton extends StatelessWidget {
@@ -28,7 +27,7 @@ class BigButton extends StatelessWidget {
       child: FilledButton(
         style: ButtonStyle(
           padding: WidgetStateProperty.all(
-            EdgeInsets.only(left: 2, right: 2, top: 4 + desktopPaddingFix, bottom: 2 + desktopPaddingFix),
+            EdgeInsets.only(left: 2, right: 2, top: 10, bottom: 8),
           ),
         ),
         onPressed: onTap,
