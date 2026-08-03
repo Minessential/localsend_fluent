@@ -4,12 +4,14 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/pages/home_page_controller.dart';
 import 'package:localsend_app/pages/tabs/receive_tab_vm.dart';
+import 'package:localsend_app/pages/web_receive_page.dart';
 import 'package:localsend_app/provider/animation_provider.dart';
 import 'package:localsend_app/util/ip_helper.dart';
 import 'package:localsend_app/widget/animations/initial_fade_transition.dart';
 import 'package:localsend_app/widget/column_list_view.dart';
 import 'package:localsend_app/widget/local_send_logo.dart';
 import 'package:localsend_app/widget/rotating_widget.dart';
+import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
 enum _QuickSaveMode {
@@ -69,50 +71,18 @@ class ReceiveTab extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Center(
-                  child: Column(
-                    children: [
-                      Text(t.general.quickSave),
-                      const SizedBox(height: 10),
-                      ComboBox<_QuickSaveMode>(
-                        items: [
-                          ComboBoxItem(
-                            value: _QuickSaveMode.off,
-                            child: Text(t.receiveTab.quickSave.off),
-                          ),
-                          ComboBoxItem(
-                            value: _QuickSaveMode.favorites,
-                            child: Text(t.receiveTab.quickSave.favorites),
-                          ),
-                          ComboBoxItem(
-                            value: _QuickSaveMode.on,
-                            child: Text(t.receiveTab.quickSave.on),
-                          ),
-                        ],
-                        value: !vm.quickSaveSettings && !vm.quickSaveFromFavoritesSettings
-                            ? _QuickSaveMode.off
-                            : vm.quickSaveFromFavoritesSettings
-                            ? _QuickSaveMode.favorites
-                            : _QuickSaveMode.on,
-                        onChanged: (selection) async {
-                          if (selection == _QuickSaveMode.off) {
-                            await vm.onSetQuickSave(context, false);
-                            if (context.mounted) {
-                              await vm.onSetQuickSaveFromFavorites(context, false);
-                            }
-                          } else if (selection == _QuickSaveMode.favorites) {
-                            await vm.onSetQuickSave(context, false);
-                            if (context.mounted) {
-                              await vm.onSetQuickSaveFromFavorites(context, true);
-                            }
-                          } else if (selection == _QuickSaveMode.on) {
-                            await vm.onSetQuickSaveFromFavorites(context, false);
-                            if (context.mounted) {
-                              await vm.onSetQuickSave(context, true);
-                            }
-                          }
-                        },
-                      ),
-                    ],
+                  child: HyperlinkButton(
+                    onPressed: () async {
+                      await context.global.dispatchAsync(NavigateAction.push(WebReceivePage()));
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 8,
+                      children: [
+                        Icon(FluentIcons.link_20_regular, size: 20),
+                        Text(t.$wip.receiveTab.link('Receive via link')),
+                      ],
+                    ),
                   ),
                 ),
               ),
