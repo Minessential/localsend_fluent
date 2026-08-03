@@ -4,7 +4,7 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/pages/home_page_controller.dart';
 import 'package:localsend_app/pages/tabs/receive_tab_vm.dart';
-import 'package:localsend_app/pages/web_receive_page.dart';
+import 'package:localsend_app/pages/web_share_page.dart';
 import 'package:localsend_app/provider/animation_provider.dart';
 import 'package:localsend_app/util/ip_helper.dart';
 import 'package:localsend_app/widget/animations/initial_fade_transition.dart';
@@ -73,7 +73,7 @@ class ReceiveTab extends StatelessWidget {
                 child: Center(
                   child: HyperlinkButton(
                     onPressed: () async {
-                      await context.global.dispatchAsync(NavigateAction.push(WebReceivePage()));
+                      await context.global.dispatchAsync(NavigateAction.push(const WebSharePage()));
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
