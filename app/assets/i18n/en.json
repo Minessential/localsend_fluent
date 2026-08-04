@@ -53,7 +53,8 @@
       "off": "@:general.off",
       "favorites": "Favorites",
       "on": "@:general.on"
-    }
+    },
+    "link": "Receive via link"
   },
   "sendTab": {
     "title": "Send",
@@ -108,7 +109,8 @@
         "magenta": "Magenta",
         "purple": "Purple",
         "blue": "Blue",
-        "green": "Green"
+        "green": "Green",
+        "custom": "Custom"
       },
       "language": "Language",
       "languageOptions": {

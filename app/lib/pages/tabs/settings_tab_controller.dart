@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
@@ -11,6 +11,7 @@ import 'package:localsend_app/util/native/autostart_helper.dart';
 import 'package:localsend_app/util/native/context_menu_helper.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
 import 'package:localsend_app/util/ui/snackbar.dart';
+import 'package:localsend_app/widget/dialogs/custom_color_dialog.dart';
 import 'package:localsend_isolates/isolate.dart';
 import 'package:localsend_isolates/model/device_info_result.dart';
 import 'package:localsend_isolates/util/sleep.dart';
@@ -78,6 +79,19 @@ class SettingsTabController extends ReduxNotifier<SettingsTabVm> {
         if (context.mounted) {
           await updateSystemOverlayStyle(context);
         }
+      },
+      onChangeColorMode: (context, colorMode) async {
+        if (colorMode == ColorMode.custom) {
+          final color = await showDialog<Color>(
+            context: context,
+            builder: (_) => CustomColorDialog(initialColor: _settingsService.state.customColor),
+          );
+          if (color == null) {
+            return;
+          }
+          await _settingsService.setCustomColor(color);
+        }
+        await _settingsService.setColorMode(colorMode);
       },
       onChangeLanguage: (locale) async {
         await _settingsService.setLocale(locale);

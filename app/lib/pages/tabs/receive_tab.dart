@@ -107,7 +107,7 @@ class _ReceiveTabState extends State<ReceiveTab> {
                       spacing: 8,
                       children: [
                         Icon(FluentIcons.link_20_regular, size: 20),
-                        Text(t.$wip.receiveTab.link('Receive via link')),
+                        Text(t.receiveTab.link),
                       ],
                     ),
                   ),

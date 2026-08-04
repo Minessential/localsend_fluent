@@ -26,6 +26,7 @@ class SettingsTabVm with SettingsTabVmMappable {
   final bool autoStartLaunchHidden;
   final bool showInContextMenu;
   final void Function(BuildContext context, ThemeMode mode) onChangeTheme;
+  final void Function(BuildContext context, ColorMode mode) onChangeColorMode;
   final void Function(AppLocale? locale) onChangeLanguage;
   final void Function(BuildContext context) onToggleAutoStart;
   final void Function(BuildContext context) onToggleAutoStartLaunchHidden;
@@ -50,6 +51,7 @@ class SettingsTabVm with SettingsTabVmMappable {
     required this.autoStartLaunchHidden,
     required this.showInContextMenu,
     required this.onChangeTheme,
+    required this.onChangeColorMode,
     required this.onChangeLanguage,
     required this.onToggleAutoStart,
     required this.onToggleAutoStartLaunchHidden,

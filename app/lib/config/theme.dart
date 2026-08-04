@@ -9,11 +9,12 @@ import 'package:refena_flutter/refena_flutter.dart';
 
 FluentThemeData getTheme(
   ColorMode colorMode,
+  Color customColor,
   Brightness brightness,
   bool is10footScreen,
   DynamicColors? dynamicColors,
 ) {
-  final accentColor = _determineAccentColor(colorMode, brightness, dynamicColors);
+  final accentColor = _determineAccentColor(colorMode, customColor, brightness, dynamicColors);
 
   // https://github.com/localsend/localsend/issues/52
   final String? fontFamily;
@@ -102,7 +103,7 @@ Future<void> updateSystemOverlayStyleWithBrightness(Brightness brightness) async
 }
 
 // _determineColorScheme
-AccentColor _determineAccentColor(ColorMode mode, Brightness brightness, DynamicColors? dynamicColors) {
+AccentColor _determineAccentColor(ColorMode mode, Color customColor, Brightness brightness, DynamicColors? dynamicColors) {
   final isLight = brightness == Brightness.light;
   final defaultAccentColor = isLight
       ? Colors.teal.toAccentColor()
@@ -125,6 +126,7 @@ AccentColor _determineAccentColor(ColorMode mode, Brightness brightness, Dynamic
     ColorMode.purple => Colors.purple,
     ColorMode.blue => Colors.blue,
     ColorMode.green => Colors.green,
+    ColorMode.custom => customColor.toAccentColor(),
   };
 
   return accentColor ?? defaultAccentColor;

@@ -97,6 +97,15 @@ class SettingsTabVmMapper extends ClassMapperBase<SettingsTabVm> {
     _$onChangeTheme,
     arg: _arg$onChangeTheme,
   );
+  static Function _$onChangeColorMode(SettingsTabVm v) =>
+      (v as dynamic).onChangeColorMode as Function;
+  static dynamic _arg$onChangeColorMode(f) =>
+      f<void Function(BuildContext, ColorMode)>();
+  static const Field<SettingsTabVm, Function> _f$onChangeColorMode = Field(
+    'onChangeColorMode',
+    _$onChangeColorMode,
+    arg: _arg$onChangeColorMode,
+  );
   static Function _$onChangeLanguage(SettingsTabVm v) =>
       (v as dynamic).onChangeLanguage as Function;
   static dynamic _arg$onChangeLanguage(f) => f<void Function(AppLocale?)>();
@@ -188,6 +197,7 @@ class SettingsTabVmMapper extends ClassMapperBase<SettingsTabVm> {
     #autoStartLaunchHidden: _f$autoStartLaunchHidden,
     #showInContextMenu: _f$showInContextMenu,
     #onChangeTheme: _f$onChangeTheme,
+    #onChangeColorMode: _f$onChangeColorMode,
     #onChangeLanguage: _f$onChangeLanguage,
     #onToggleAutoStart: _f$onToggleAutoStart,
     #onToggleAutoStartLaunchHidden: _f$onToggleAutoStartLaunchHidden,
@@ -215,6 +225,7 @@ class SettingsTabVmMapper extends ClassMapperBase<SettingsTabVm> {
       autoStartLaunchHidden: data.dec(_f$autoStartLaunchHidden),
       showInContextMenu: data.dec(_f$showInContextMenu),
       onChangeTheme: data.dec(_f$onChangeTheme),
+      onChangeColorMode: data.dec(_f$onChangeColorMode),
       onChangeLanguage: data.dec(_f$onChangeLanguage),
       onToggleAutoStart: data.dec(_f$onToggleAutoStart),
       onToggleAutoStartLaunchHidden: data.dec(_f$onToggleAutoStartLaunchHidden),
@@ -307,6 +318,7 @@ abstract class SettingsTabVmCopyWith<$R, $In extends SettingsTabVm, $Out>
     bool? autoStartLaunchHidden,
     bool? showInContextMenu,
     void Function(BuildContext, ThemeMode)? onChangeTheme,
+    void Function(BuildContext, ColorMode)? onChangeColorMode,
     void Function(AppLocale?)? onChangeLanguage,
     void Function(BuildContext)? onToggleAutoStart,
     void Function(BuildContext)? onToggleAutoStartLaunchHidden,
@@ -356,6 +368,7 @@ class _SettingsTabVmCopyWithImpl<$R, $Out>
     bool? autoStartLaunchHidden,
     bool? showInContextMenu,
     void Function(BuildContext, ThemeMode)? onChangeTheme,
+    void Function(BuildContext, ColorMode)? onChangeColorMode,
     void Function(AppLocale?)? onChangeLanguage,
     void Function(BuildContext)? onToggleAutoStart,
     void Function(BuildContext)? onToggleAutoStartLaunchHidden,
@@ -383,6 +396,7 @@ class _SettingsTabVmCopyWithImpl<$R, $Out>
         #autoStartLaunchHidden: autoStartLaunchHidden,
       if (showInContextMenu != null) #showInContextMenu: showInContextMenu,
       if (onChangeTheme != null) #onChangeTheme: onChangeTheme,
+      if (onChangeColorMode != null) #onChangeColorMode: onChangeColorMode,
       if (onChangeLanguage != null) #onChangeLanguage: onChangeLanguage,
       if (onToggleAutoStart != null) #onToggleAutoStart: onToggleAutoStart,
       if (onToggleAutoStartLaunchHidden != null)
@@ -426,6 +440,10 @@ class _SettingsTabVmCopyWithImpl<$R, $Out>
       or: $value.showInContextMenu,
     ),
     onChangeTheme: data.get(#onChangeTheme, or: $value.onChangeTheme),
+    onChangeColorMode: data.get(
+      #onChangeColorMode,
+      or: $value.onChangeColorMode,
+    ),
     onChangeLanguage: data.get(#onChangeLanguage, or: $value.onChangeLanguage),
     onToggleAutoStart: data.get(
       #onToggleAutoStart,

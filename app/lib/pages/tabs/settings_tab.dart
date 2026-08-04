@@ -77,9 +77,7 @@ class SettingsTab extends StatelessWidget {
                         child: Text(colorMode.humanName),
                       );
                     }).toList(),
-                    onChanged: (c) async {
-                      await ref.notifier(settingsProvider).setColorMode(c!);
-                    },
+                    onChanged: (colorMode) => vm.onChangeColorMode(context, colorMode!),
                   ),
                 ),
                 _SettingsEntry(
@@ -887,6 +885,7 @@ extension on ColorMode {
       ColorMode.purple => t.settingsTab.general.colorOptions.purple,
       ColorMode.blue => t.settingsTab.general.colorOptions.blue,
       ColorMode.green => t.settingsTab.general.colorOptions.green,
+      ColorMode.custom => t.settingsTab.general.colorOptions.custom,
     };
   }
 }
