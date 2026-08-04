@@ -9,7 +9,6 @@ import 'package:localsend_isolates/model/device.dart';
 
 class DeviceListTile extends StatelessWidget {
   final Device device;
-  final bool isFavorite;
 
   /// If not null, this name is used instead of [Device.alias].
   /// This is the case when the device is marked as favorite.
@@ -18,16 +17,15 @@ class DeviceListTile extends StatelessWidget {
   final String? info;
   final double? progress;
   final VoidCallback? onTap;
-  final VoidCallback? onFavoriteTap;
+  final VoidCallback? onDetailsTap;
 
   const DeviceListTile({
     required this.device,
-    this.isFavorite = false,
     this.nameOverride,
     this.info,
     this.progress,
     this.onTap,
-    this.onFavoriteTap,
+    this.onDetailsTap,
   });
 
   @override
@@ -36,10 +34,10 @@ class DeviceListTile extends StatelessWidget {
     return CustomListTile(
       icon: Icon(device.deviceType.icon, size: 46),
       title: Text(nameOverride ?? device.alias, style: const TextStyle(fontSize: 20)),
-      trailing: onFavoriteTap != null
+      trailing: onDetailsTap != null
           ? IconButton(
-              icon: Icon(isFavorite ? FluentIcons.star_20_filled : FluentIcons.star_20_regular, size: 18),
-              onPressed: onFavoriteTap,
+              icon: const Icon(FluentIcons.info_20_regular, size: 18),
+              onPressed: onDetailsTap,
             )
           : null,
       subTitle: Wrap(
