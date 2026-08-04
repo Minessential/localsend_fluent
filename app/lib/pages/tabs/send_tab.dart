@@ -209,11 +209,13 @@ class SendTab extends StatelessWidget {
                   child: vm.sendMode == SendMode.multiple
                       ? _MultiSendDeviceListTile(
                           device: device,
+                          isFavorite: favoriteEntry != null,
                           nameOverride: favoriteEntry?.alias,
                           vm: vm,
                         )
                       : DeviceListTile(
                           device: device,
+                          isFavorite: favoriteEntry != null,
                           nameOverride: favoriteEntry?.alias,
                           onDetailsTap: () async => await context.push(() => DeviceDetailsPage(device: device)),
                           onTap: () async => await vm.onTapDevice(context, device),
@@ -441,11 +443,13 @@ extension on SendMode {
 /// An advanced list tile which shows the progress of the file transfer.
 class _MultiSendDeviceListTile extends StatelessWidget {
   final Device device;
+  final bool isFavorite;
   final String? nameOverride;
   final SendTabVm vm;
 
   const _MultiSendDeviceListTile({
     required this.device,
+    required this.isFavorite,
     required this.nameOverride,
     required this.vm,
   });
@@ -476,6 +480,7 @@ class _MultiSendDeviceListTile extends StatelessWidget {
       device: device,
       info: info,
       progress: progress,
+      isFavorite: isFavorite,
       nameOverride: nameOverride,
       onDetailsTap: () async => await context.push(() => DeviceDetailsPage(device: device)),
       onTap: () async => await vm.onTapDeviceMultiSend(context, device),

@@ -89,6 +89,14 @@ class _VerifyPageState extends State<VerifyPage> {
               ),
             ),
           },
+          const SizedBox(height: 20),
+          Center(
+            child: Text(
+              t.verifyPage.question,
+              textAlign: TextAlign.center,
+              style: FluentTheme.of(context).typography.bodyStrong?.copyWith(color: FluentTheme.of(context).resources.textFillColorSecondary),
+            ),
+          ),
         ],
       ),
     );

@@ -9,6 +9,7 @@ import 'package:localsend_isolates/model/device.dart';
 
 class DeviceListTile extends StatelessWidget {
   final Device device;
+  final bool isFavorite;
 
   /// If not null, this name is used instead of [Device.alias].
   /// This is the case when the device is marked as favorite.
@@ -21,6 +22,7 @@ class DeviceListTile extends StatelessWidget {
 
   const DeviceListTile({
     required this.device,
+    this.isFavorite = false,
     this.nameOverride,
     this.info,
     this.progress,
@@ -33,7 +35,16 @@ class DeviceListTile extends StatelessWidget {
     final badgeColor = Color.lerp(FluentTheme.of(context).accentColor, Colors.white, 0.3)!;
     return CustomListTile(
       icon: Icon(device.deviceType.icon, size: 46),
-      title: Text(nameOverride ?? device.alias, style: const TextStyle(fontSize: 20)),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(nameOverride ?? device.alias, style: const TextStyle(fontSize: 20)),
+          if (isFavorite) ...[
+            const SizedBox(width: 6),
+            Icon(FluentIcons.star_20_filled, size: 18),
+          ],
+        ],
+      ),
       trailing: onDetailsTap != null
           ? IconButton(
               icon: const Icon(FluentIcons.info_20_regular, size: 18),
@@ -56,7 +67,7 @@ class DeviceListTile extends StatelessWidget {
               DeviceBadge(
                 backgroundColor: badgeColor,
                 foregroundColor: FluentTheme.of(context).resources.textFillColorPrimary,
-                label: 'LAN • HTTP',
+                label: 'HTTP',
               )
             else
               DeviceBadge(

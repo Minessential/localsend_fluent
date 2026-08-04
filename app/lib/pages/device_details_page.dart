@@ -70,7 +70,7 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> with Refena {
     final theme = FluentTheme.of(context);
     final infoEntries = {
       t.deviceDetailsPage.info.name: device.alias,
-      if (device.ip != null) t.deviceDetailsPage.info.address: '${device.ip}:${device.port}',
+      t.deviceDetailsPage.info.version: t.deviceDetailsPage.info.protocol(version: device.version),
     }.entries.toList();
 
     return BaseNormalPage(

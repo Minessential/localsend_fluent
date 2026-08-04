@@ -431,6 +431,9 @@ class Translations$verifyPage$en {
 
   /// en: 'Raw'
   String get raw => 'Raw';
+
+  /// en: 'Does it look the same on the other device?'
+  String get question => 'Does it look the same on the other device?';
 }
 
 // Path: receivePage
@@ -1345,6 +1348,12 @@ class Translations$deviceDetailsPage$info$en {
 
   /// en: 'Address'
   String get address => 'Address';
+
+  /// en: 'Version'
+  String get version => 'Version';
+
+  /// en: 'Protocol v{version}'
+  String protocol({required Object version}) => 'Protocol v${version}';
 }
 
 // Path: deviceDetailsPage.logs
