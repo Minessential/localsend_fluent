@@ -222,6 +222,8 @@ class ReceiveController {
       );
     });
 
+    server.ref.notifier(selectedReceivingFilesProvider).setFiles(files.values.toList());
+
     // ignore: use_build_context_synchronously, unawaited_futures
     Routerino.context.push(() => ReceivePage(receiveProvider));
   }
