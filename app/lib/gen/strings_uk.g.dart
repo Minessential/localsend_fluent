@@ -78,6 +78,8 @@ class TranslationsUk extends Translations with BaseTranslations<AppLocale, Trans
   @override
   late final _Translations$changelogPage$uk changelogPage = _Translations$changelogPage$uk._(_root);
   @override
+  late final _Translations$whatsNewPage$uk whatsNewPage = _Translations$whatsNewPage$uk._(_root);
+  @override
   late final _Translations$dialogs$uk dialogs = _Translations$dialogs$uk._(_root);
   @override
   late final _Translations$sanitization$uk sanitization = _Translations$sanitization$uk._(_root);
@@ -87,8 +89,6 @@ class TranslationsUk extends Translations with BaseTranslations<AppLocale, Trans
   late final _Translations$web$uk web = _Translations$web$uk._(_root);
   @override
   late final _Translations$assetPicker$uk assetPicker = _Translations$assetPicker$uk._(_root);
-  @override
-  late final _Translations$whatsNewPage$uk whatsNewPage = _Translations$whatsNewPage$uk._(_root);
 }
 
 // Path: general
@@ -511,6 +511,19 @@ class _Translations$changelogPage$uk extends Translations$changelogPage$en {
   String get title => 'Історія змін';
 }
 
+// Path: whatsNewPage
+class _Translations$whatsNewPage$uk extends Translations$whatsNewPage$en {
+  _Translations$whatsNewPage$uk._(TranslationsUk root) : this._root = root, super.internal(root);
+
+  final TranslationsUk _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String title({required Object version}) => 'Що нового у ${version}';
+  @override
+  late final _Translations$whatsNewPage$changes$uk changes = _Translations$whatsNewPage$changes$uk._(_root);
+}
+
 // Path: dialogs
 class _Translations$dialogs$uk extends Translations$dialogs$en {
   _Translations$dialogs$uk._(TranslationsUk root) : this._root = root, super.internal(root);
@@ -688,19 +701,6 @@ class _Translations$assetPicker$uk extends Translations$assetPicker$en {
   String get sNameDurationLabel => 'тривалість';
   @override
   String get sUnitAssetCountLabel => 'кількість';
-}
-
-// Path: whatsNewPage
-class _Translations$whatsNewPage$uk extends Translations$whatsNewPage$en {
-  _Translations$whatsNewPage$uk._(TranslationsUk root) : this._root = root, super.internal(root);
-
-  final TranslationsUk _root; // ignore: unused_field
-
-  // Translations
-  @override
-  String title({required Object version}) => 'Що нового у ${version}';
-  @override
-  late final _Translations$whatsNewPage$changes$uk changes = _Translations$whatsNewPage$changes$uk._(_root);
 }
 
 // Path: receiveTab.infoBox
@@ -1022,6 +1022,17 @@ class _Translations$progressPage$remainingTime$uk extends Translations$progressP
   /// Використовуйте «d» для днів, «h» для годин і «m» для хвилин
   @override
   String days({required Object d, required Object h, required Object m}) => '${d}d ${h}h ${m}m';
+}
+
+// Path: whatsNewPage.changes
+class _Translations$whatsNewPage$changes$uk extends Translations$whatsNewPage$changes$en {
+  _Translations$whatsNewPage$changes$uk._(TranslationsUk root) : this._root = root, super.internal(root);
+
+  final TranslationsUk _root; // ignore: unused_field
+
+  // Translations
+  @override
+  late final _Translations$whatsNewPage$changes$v1_18_0$uk v1_18_0 = _Translations$whatsNewPage$changes$v1_18_0$uk._(_root);
 }
 
 // Path: dialogs.addFile
@@ -1382,17 +1393,6 @@ class _Translations$dialogs$zoom$uk extends Translations$dialogs$zoom$en {
   String get title => 'URL-адреса';
 }
 
-// Path: whatsNewPage.changes
-class _Translations$whatsNewPage$changes$uk extends Translations$whatsNewPage$changes$en {
-  _Translations$whatsNewPage$changes$uk._(TranslationsUk root) : this._root = root, super.internal(root);
-
-  final TranslationsUk _root; // ignore: unused_field
-
-  // Translations
-  @override
-  late final _Translations$whatsNewPage$changes$v1_18_0$uk v1_18_0 = _Translations$whatsNewPage$changes$v1_18_0$uk._(_root);
-}
-
 // Path: settingsTab.general.brightnessOptions
 class _Translations$settingsTab$general$brightnessOptions$uk extends Translations$settingsTab$general$brightnessOptions$en {
   _Translations$settingsTab$general$brightnessOptions$uk._(TranslationsUk root) : this._root = root, super.internal(root);
@@ -1469,8 +1469,8 @@ class _Translations$whatsNewPage$changes$v1_18_0$uk extends Translations$whatsNe
   // Translations
   @override
   List<String> get changes => [
-    'Шифрування більше не сповільнює передачу даних. Його було знову ввімкнено на цьому пристрої, якщо ви вимикали його раніше.',
-    'Запити від обраних тепер приймаються автоматично. Ця функція ввімкнена по стандарту, її можна вимкнути в налаштуваннях.',
-    'На Android передача триває, навіть коли застосунок працює у фоновому режимі або екран вимкнено. На iOS він обов’язково має залишатися на передньому плані.',
+    'Шифрування більше не сповільнює передачу даних. Якщо ви раніше вимкнули його на цьому пристрої, тепер воно знову увімкнене.',
+    'Запити від улюблених тепер приймаються автоматично. Ця функція увімкнена за замовчуванням, і її можна вимкнути в налаштуваннях.',
+    'На Android передача даних тепер триває, навіть коли програма працює у фоновому режимі або екран вимкнено. На iOS програма й надалі повинна залишатися на передньому плані.',
   ];
 }

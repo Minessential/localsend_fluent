@@ -4,6 +4,9 @@
     "After editing this file, you can run 'dart run slang apply --locale=uz' to quickly apply the newly added translations."
   ],
   "appNameF": "LocalSend(Fluent)",
+  "receiveTab": {
+    "link": "Receive via link"
+  },
   "settingsTab": {
     "toggleSwitch": {
       "on": "On",
@@ -17,8 +20,15 @@
         "magenta": "Magenta",
         "purple": "Purple",
         "blue": "Blue",
-        "green": "Green"
+        "green": "Green",
+        "custom": "Custom"
       }
+    },
+    "receive": {
+      "verifyChecksums": "Verify checksums when receiving files"
+    },
+    "send": {
+      "createChecksums": "Create checksums when sending files"
     }
   },
   "sendPage": {
@@ -26,6 +36,9 @@
   },
   "progressPage": {
     "retry": "Retry"
+  },
+  "webReceivePage": {
+    "title": "Receive via link"
   },
   "whatsNewPage": {
     "title": "What's new in {version}",

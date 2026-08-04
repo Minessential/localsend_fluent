@@ -4,6 +4,9 @@
     "After editing this file, you can run 'dart run slang apply --locale=uk' to quickly apply the newly added translations."
   ],
   "appNameF": "LocalSend(Fluent)",
+  "receiveTab": {
+    "link": "Receive via link"
+  },
   "settingsTab": {
     "toggleSwitch": {
       "on": "On",
@@ -17,23 +20,21 @@
         "magenta": "Magenta",
         "purple": "Purple",
         "blue": "Blue",
-        "green": "Green"
+        "green": "Green",
+        "custom": "Custom"
       }
+    },
+    "receive": {
+      "verifyChecksums": "Verify checksums when receiving files"
+    },
+    "send": {
+      "createChecksums": "Create checksums when sending files"
     }
   },
   "progressPage": {
     "retry": "Retry"
   },
-  "whatsNewPage": {
-    "title": "Що нового у {version}",
-    "changes(interface=WhatsNewStrings)": {
-      "v1_18_0": {
-        "changes": [
-          "Шифрування більше не сповільнює передачу даних. Якщо ви раніше вимкнули його на цьому пристрої, тепер воно знову увімкнене.",
-          "Запити від улюблених тепер приймаються автоматично. Ця функція увімкнена за замовчуванням, і її можна вимкнути в налаштуваннях.",
-          "На Android передача даних тепер триває, навіть коли програма працює у фоновому режимі або екран вимкнено. На iOS програма й надалі повинна залишатися на передньому плані."
-        ]
-      }
-    }
+  "webReceivePage": {
+    "title": "Receive via link"
   }
 }

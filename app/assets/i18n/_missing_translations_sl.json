@@ -9,7 +9,8 @@
       "off": "@:general.off",
       "favorites": "Favorites",
       "on": "@:general.on"
-    }
+    },
+    "link": "Receive via link"
   },
   "settingsTab": {
     "toggleSwitch": {
@@ -24,8 +25,15 @@
         "magenta": "Magenta",
         "purple": "Purple",
         "blue": "Blue",
-        "green": "Green"
+        "green": "Green",
+        "custom": "Custom"
       }
+    },
+    "receive": {
+      "verifyChecksums": "Verify checksums when receiving files"
+    },
+    "send": {
+      "createChecksums": "Create checksums when sending files"
     },
     "network": {
       "network": "Network",
@@ -53,6 +61,9 @@
       "days": "{d}d {h}h {m}m"
     },
     "retry": "Retry"
+  },
+  "webReceivePage": {
+    "title": "Receive via link"
   },
   "whatsNewPage": {
     "title": "What's new in {version}",

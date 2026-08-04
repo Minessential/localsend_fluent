@@ -72,11 +72,15 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
   @override
   late final _Translations$webSharePage$ru webSharePage = _Translations$webSharePage$ru._(_root);
   @override
+  late final _Translations$webReceivePage$ru webReceivePage = _Translations$webReceivePage$ru._(_root);
+  @override
   late final _Translations$aboutPage$ru aboutPage = _Translations$aboutPage$ru._(_root);
   @override
   late final _Translations$donationPage$ru donationPage = _Translations$donationPage$ru._(_root);
   @override
   late final _Translations$changelogPage$ru changelogPage = _Translations$changelogPage$ru._(_root);
+  @override
+  late final _Translations$whatsNewPage$ru whatsNewPage = _Translations$whatsNewPage$ru._(_root);
   @override
   late final _Translations$dialogs$ru dialogs = _Translations$dialogs$ru._(_root);
   @override
@@ -87,10 +91,6 @@ class TranslationsRu extends Translations with BaseTranslations<AppLocale, Trans
   late final _Translations$web$ru web = _Translations$web$ru._(_root);
   @override
   late final _Translations$assetPicker$ru assetPicker = _Translations$assetPicker$ru._(_root);
-  @override
-  late final _Translations$webReceivePage$ru webReceivePage = _Translations$webReceivePage$ru._(_root);
-  @override
-  late final _Translations$whatsNewPage$ru whatsNewPage = _Translations$whatsNewPage$ru._(_root);
 }
 
 // Path: general
@@ -458,6 +458,17 @@ class _Translations$webSharePage$ru extends Translations$webSharePage$en {
   String pendingRequests({required Object n}) => 'Ожидающие запросы: ${n}';
 }
 
+// Path: webReceivePage
+class _Translations$webReceivePage$ru extends Translations$webReceivePage$en {
+  _Translations$webReceivePage$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+  final TranslationsRu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'Получить по ссылке';
+}
+
 // Path: aboutPage
 class _Translations$aboutPage$ru extends Translations$aboutPage$en {
   _Translations$aboutPage$ru._(TranslationsRu root) : this._root = root, super.internal(root);
@@ -511,6 +522,19 @@ class _Translations$changelogPage$ru extends Translations$changelogPage$en {
   // Translations
   @override
   String get title => 'История изменений';
+}
+
+// Path: whatsNewPage
+class _Translations$whatsNewPage$ru extends Translations$whatsNewPage$en {
+  _Translations$whatsNewPage$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+  final TranslationsRu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String title({required Object version}) => 'Что нового в ${version}';
+  @override
+  late final _Translations$whatsNewPage$changes$ru changes = _Translations$whatsNewPage$changes$ru._(_root);
 }
 
 // Path: dialogs
@@ -690,30 +714,6 @@ class _Translations$assetPicker$ru extends Translations$assetPicker$en {
   String get sNameDurationLabel => 'продолжительность';
   @override
   String get sUnitAssetCountLabel => 'количество';
-}
-
-// Path: webReceivePage
-class _Translations$webReceivePage$ru extends Translations$webReceivePage$en {
-  _Translations$webReceivePage$ru._(TranslationsRu root) : this._root = root, super.internal(root);
-
-  final TranslationsRu _root; // ignore: unused_field
-
-  // Translations
-  @override
-  String get title => 'Получить по ссылке';
-}
-
-// Path: whatsNewPage
-class _Translations$whatsNewPage$ru extends Translations$whatsNewPage$en {
-  _Translations$whatsNewPage$ru._(TranslationsRu root) : this._root = root, super.internal(root);
-
-  final TranslationsRu _root; // ignore: unused_field
-
-  // Translations
-  @override
-  String title({required Object version}) => 'Что нового в ${version}';
-  @override
-  late final _Translations$whatsNewPage$changes$ru changes = _Translations$whatsNewPage$changes$ru._(_root);
 }
 
 // Path: receiveTab.infoBox
@@ -1036,6 +1036,17 @@ class _Translations$progressPage$remainingTime$ru extends Translations$progressP
   /// Используйте "d" для дней, "h" для часов и "m" для минут
   @override
   String days({required Object d, required Object h, required Object m}) => '${d}д ${h}ч ${m}мин';
+}
+
+// Path: whatsNewPage.changes
+class _Translations$whatsNewPage$changes$ru extends Translations$whatsNewPage$changes$en {
+  _Translations$whatsNewPage$changes$ru._(TranslationsRu root) : this._root = root, super.internal(root);
+
+  final TranslationsRu _root; // ignore: unused_field
+
+  // Translations
+  @override
+  late final _Translations$whatsNewPage$changes$v1_18_0$ru v1_18_0 = _Translations$whatsNewPage$changes$v1_18_0$ru._(_root);
 }
 
 // Path: dialogs.addFile
@@ -1395,17 +1406,6 @@ class _Translations$dialogs$zoom$ru extends Translations$dialogs$zoom$en {
   String get title => 'URL-адрес';
 }
 
-// Path: whatsNewPage.changes
-class _Translations$whatsNewPage$changes$ru extends Translations$whatsNewPage$changes$en {
-  _Translations$whatsNewPage$changes$ru._(TranslationsRu root) : this._root = root, super.internal(root);
-
-  final TranslationsRu _root; // ignore: unused_field
-
-  // Translations
-  @override
-  late final _Translations$whatsNewPage$changes$v1_18_0$ru v1_18_0 = _Translations$whatsNewPage$changes$v1_18_0$ru._(_root);
-}
-
 // Path: settingsTab.general.brightnessOptions
 class _Translations$settingsTab$general$brightnessOptions$ru extends Translations$settingsTab$general$brightnessOptions$en {
   _Translations$settingsTab$general$brightnessOptions$ru._(TranslationsRu root) : this._root = root, super.internal(root);
@@ -1482,8 +1482,8 @@ class _Translations$whatsNewPage$changes$v1_18_0$ru extends Translations$whatsNe
   // Translations
   @override
   List<String> get changes => [
-    'Шифрование больше не замедляет передачу данных. Оно было повторно включено на этом устройстве, если вы отключали его ранее.',
-    'Запросы от избранных устройств теперь принимаются автоматически. Эта функция включена по умолчанию и может быть отключена в настройках.',
-    'На Android передача данных продолжается, пока приложение работает в фоновом режиме или экран выключен. На iOS приложение по-прежнему должно оставаться на переднем плане.',
+    'Шифрование больше не замедляет передачу данных. Если вы отключили его на этом устройстве, теперь оно снова включено.',
+    'Запросы от избранных теперь принимаются автоматически. Эта функция включена по умолчанию, и ее можно отключить в настройках.',
+    'На Android передача данных теперь продолжается, даже когда приложение работает в фоновом режиме или экран выключен. На iOS приложение по-прежнему должно оставаться на переднем плане.',
   ];
 }
