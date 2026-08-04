@@ -74,7 +74,7 @@ class SettingsTab extends StatelessWidget {
                     items: vm.colorModes.map((colorMode) {
                       return ComboBoxItem(
                         value: colorMode,
-                        child: Text(colorMode.humanName),
+                        child: Text(colorMode.humanName, overflow: TextOverflow.ellipsis),
                       );
                     }).toList(),
                     onChanged: (colorMode) => vm.onChangeColorMode(context, colorMode!),
