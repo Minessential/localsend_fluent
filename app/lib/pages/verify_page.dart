@@ -5,10 +5,30 @@ import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/security_provider.dart';
 import 'package:localsend_app/util/fingerprint_alphabet.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
-import 'package:localsend_isolates/model/device.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
-enum _VerifyMode {
+class CombinedFingerprint {
+  final String combined;
+  final List<IconData> icons;
+
+  CombinedFingerprint({
+    required this.combined,
+    required this.icons,
+  });
+
+  factory CombinedFingerprint.load(BuildContext context, String fingerprint) {
+    final myFingerprint = context.ref.watch(securityProvider.select((s) => s.certificateHash));
+    final fingerprints = [myFingerprint, fingerprint]..sort();
+    final combined = fingerprints.join();
+    final icons = fingerprintToIcons(combined);
+    return CombinedFingerprint(
+      combined: combined,
+      icons: icons,
+    );
+  }
+}
+
+enum VerifyMode {
   icons,
   raw,
 }
@@ -16,22 +36,19 @@ enum _VerifyMode {
 /// Verifies the identity of a discovered device by comparing the fingerprints
 /// of both sides.
 class VerifyPage extends StatefulWidget {
-  final Device device;
+  final CombinedFingerprint fingerprint;
 
-  const VerifyPage({required this.device});
+  const VerifyPage({required this.fingerprint});
 
   @override
   State<VerifyPage> createState() => _VerifyPageState();
 }
 
 class _VerifyPageState extends State<VerifyPage> {
-  _VerifyMode _mode = _VerifyMode.icons;
+  VerifyMode _mode = VerifyMode.icons;
 
   @override
   Widget build(BuildContext context) {
-    final myFingerprint = context.ref.watch(securityProvider.select((s) => s.certificateHash));
-    final fingerprints = [myFingerprint, widget.device.fingerprint]..sort();
-    final combined = fingerprints.join();
     return BaseNormalPage(
       windowTitle: t.verifyPage.title,
       headerTitle: t.verifyPage.title,
@@ -44,51 +61,26 @@ class _VerifyPageState extends State<VerifyPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _ModeButton(
-                  checked: _mode == _VerifyMode.icons,
+                  checked: _mode == VerifyMode.icons,
                   icon: FluentIcons.apps_16_regular,
                   label: t.verifyPage.icons,
-                  onPressed: () => setState(() => _mode = _VerifyMode.icons),
+                  onPressed: () => setState(() => _mode = VerifyMode.icons),
                 ),
                 const SizedBox(width: 8),
                 _ModeButton(
-                  checked: _mode == _VerifyMode.raw,
+                  checked: _mode == VerifyMode.raw,
                   icon: FluentIcons.code_16_regular,
                   label: t.verifyPage.raw,
-                  onPressed: () => setState(() => _mode = _VerifyMode.raw),
+                  onPressed: () => setState(() => _mode = VerifyMode.raw),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 24),
-          switch (_mode) {
-            _VerifyMode.icons => Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 304),
-                child: Card(
-                  padding: const EdgeInsets.all(24),
-                  child: GridView.count(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      for (final icon in fingerprintToIcons(combined)) Center(child: Icon(icon, size: 32)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            _VerifyMode.raw => Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 640),
-                child: Card(
-                  padding: const EdgeInsets.all(20),
-                  child: SelectableText(combined, style: const TextStyle(fontFamily: 'RobotoMono', height: 1.6)),
-                ),
-              ),
-            ),
-          },
+          VerifyWidget(
+            mode: _mode,
+            fingerprint: widget.fingerprint,
+          ),
           const SizedBox(height: 20),
           Center(
             child: Text(
@@ -99,6 +91,53 @@ class _VerifyPageState extends State<VerifyPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class VerifyWidget extends StatelessWidget {
+  final VerifyMode mode;
+  final CombinedFingerprint fingerprint;
+
+  const VerifyWidget({
+    required this.mode,
+    required this.fingerprint,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        switch (mode) {
+          VerifyMode.icons => Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 304),
+              child: Card(
+                padding: const EdgeInsets.all(24),
+                child: GridView.count(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    for (final icon in fingerprint.icons) Icon(icon, size: 32),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          VerifyMode.raw => Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 640),
+              child: Card(
+                padding: const EdgeInsets.all(20),
+                child: SelectableText(fingerprint.combined),
+              ),
+            ),
+          ),
+        },
+      ],
     );
   }
 }

@@ -94,7 +94,11 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> with Refena {
                 ButtonType.outlined,
                 icon: const Icon(FluentIcons.shield_checkmark_20_regular, size: 18),
                 label: Text(t.deviceDetailsPage.verify),
-                onPressed: () async => await context.push(() => VerifyPage(device: device)),
+                onPressed: () async => await context.push(
+                  () => VerifyPage(
+                    fingerprint: CombinedFingerprint.load(context, device.fingerprint),
+                  ),
+                ),
               ),
             ],
           ),

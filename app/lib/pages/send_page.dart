@@ -5,6 +5,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/send/send_session_state.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
+import 'package:localsend_app/pages/verify_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/file_transfer_provider.dart';
@@ -18,6 +19,7 @@ import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/list_tile/device_list_tile.dart';
 import 'package:localsend_isolates/model/device.dart';
 import 'package:localsend_isolates/model/session_status.dart';
+import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -129,6 +131,23 @@ class _SendPageState extends State<SendPage> with Refena {
                             nameOverride: targetFavoriteEntry?.alias,
                           ),
                         ),
+                        InitialFadeTransition(
+                          duration: const Duration(milliseconds: 300),
+                          delay: const Duration(milliseconds: 400),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: CustomIconLabelButton(
+                              ButtonType.outlined,
+                              onPressed: () async => await context.push(
+                                () => VerifyPage(
+                                  fingerprint: CombinedFingerprint.load(context, targetDevice.fingerprint),
+                                ),
+                              ),
+                              icon: Icon(FluentIcons.shield_20_regular, size: 20),
+                              label: Text(t.verifyPage.title),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -211,7 +230,7 @@ class _SendPageState extends State<SendPage> with Refena {
                               ButtonType.outlined,
                               onPressed: () {
                                 _cancel();
-                                context.pop();
+                                context.global.dispatch(NavigateAction.popUntilRoot());
                               },
                               icon: Icon(
                                 waiting ? FluentIcons.dismiss_16_regular : FluentIcons.checkmark_16_regular,
