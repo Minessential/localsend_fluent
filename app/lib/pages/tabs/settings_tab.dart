@@ -17,6 +17,7 @@ import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/provider/version_provider.dart';
 import 'package:localsend_app/util/alias_generator.dart';
 import 'package:localsend_app/util/device_type_ext.dart';
+import 'package:localsend_app/util/i18n.dart';
 import 'package:localsend_app/util/native/channel/macos_channel.dart';
 import 'package:localsend_app/util/native/pick_directory_path.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
@@ -90,7 +91,7 @@ class SettingsTab extends StatelessWidget {
                     items: [null, ...AppLocale.values].map((locale) {
                       return ComboBoxItem(
                         value: locale,
-                        child: Text(locale?.humanName ?? t.settingsTab.general.languageOptions.system),
+                        child: Text(locale?.getLocaleName() ?? t.settingsTab.general.languageOptions.system),
                       );
                     }).toList(),
                     onChanged: vm.onChangeLanguage,
@@ -887,12 +888,6 @@ extension on ColorMode {
       ColorMode.green => t.settingsTab.general.colorOptions.green,
       ColorMode.custom => t.settingsTab.general.colorOptions.custom,
     };
-  }
-}
-
-extension AppLocaleExt on AppLocale {
-  String get humanName {
-    return LocaleSettings.instance.translationMap[this]?.locale ?? 'Loading';
   }
 }
 

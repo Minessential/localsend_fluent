@@ -1,5 +1,4 @@
 {
-  "locale": "繁體中文 (香港)",
   "appName": "LocalSend",
   "general": {
     "accept": "接受",
@@ -294,8 +293,6 @@
     },
     "addressInput": {
       "title": "輸入地址",
-      "hashtag": "Hashtag",
-      "ip": "IP 地址",
       "recentlyUsed": "輸入記錄： "
     },
     "cancelSession": {

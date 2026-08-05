@@ -1,5 +1,4 @@
 {
-  "locale": "Српски (ћирилица)",
   "appName": "LocalSend",
   "general": {
     "accept": "Прихвати",
@@ -363,8 +362,6 @@
     },
     "addressInput": {
       "title": "Унесите адресу",
-      "hashtag": "Хеш-ознака",
-      "ip": "IP адреса",
       "recentlyUsed": "Недавно коришћено: "
     },
     "cancelSession": {

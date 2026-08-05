@@ -1,5 +1,4 @@
 {
-  "locale": "Filipino",
   "appName": "LocalSend",
   "general": {
     "accept": "Tanggapin",
@@ -363,8 +362,6 @@
     },
     "addressInput": {
       "title": "Ilagay ang address",
-      "hashtag": "Hashtag",
-      "ip": "IP Address",
       "recentlyUsed": "Recently used: "
     },
     "cancelSession": {

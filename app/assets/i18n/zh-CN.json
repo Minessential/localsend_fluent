@@ -1,5 +1,4 @@
 {
-  "locale": "简体中文",
   "appName": "LocalSend",
   "appNameF": "LocalSend(Fluent)",
   "general": {
@@ -385,8 +384,6 @@
     },
     "addressInput": {
       "title": "输入地址",
-      "hashtag": "标签",
-      "ip": "IP 地址",
       "recentlyUsed": "最近使用： "
     },
     "cancelSession": {

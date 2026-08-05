@@ -1,5 +1,4 @@
 {
-  "locale": "Svenska",
   "appName": "LocalSend",
   "general": {
     "accept": "Acceptera",
@@ -372,8 +371,6 @@
     },
     "addressInput": {
       "title": "Ange adress",
-      "hashtag": "Hashtagg",
-      "ip": "IP-adress",
       "recentlyUsed": "Senast använda: "
     },
     "cancelSession": {

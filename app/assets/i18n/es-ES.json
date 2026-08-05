@@ -1,5 +1,4 @@
 {
-  "locale": "Español",
   "appName": "LocalSend",
   "general": {
     "accept": "Aceptar",
@@ -302,8 +301,6 @@
     },
     "addressInput": {
       "title": "Introducir dirección",
-      "hashtag": "Etiqueta",
-      "ip": "Dirección IP",
       "recentlyUsed": "Usados recientemente: "
     },
     "cancelSession": {

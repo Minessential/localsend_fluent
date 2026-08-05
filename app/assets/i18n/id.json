@@ -1,5 +1,4 @@
 {
-  "locale": "Indonesian",
   "appName": "LocalSend",
   "general": {
     "accept": "Terima",
@@ -291,8 +290,6 @@
     },
     "addressInput": {
       "title": "Masukkan Alamat",
-      "hashtag": "Tagar",
-      "ip": "Alamat IP",
       "recentlyUsed": "Baru saja digunakan: "
     },
     "cancelSession": {

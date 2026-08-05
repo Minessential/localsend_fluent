@@ -43,9 +43,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   // Translations
 
-  /// en: 'English'
-  String get locale => 'English';
-
   /// en: 'LocalSend'
   String get appName => 'LocalSend';
 
@@ -1471,12 +1468,6 @@ class Translations$dialogs$addressInput$en {
 
   /// en: 'Enter address'
   String get title => 'Enter address';
-
-  /// en: 'Hashtag'
-  String get hashtag => 'Hashtag';
-
-  /// en: 'IP Address'
-  String get ip => 'IP Address';
 
   /// en: 'Recently used: '
   String get recentlyUsed => 'Recently used: ';

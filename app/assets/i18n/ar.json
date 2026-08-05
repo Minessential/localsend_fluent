@@ -1,5 +1,4 @@
 {
-  "locale": "العربية",
   "appName": "LocalSend",
   "general": {
     "accept": "اقبل",
@@ -372,8 +371,6 @@
     },
     "addressInput": {
       "title": "أدخل العنوان",
-      "hashtag": "رابطة هاشتاق",
-      "ip": "عنوان IP",
       "recentlyUsed": "المستخدمة حديثًا: "
     },
     "cancelSession": {

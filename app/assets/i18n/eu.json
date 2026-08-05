@@ -1,5 +1,4 @@
 {
-  "locale": "Euskara",
   "appName": "LocalSend",
   "general": {
     "accept": "Onartu",
@@ -261,8 +260,6 @@
     },
     "addressInput": {
       "title": "Sartu helbidea",
-      "hashtag": "Hashtag",
-      "ip": "IP Helbidea",
       "recentlyUsed": "Duela gutxi erabilitakoak: "
     },
     "cancelSession": {
