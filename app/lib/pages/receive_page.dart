@@ -162,11 +162,13 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                             children: [
                                               CustomIconLabelButton(
                                                 ButtonType.outlined,
-                                                onPressed: () async => await context.push(
-                                                  () => VerifyPage(
-                                                    fingerprint: CombinedFingerprint.load(context, vm.sender.fingerprint),
-                                                  ),
-                                                ),
+                                                onPressed: !vm.sender.https
+                                                    ? null
+                                                    : () async => await context.push(
+                                                        () => VerifyPage(
+                                                          fingerprint: CombinedFingerprint.load(context, vm.sender.fingerprint),
+                                                        ),
+                                                      ),
 
                                                 icon: Icon(FluentIcons.shield_20_regular, size: 20),
                                                 label: Text(t.verifyPage.title),

@@ -138,11 +138,13 @@ class _SendPageState extends State<SendPage> with Refena {
                             padding: const EdgeInsets.only(top: 8),
                             child: CustomIconLabelButton(
                               ButtonType.outlined,
-                              onPressed: () async => await context.push(
-                                () => VerifyPage(
-                                  fingerprint: CombinedFingerprint.load(context, targetDevice.fingerprint),
-                                ),
-                              ),
+                              onPressed: !targetDevice.https
+                                  ? null
+                                  : () async => await context.push(
+                                      () => VerifyPage(
+                                        fingerprint: CombinedFingerprint.load(context, targetDevice.fingerprint),
+                                      ),
+                                    ),
                               icon: Icon(FluentIcons.shield_20_regular, size: 20),
                               label: Text(t.verifyPage.title),
                             ),
