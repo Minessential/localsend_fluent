@@ -1113,7 +1113,7 @@ class _Translations$progressPage$remainingTime$he extends Translations$progressP
     two: 'שעתיים',
   );
   @override
-  String minutes({required Object n, required Object ss}) => '${n}:${ss}';
+  String minutes({required Object m, required Object ss}) => '${m}:${ss}';
   @override
   String hours({required num h, required num m}) =>
       '${_root.progressPage.remainingTime.hoursUnit(h: h)} ${_root.progressPage.remainingTime.minutesUnit(m: m)}';
