@@ -24,13 +24,16 @@
   "progressPage": {
     "remainingTime": {
       "minutesUnit(plural, param=m)": {
-        "other": "{m}хв"
+        "other": "{m}m"
       },
       "hoursUnit(plural, param=h)": {
-        "other": "{h}год"
+        "other": "{h}h"
+      },
+      "hoursUnitWithAnd(plural, param=h)": {
+        "other": "{h}h"
       },
       "daysUnit(plural, param=d)": {
-        "other": "{d}дн"
+        "other": "{d}d"
       }
     },
     "retry": "Retry"
