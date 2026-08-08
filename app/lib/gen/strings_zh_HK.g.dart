@@ -1166,10 +1166,6 @@ class Translations$dialogs$addressInput$zh_HK extends Translations$dialogs$addre
   String get title => '輸入地址';
   @override
   String get recentlyUsed => '輸入記錄：';
-  @override
-  String get hashtag => 'Hashtag';
-  @override
-  String get ip => 'IP 地址';
 }
 
 // Path: dialogs.cancelSession

@@ -60,6 +60,10 @@ class TranslationsFa extends Translations with BaseTranslations<AppLocale, Trans
   @override
   late final _Translations$selectedFilesPage$fa selectedFilesPage = _Translations$selectedFilesPage$fa._(_root);
   @override
+  late final _Translations$deviceDetailsPage$fa deviceDetailsPage = _Translations$deviceDetailsPage$fa._(_root);
+  @override
+  late final _Translations$verifyPage$fa verifyPage = _Translations$verifyPage$fa._(_root);
+  @override
   late final _Translations$receivePage$fa receivePage = _Translations$receivePage$fa._(_root);
   @override
   late final _Translations$receiveOptionsPage$fa receiveOptionsPage = _Translations$receiveOptionsPage$fa._(_root);
@@ -70,11 +74,15 @@ class TranslationsFa extends Translations with BaseTranslations<AppLocale, Trans
   @override
   late final _Translations$webSharePage$fa webSharePage = _Translations$webSharePage$fa._(_root);
   @override
+  late final _Translations$webReceivePage$fa webReceivePage = _Translations$webReceivePage$fa._(_root);
+  @override
   late final _Translations$aboutPage$fa aboutPage = _Translations$aboutPage$fa._(_root);
   @override
   late final _Translations$donationPage$fa donationPage = _Translations$donationPage$fa._(_root);
   @override
   late final _Translations$changelogPage$fa changelogPage = _Translations$changelogPage$fa._(_root);
+  @override
+  late final _Translations$whatsNewPage$fa whatsNewPage = _Translations$whatsNewPage$fa._(_root);
   @override
   late final _Translations$aliasGenerator$fa aliasGenerator = _Translations$aliasGenerator$fa._(_root);
   @override
@@ -187,6 +195,8 @@ class _Translations$receiveTab$fa extends Translations$receiveTab$en {
   late final _Translations$receiveTab$infoBox$fa infoBox = _Translations$receiveTab$infoBox$fa._(_root);
   @override
   late final _Translations$receiveTab$quickSave$fa quickSave = _Translations$receiveTab$quickSave$fa._(_root);
+  @override
+  String get link => 'دریافت از طریق لینک';
 }
 
 // Path: sendTab
@@ -337,6 +347,42 @@ class _Translations$selectedFilesPage$fa extends Translations$selectedFilesPage$
   String get deleteAll => 'حذف همه';
 }
 
+// Path: deviceDetailsPage
+class _Translations$deviceDetailsPage$fa extends Translations$deviceDetailsPage$en {
+  _Translations$deviceDetailsPage$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'جزئیات دستگاه';
+  @override
+  String get favorite => 'علاقه‌مندی';
+  @override
+  String get verify => 'تأیید هویت';
+  @override
+  late final _Translations$deviceDetailsPage$info$fa info = _Translations$deviceDetailsPage$info$fa._(_root);
+  @override
+  late final _Translations$deviceDetailsPage$logs$fa logs = _Translations$deviceDetailsPage$logs$fa._(_root);
+}
+
+// Path: verifyPage
+class _Translations$verifyPage$fa extends Translations$verifyPage$en {
+  _Translations$verifyPage$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'تأیید هویت';
+  @override
+  String get icons => 'آیکون‌ها';
+  @override
+  String get raw => 'خام';
+  @override
+  String get question => 'آیا در دستگاه دیگر هم همین‌طور به نظر می‌رسد؟';
+}
+
 // Path: receivePage
 class _Translations$receivePage$fa extends Translations$receivePage$en {
   _Translations$receivePage$fa._(TranslationsFa root) : this._root = root, super.internal(root);
@@ -384,6 +430,8 @@ class _Translations$sendPage$fa extends Translations$sendPage$en {
   final TranslationsFa _root; // ignore: unused_field
 
   // Translations
+  @override
+  String calculatingChecksum({required Object curr, required Object n}) => 'در حال محاسبه کد سلامت فایل (${curr} / ${n})';
   @override
   String get waiting => 'در انتظار پاسخ…';
   @override
@@ -452,6 +500,17 @@ class _Translations$webSharePage$fa extends Translations$webSharePage$en {
   String pendingRequests({required Object n}) => 'درخواست‌های در انتظار: ${n}';
 }
 
+// Path: webReceivePage
+class _Translations$webReceivePage$fa extends Translations$webReceivePage$en {
+  _Translations$webReceivePage$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'دریافت از طریق لینک';
+}
+
 // Path: aboutPage
 class _Translations$aboutPage$fa extends Translations$aboutPage$en {
   _Translations$aboutPage$fa._(TranslationsFa root) : this._root = root, super.internal(root);
@@ -505,6 +564,19 @@ class _Translations$changelogPage$fa extends Translations$changelogPage$en {
   // Translations
   @override
   String get title => 'تاریخچه تغییرات برنامه';
+}
+
+// Path: whatsNewPage
+class _Translations$whatsNewPage$fa extends Translations$whatsNewPage$en {
+  _Translations$whatsNewPage$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String title({required Object version}) => 'ویژگی‌های جدید در نسخه ${version}';
+  @override
+  late final _Translations$whatsNewPage$changes$fa changes = _Translations$whatsNewPage$changes$fa._(_root);
 }
 
 // Path: aliasGenerator
@@ -914,6 +986,8 @@ class _Translations$settingsTab$receive$fa extends Translations$settingsTab$rece
   String get saveToGallery => 'ذخیره رسانه در گالری';
   @override
   String get saveToHistory => 'ذخیره در تاریخچه';
+  @override
+  String get verifyChecksums => 'تأیید اصالت و سلامت فایل‌ها هنگام دریافت';
 }
 
 // Path: settingsTab.send
@@ -927,6 +1001,8 @@ class _Translations$settingsTab$send$fa extends Translations$settingsTab$send$en
   String get title => 'ارسال';
   @override
   String get shareViaLinkAutoAccept => 'تأیید خودکار درخواست‌ها در حالت «اشتراک‌گذاری از طریق لینک»';
+  @override
+  String get createChecksums => 'تولید کد ساختار و سلامت فایل هنگام ارسال';
 }
 
 // Path: settingsTab.network
@@ -1052,6 +1128,40 @@ class _Translations$receiveHistoryPage$entryActions$fa extends Translations$rece
   String get deleteFromHistory => 'حذف از تاریخچه';
 }
 
+// Path: deviceDetailsPage.info
+class _Translations$deviceDetailsPage$info$fa extends Translations$deviceDetailsPage$info$en {
+  _Translations$deviceDetailsPage$info$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get name => 'نام';
+  @override
+  String get address => 'آدرس';
+  @override
+  String get version => 'نسخه';
+  @override
+  String protocol({required Object version}) => 'پروتکل نسخه ${version}';
+}
+
+// Path: deviceDetailsPage.logs
+class _Translations$deviceDetailsPage$logs$fa extends Translations$deviceDetailsPage$logs$en {
+  _Translations$deviceDetailsPage$logs$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'گزارش‌ها';
+  @override
+  String get empty => 'هیچ گزارشی موجود نیست.';
+  @override
+  String discovered({required Object protocol, required Object host}) => 'شناسایی شده از طریق ${protocol} (${host})';
+  @override
+  String updated({required Object protocol, required Object host}) => 'به‌روزرسانی شده از طریق ${protocol} (${host})';
+}
+
 // Path: progressPage.total
 class _Translations$progressPage$total$fa extends Translations$progressPage$total$en {
   _Translations$progressPage$total$fa._(TranslationsFa root) : this._root = root, super.internal(root);
@@ -1077,11 +1187,32 @@ class _Translations$progressPage$remainingTime$fa extends Translations$progressP
 
   // Translations
   @override
+  String minutesUnit({required num m}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
+    m,
+    other: '${m} د',
+  );
+  @override
+  String hoursUnit({required num h}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fa'))(
+    h,
+    other: '${h} س',
+  );
+  @override
   String minutes({required Object m, required Object ss}) => '${m}:${ss}';
 
   /// از «س» به عنوان مخفف ساعت و از «د» برای دقیقه استفاده کنید
   @override
   String hours({required Object h, required Object m}) => '${h}س ${m}د';
+}
+
+// Path: whatsNewPage.changes
+class _Translations$whatsNewPage$changes$fa extends Translations$whatsNewPage$changes$en {
+  _Translations$whatsNewPage$changes$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  late final _Translations$whatsNewPage$changes$v1_18_0$fa v1_18_0 = _Translations$whatsNewPage$changes$v1_18_0$fa._(_root);
 }
 
 // Path: dialogs.addFile
@@ -1461,6 +1592,8 @@ class _Translations$settingsTab$general$colorOptions$fa extends Translations$set
   // Translations
   @override
   String get system => 'سیستم';
+  @override
+  String get custom => 'سفارشی';
 }
 
 // Path: settingsTab.general.languageOptions
@@ -1502,4 +1635,19 @@ class _Translations$progressPage$total$title$fa extends Translations$progressPag
   String get canceledSender => 'توسط فرستنده لغو شد';
   @override
   String get canceledReceiver => 'توسط گیرنده لغو شد';
+}
+
+// Path: whatsNewPage.changes.v1_18_0
+class _Translations$whatsNewPage$changes$v1_18_0$fa extends Translations$whatsNewPage$changes$v1_18_0$en with WhatsNewStrings {
+  _Translations$whatsNewPage$changes$v1_18_0$fa._(TranslationsFa root) : this._root = root, super.internal(root);
+
+  final TranslationsFa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  List<String> get changes => [
+    'رمزنگاری دیگر سرعت انتقال را کاهش نمی‌دهد. اگر قبلاً آن را خاموش کرده بودید، دوباره در این دستگاه فعال شده است.',
+    'درخواست‌های دریافت شده از لیست علاقه‌مندی‌ها اکنون به صورت خودکار پذیرفته می‌شوند. این گزینه به صورت پیش‌فرض روشن است و می‌توانید آن را در تنظیمات غیرفعال کنید.',
+    'در اندروید، انتقال فایل‌ها زمانی که برنامه در پس‌زمینه است یا صفحه نمایش خاموش است ادامه می‌یابد. در iOS، برنامه همچنان باید در پیش‌زمینه باقی بماند.',
+  ];
 }
