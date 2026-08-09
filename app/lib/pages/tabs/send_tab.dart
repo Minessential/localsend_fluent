@@ -334,7 +334,7 @@ class _ScanButton extends StatelessWidget {
         child: IconButton(
           onPressed: () async {
             context.redux(nearbyDevicesProvider).dispatch(ClearFoundDevicesAction());
-            await context.global.dispatchAsync(StartSmartScan(forceLegacy: true));
+            await context.global.dispatchAsync(StartSmartScan());
           },
           icon: RotatingWidget(
             duration: const Duration(seconds: 2),
