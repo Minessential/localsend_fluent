@@ -30,7 +30,7 @@ class CombinedFingerprint {
 
 enum VerifyMode {
   icons,
-  raw,
+  text,
 }
 
 /// Verifies the identity of a discovered device by comparing the fingerprints
@@ -68,10 +68,10 @@ class _VerifyPageState extends State<VerifyPage> {
                 ),
                 const SizedBox(width: 8),
                 _ModeButton(
-                  checked: _mode == VerifyMode.raw,
+                  checked: _mode == VerifyMode.text,
                   icon: FluentIcons.code_16_regular,
-                  label: t.verifyPage.raw,
-                  onPressed: () => setState(() => _mode = VerifyMode.raw),
+                  label: t.verifyPage.text,
+                  onPressed: () => setState(() => _mode = VerifyMode.text),
                 ),
               ],
             ),
@@ -127,7 +127,7 @@ class VerifyWidget extends StatelessWidget {
               ),
             ),
           ),
-          VerifyMode.raw => Center(
+          VerifyMode.text => Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 640),
               child: Card(
