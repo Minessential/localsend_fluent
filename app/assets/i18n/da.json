@@ -51,7 +51,8 @@
       "off": "@:general.off",
       "favorites": "Favoritter",
       "on": "@:general.on"
-    }
+    },
+    "link": "Modtag via link"
   },
   "sendTab": {
     "title": "Send",
@@ -95,7 +96,8 @@
       },
       "color": "Farve",
       "colorOptions": {
-        "system": "System"
+        "system": "System",
+        "custom": "Brugerdefineret"
       },
       "language": "Sprog",
       "languageOptions": {
@@ -118,11 +120,13 @@
       "destination": "Gem til mappe",
       "downloads": "(Overførsler)",
       "saveToGallery": "Gem medier til galleri",
-      "saveToHistory": "Gem til historik"
+      "saveToHistory": "Gem til historik",
+      "verifyChecksums": "Verificer kontrolsummer ved modtagelse af filer"
     },
     "send": {
       "title": "Send",
-      "shareViaLinkAutoAccept": "Acceptér automatisk anmodninger i \"Del med link\"-tilstand"
+      "shareViaLinkAutoAccept": "Acceptér automatisk anmodninger i \"Del med link\"-tilstand",
+      "createChecksums": "Opret kontrolsummer ved afsendelse af filer"
     },
     "network": {
       "title": "Netværk",
@@ -201,6 +205,29 @@
   "selectedFilesPage": {
     "deleteAll": "Slet alle"
   },
+  "deviceDetailsPage": {
+    "title": "Enhedsdetaljer",
+    "favorite": "Favorit",
+    "verify": "Verificer",
+    "info": {
+      "name": "Navn",
+      "address": "Adresse",
+      "version": "Version",
+      "protocol": "Protokol v{version}"
+    },
+    "logs": {
+      "title": "Logfiler",
+      "empty": "Ingen logfiler tilgængelige.",
+      "discovered": "Opdaget via {protocol} ({host})",
+      "updated": "Opdateret via {protocol} ({host})"
+    }
+  },
+  "verifyPage": {
+    "title": "Verificer",
+    "icons": "Ikoner",
+    "raw": "Rå",
+    "question": "Ser det ens ud på den anden enhed?"
+  },
   "receivePage": {
     "subTitle": {
       "one": "vil sende dig en fil",
@@ -218,6 +245,7 @@
     "saveToGalleryOff": "Slået fra automatisk, fordi der er mapper."
   },
   "sendPage": {
+    "calculatingChecksum": "Beregner kontrolsum ({curr} / {n})",
     "waiting": "Venter på svar…",
     "rejected": "Modtageren har afvist delingen.",
     "tooManyAttempts": "@:web.tooManyAttempts",
@@ -237,6 +265,16 @@
       "count": "Filer: {curr} / {n}",
       "size": "Størrelse: {curr} / {n}",
       "speed": "Hastighed: {speed}/s"
+    },
+    "remainingTime": {
+      "minutesUnit(plural, param=m)": {
+        "other": "{m}m"
+      },
+      "hoursUnit(plural, param=h)": {
+        "other": "{h}t"
+      },
+      "minutes": "{m}:{ss}",
+      "hours": "@:.hoursUnit @:.minutesUnit"
     }
   },
   "webSharePage": {
@@ -256,6 +294,9 @@
     "pinHint": "PIN-koden er \"{pin}\"",
     "encryptionHint": "LocalSend bruger et selvsigneret certifikat. Du skal acceptere det i din browser.",
     "pendingRequests": "Afventende forespørgsler: {n}"
+  },
+  "webReceivePage": {
+    "title": "Modtag via link"
   },
   "aboutPage": {
     "title": "Om LocalSend",
@@ -277,6 +318,18 @@
   },
   "changelogPage": {
     "title": "Ændringslog"
+  },
+  "whatsNewPage": {
+    "title": "Nyheder i {version}",
+    "changes(interface=WhatsNewStrings)": {
+      "v1_18_0": {
+        "changes": [
+          "Kryptering gør ikke længere overførsler langsommere. Den er blevet genaktiveret på denne enhed, hvis du tidligere havde slået den fra.",
+          "Anmodninger fra favoritter accepteres nu automatisk. Dette er slået til som standard og kan deaktiveres i indstillingerne.",
+          "På Android fortsætter overførsler, mens appen er i baggrunden, eller skærmen er slukket. På iOS skal appen stadig forblive i forgrunden."
+        ]
+      }
+    }
   },
   "aliasGenerator(ignoreMissing, ignoreGpt)": {
     "@info": "Lokaliteter kan have forskellige ord og matcher ikke altid 1:1"

@@ -51,7 +51,8 @@
       "off": "@:general.off",
       "favorites": "Lemmikud",
       "on": "@:general.on"
-    }
+    },
+    "link": "Võta vastu lingi kaudu"
   },
   "sendTab": {
     "title": "Saada",
@@ -95,7 +96,8 @@
       },
       "color": "Värv",
       "colorOptions": {
-        "system": "Süsteemi värvid"
+        "system": "Süsteemi värvid",
+        "custom": "Kohandatud"
       },
       "language": "Keel",
       "languageOptions": {
@@ -118,11 +120,13 @@
       "destination": "Salvesta kausta",
       "downloads": "(Allalaadimised)",
       "saveToGallery": "Lisa meedia galeriisse",
-      "saveToHistory": "Salvesta ajalukku"
+      "saveToHistory": "Salvesta ajalukku",
+      "verifyChecksums": "Kontrolli failide vastuvõtmisel kontrollsummasid"
     },
     "send": {
       "title": "Saatmine",
-      "shareViaLinkAutoAccept": "Kui kasutusel on „Jaga lingi abil“, siis nõustu vastuvõtmisega automaatselt"
+      "shareViaLinkAutoAccept": "Kui kasutusel on „Jaga lingi abil“, siis nõustu vastuvõtmisega automaatselt",
+      "createChecksums": "Loo failide saatmisel kontrollsummad"
     },
     "network": {
       "title": "Võrk",
@@ -201,6 +205,29 @@
   "selectedFilesPage": {
     "deleteAll": "Kustuta kõik"
   },
+  "deviceDetailsPage": {
+    "title": "Seadme üksikasjad",
+    "favorite": "Lemmik",
+    "verify": "Kontrolli",
+    "info": {
+      "name": "Nimi",
+      "address": "Aadress",
+      "version": "Versioon",
+      "protocol": "Protokoll v{version}"
+    },
+    "logs": {
+      "title": "Logid",
+      "empty": "Logisid pole saadaval.",
+      "discovered": "Avastatud {protocol} kaudu ({host})",
+      "updated": "Uuendatud {protocol} kaudu ({host})"
+    }
+  },
+  "verifyPage": {
+    "title": "Kontrolli",
+    "icons": "Ikoonid",
+    "raw": "Toorandmed",
+    "question": "Kas see näeb teises seadmes samasugune välja?"
+  },
   "receivePage": {
     "subTitle": {
       "one": "soovib sulle saata faili",
@@ -218,11 +245,11 @@
     "saveToGalleryOff": "Pole kasutusel, kuna saadetavate hulgas leidub kaustu."
   },
   "sendPage": {
+    "calculatingChecksum": "Arvutan kontrollsummat ({curr} / {n})",
     "waiting": "Ootame vastust…",
     "rejected": "Vastuvõtja on vastuvõtmisest keeldunud.",
     "tooManyAttempts": "@:web.tooManyAttempts",
-    "busy": "Vastuvõtja on hõivatud teise päringuga tegelemisega.",
-    "calculatingChecksum": "Arvutan kontrollsummat ({curr} / {n})"
+    "busy": "Vastuvõtja on hõivatud teise päringuga tegelemisega."
   },
   "progressPage": {
     "titleSending": "Saadame faile",
@@ -240,9 +267,14 @@
       "speed": "Kiirus: {speed}/s"
     },
     "remainingTime": {
+      "minutesUnit(plural, param=m)": {
+        "other": "{m}min"
+      },
+      "hoursUnit(plural, param=h)": {
+        "other": "{h}t"
+      },
       "minutes": "{m}:{ss}",
-      "hours": "{h} t {m} min",
-      "@hours": "Kasuta „h“ tunni lühendina ja „m“ minutite jaoks"
+      "hours": "@:.hoursUnit @:.minutesUnit"
     }
   },
   "webSharePage": {
@@ -262,6 +294,9 @@
     "pinHint": "PIN-kood on „{pin}“",
     "encryptionHint": "LocalSend kasutab enda poolt allkirjastatud sertifikaate. Ühenduse toimimiseks palun nõustu nendega veebibrauseris.",
     "pendingRequests": "Ootel päringuid: {n}"
+  },
+  "webReceivePage": {
+    "title": "Võta vastu lingi kaudu"
   },
   "aboutPage": {
     "title": "Rakenduse teave: LocalSend",
@@ -283,6 +318,18 @@
   },
   "changelogPage": {
     "title": "Muudatuste logi"
+  },
+  "whatsNewPage": {
+    "title": "Mis on uut versioonis {version}",
+    "changes(interface=WhatsNewStrings)": {
+      "v1_18_0": {
+        "changes": [
+          "Krüpteerimine ei aeglusta enam ülekandeid. Kui olite selle varem välja lülitanud, on see selles seadmes uuesti sisse lülitatud.",
+          "Lemmikute päringud võetakse nüüd automaatselt vastu. See on vaikimisi sisse lülitatud ja seda saab seadetes välja lülitada.",
+          "Androidis jätkuvad ülekanded, kui rakendus on taustal või ekraan on väljas. iOS-is peab rakendus endiselt esiplaanile jääma."
+        ]
+      }
+    }
   },
   "aliasGenerator(ignoreMissing, ignoreGpt)": {
     "@info": "Erinevates lokaatides võivad olla kasutusel erinevad sõnad ning nad ei pruugi 1:1 kattuda"

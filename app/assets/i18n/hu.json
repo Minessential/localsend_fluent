@@ -51,7 +51,8 @@
       "off": "@:general.off",
       "favorites": "Kedvencek",
       "on": "@:general.on"
-    }
+    },
+    "link": "Fogadás hivatkozáson keresztül"
   },
   "sendTab": {
     "title": "Küldés",
@@ -95,7 +96,8 @@
       },
       "color": "Színek",
       "colorOptions": {
-        "system": "Rendszer"
+        "system": "Rendszer",
+        "custom": "Egyéni"
       },
       "language": "Nyelv",
       "languageOptions": {
@@ -118,11 +120,13 @@
       "destination": "Mentés helye",
       "downloads": "(Letöltések)",
       "saveToGallery": "Média mentése a galériába",
-      "saveToHistory": "Mentés az előzmények közé"
+      "saveToHistory": "Mentés az előzmények közé",
+      "verifyChecksums": "Ellenőrzőösszegek ellenőrzése fájlok fogadásakor"
     },
     "send": {
       "title": "Küld",
-      "shareViaLinkAutoAccept": "Megosztás linken keresztül: Auto. elfogadás"
+      "shareViaLinkAutoAccept": "Megosztás linken keresztül: Auto. elfogadás",
+      "createChecksums": "Ellenőrzőösszegek létrehozása fájlok küldésekor"
     },
     "network": {
       "title": "Hálózat",
@@ -201,6 +205,29 @@
   "selectedFilesPage": {
     "deleteAll": "Összes törlése"
   },
+  "deviceDetailsPage": {
+    "title": "Eszköz részletei",
+    "favorite": "Kedvenc",
+    "verify": "Ellenőrzés",
+    "info": {
+      "name": "Név",
+      "address": "Cím",
+      "version": "Verzió",
+      "protocol": "Protokoll v{version}"
+    },
+    "logs": {
+      "title": "Naplók",
+      "empty": "Nincs elérhető napló.",
+      "discovered": "Felfedezve {protocol} útján ({host})",
+      "updated": "Frissítve {protocol} útján ({host})"
+    }
+  },
+  "verifyPage": {
+    "title": "Ellenőrzés",
+    "icons": "Ikonok",
+    "raw": "Nyers",
+    "question": "Ugyanúgy néz ki a másik eszközön?"
+  },
   "receivePage": {
     "subTitle": {
       "one": "fájlt szeretne küldeni",
@@ -218,11 +245,11 @@
     "saveToGalleryOff": "Automatikusan kikapcsol, mert vannak könyvtárak."
   },
   "sendPage": {
+    "calculatingChecksum": "Ellenőrzőösszeg kiszámítása ({curr} / {n})",
     "waiting": "Válaszra várva…",
     "rejected": "A fogadó elutasította a kérelmet.",
     "tooManyAttempts": "@:web.tooManyAttempts",
-    "busy": "A fogadó más kéréssel van elfoglalva.",
-    "calculatingChecksum": "Ellenőrzőösszeg kiszámítása ({curr} / {n})"
+    "busy": "A fogadó más kéréssel van elfoglalva."
   },
   "progressPage": {
     "titleSending": "Fájlok küldése",
@@ -240,9 +267,14 @@
       "speed": "Sebesség: {speed}/s"
     },
     "remainingTime": {
+      "minutesUnit(plural, param=m)": {
+        "other": "{m}p"
+      },
+      "hoursUnit(plural, param=h)": {
+        "other": "{h}ó"
+      },
       "minutes": "{m}:{ss}",
-      "hours": "{h}h {m}m",
-      "@hours": "Az órák rövidítéséhez használja a 'h' betűt, a percekhez pedig az 'm' betűt"
+      "hours": "@:.hoursUnit @:.minutesUnit"
     }
   },
   "webSharePage": {
@@ -262,6 +294,9 @@
     "pinHint": "A PIN kód \"{pin}\"",
     "encryptionHint": "A LocalSend a saját aláírt tanúsítványt használja. A böngészőben kell elfogadnod.",
     "pendingRequests": "Függőben lévő kérések: {n}"
+  },
+  "webReceivePage": {
+    "title": "Linken keresztüli fogadás"
   },
   "aboutPage": {
     "title": "A LocalSend",
@@ -283,6 +318,18 @@
   },
   "changelogPage": {
     "title": "Változásnapló"
+  },
+  "whatsNewPage": {
+    "title": "{version} verzió újdonságai",
+    "changes(interface=WhatsNewStrings)": {
+      "v1_18_0": {
+        "changes": [
+          "A titkosítás már nem lassítja az adatátvitelt. Ha korábban kikapcsolta, akkor ezen az eszközön újra engedélyezve lett.",
+          "A kedvencekből érkező kéréseket már automatikusan elfogadjuk. Alapból be van kapcsolva, és a beállításokban kikapcsolható.",
+          "Android rendszeren az adatátvitel akkor is folytatódik, ha az alkalmazás a háttérben fut, vagy a képernyő ki van kapcsolva. iOS rendszeren viszont az alkalmazásnak továbbra is az előtérben kell maradnia."
+        ]
+      }
+    }
   },
   "aliasGenerator(ignoreMissing, ignoreGpt)": {
     "@info": "Az angol változatból örökölve"
@@ -453,20 +500,5 @@
     "sActionUseCameraHint": "használjon kamerát",
     "sNameDurationLabel": "időtartam",
     "sUnitAssetCountLabel": "számol"
-  },
-  "webReceivePage": {
-    "title": "Linken keresztüli fogadás"
-  },
-  "whatsNewPage": {
-    "title": "{version} verzió újdonságai",
-    "changes(interface=WhatsNewStrings)": {
-      "v1_18_0": {
-        "changes": [
-          "A titkosítás már nem lassítja az adatátvitelt. Ha korábban kikapcsolta, akkor ezen az eszközön újra engedélyezve lett.",
-          "A kedvencekből érkező kéréseket már automatikusan elfogadjuk. Alapból be van kapcsolva, és a beállításokban kikapcsolható.",
-          "Android rendszeren az adatátvitel akkor is folytatódik, ha az alkalmazás a háttérben fut, vagy a képernyő ki van kapcsolva. iOS rendszeren viszont az alkalmazásnak továbbra is az előtérben kell maradnia."
-        ]
-      }
-    }
   }
 }

@@ -4,9 +4,6 @@
     "After editing this file, you can run 'dart run slang apply --locale=pt-BR' to quickly apply the newly added translations."
   ],
   "appNameF": "LocalSend(Fluent)",
-  "receiveTab": {
-    "link": "Receive via link"
-  },
   "settingsTab": {
     "toggleSwitch": {
       "on": "On",
@@ -20,43 +17,11 @@
         "magenta": "Magenta",
         "purple": "Purple",
         "blue": "Blue",
-        "green": "Green",
-        "custom": "Custom"
+        "green": "Green"
       }
     }
-  },
-  "deviceDetailsPage": {
-    "title": "Device Details",
-    "favorite": "Favorite",
-    "verify": "Verify",
-    "info": {
-      "name": "Name",
-      "address": "Address",
-      "version": "Version",
-      "protocol": "Protocol v{version}"
-    },
-    "logs": {
-      "title": "Logs",
-      "empty": "No logs available.",
-      "discovered": "Discovered via {protocol} ({host})",
-      "updated": "Updated via {protocol} ({host})"
-    }
-  },
-  "verifyPage": {
-    "title": "Verify",
-    "icons": "Icons",
-    "raw": "Raw",
-    "question": "Does it look the same on the other device?"
   },
   "progressPage": {
-    "remainingTime": {
-      "minutesUnit(plural, param=m)": {
-        "other": "{m}m"
-      },
-      "hoursUnit(plural, param=h)": {
-        "other": "{h}h"
-      }
-    },
     "retry": "Retry"
   }
 }

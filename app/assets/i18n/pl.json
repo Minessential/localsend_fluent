@@ -51,7 +51,8 @@
       "off": "@:general.off",
       "favorites": "Ulubione",
       "on": "@:general.on"
-    }
+    },
+    "link": "Odbierz przez link"
   },
   "sendTab": {
     "title": "Wyślij",
@@ -95,7 +96,8 @@
       },
       "color": "Kolor",
       "colorOptions": {
-        "system": "Systemowy"
+        "system": "Systemowy",
+        "custom": "Niestandardowy"
       },
       "language": "Język",
       "languageOptions": {
@@ -203,6 +205,29 @@
   "selectedFilesPage": {
     "deleteAll": "Usuń wszystko"
   },
+  "deviceDetailsPage": {
+    "title": "Szczegóły urządzenia",
+    "favorite": "Ulubione",
+    "verify": "Zweryfikuj",
+    "info": {
+      "name": "Nazwa",
+      "address": "Adres",
+      "version": "Wersja",
+      "protocol": "Protokół v{version}"
+    },
+    "logs": {
+      "title": "Dzienniki",
+      "empty": "Brak dostępnych dzienników.",
+      "discovered": "Wykryto przez {protocol} ({host})",
+      "updated": "Zaktualizowano przez {protocol} ({host})"
+    }
+  },
+  "verifyPage": {
+    "title": "Zweryfikuj",
+    "icons": "Ikony",
+    "raw": "Surowe",
+    "question": "Czy na drugim urządzeniu wygląda tak samo?"
+  },
   "receivePage": {
     "subTitle": {
       "one": "chce wysłać Ci plik",
@@ -220,11 +245,11 @@
     "saveToGalleryOff": "Wyłączono automatycznie, ponieważ istnieją katalogi."
   },
   "sendPage": {
+    "calculatingChecksum": "Obliczanie sumy kontrolnej ({curr} / {n})",
     "waiting": "Czekanie na odpowiedź…",
     "rejected": "Odbiorca odrzucił żądanie.",
     "tooManyAttempts": "@:web.tooManyAttempts",
-    "busy": "Odbiorca jest zajęty innym żądaniem.",
-    "calculatingChecksum": "Obliczanie sumy kontrolnej ({curr} / {n})"
+    "busy": "Odbiorca jest zajęty innym żądaniem."
   },
   "progressPage": {
     "titleSending": "Wysyłanie plików",
@@ -242,9 +267,14 @@
       "speed": "Prędkość: {speed}/s"
     },
     "remainingTime": {
+      "minutesUnit(plural, param=m)": {
+        "other": "{m}min"
+      },
+      "hoursUnit(plural, param=h)": {
+        "other": "{h}godz."
+      },
       "minutes": "{m}:{ss}",
-      "hours": "{h}h {m}m",
-      "@hours": "Użyj „h” w przypadku skrótu godzin i „m” w przypadku minut"
+      "hours": "@:.hoursUnit @:.minutesUnit"
     }
   },
   "webSharePage": {
@@ -264,6 +294,9 @@
     "pinHint": "Kod PIN to „{pin}”",
     "encryptionHint": "LocalSend używa samopodpisanego certyfikatu. Musisz go zaakceptować w przeglądarce.",
     "pendingRequests": "Oczekujące żądania: {n}"
+  },
+  "webReceivePage": {
+    "title": "Odbierz przez link"
   },
   "aboutPage": {
     "title": "O LocalSend",
@@ -285,6 +318,18 @@
   },
   "changelogPage": {
     "title": "Dziennik zmian"
+  },
+  "whatsNewPage": {
+    "title": "Co nowego w {version}",
+    "changes(interface=WhatsNewStrings)": {
+      "v1_18_0": {
+        "changes": [
+          "Szyfrowanie nie spowalnia już transferów. Zostało ponownie włączone na tym urządzeniu, jeśli zostało wcześniej wyłączone.",
+          "Prośby od ulubionych są teraz akceptowane automatycznie. Ta opcja jest domyślnie włączona i można ją wyłączyć w ustawieniach.",
+          "Na Androidzie przesyłanie danych jest kontynuowane, gdy aplikacja działa w tle lub ekran jest wyłączony. Na iOS aplikacja musi pozostać na pierwszym planie."
+        ]
+      }
+    }
   },
   "aliasGenerator(ignoreMissing, ignoreGpt)": {
     "@info": "Inherits from the English version"
@@ -455,20 +500,5 @@
     "sActionUseCameraHint": "użyj kamery",
     "sNameDurationLabel": "czas trwania",
     "sUnitAssetCountLabel": "liczba"
-  },
-  "whatsNewPage": {
-    "title": "Co nowego w {version}",
-    "changes(interface=WhatsNewStrings)": {
-      "v1_18_0": {
-        "changes": [
-          "Szyfrowanie nie spowalnia już transferów. Zostało ponownie włączone na tym urządzeniu, jeśli zostało wcześniej wyłączone.",
-          "Prośby od ulubionych są teraz akceptowane automatycznie. Ta opcja jest domyślnie włączona i można ją wyłączyć w ustawieniach.",
-          "Na Androidzie przesyłanie danych jest kontynuowane, gdy aplikacja działa w tle lub ekran jest wyłączony. Na iOS aplikacja musi pozostać na pierwszym planie."
-        ]
-      }
-    }
-  },
-  "webReceivePage": {
-    "title": "Odbierz przez link"
   }
 }
