@@ -204,22 +204,21 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                                 ),
                                               ),
                                               const SizedBox(height: 10),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                              Wrap(
+                                                alignment: WrapAlignment.center,
+                                                spacing: 20,
+                                                runSpacing: 10,
                                                 children: [
                                                   if (vm.showSenderInfo)
-                                                    Padding(
-                                                      padding: const EdgeInsetsDirectional.only(end: 20),
-                                                      child: CustomIconLabelButton(
-                                                        ButtonType.outlined,
-                                                        onPressed: () async => await context.push(
-                                                          () => VerifyPage(
-                                                            fingerprint: CombinedFingerprint.load(context, vm.sender.fingerprint),
-                                                          ),
+                                                    CustomIconLabelButton(
+                                                      ButtonType.outlined,
+                                                      onPressed: () async => await context.push(
+                                                        () => VerifyPage(
+                                                          fingerprint: CombinedFingerprint.load(context, vm.sender.fingerprint),
                                                         ),
-                                                        icon: Icon(FluentIcons.shield_20_regular, size: 20),
-                                                        label: Text(t.verifyPage.title),
                                                       ),
+                                                      icon: Icon(FluentIcons.shield_20_regular, size: 20),
+                                                      label: Text(t.verifyPage.title),
                                                     ),
                                                   CustomIconLabelButton(
                                                     ButtonType.outlined,
@@ -237,19 +236,16 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                                     label: Text(t.general.copy),
                                                   ),
                                                   if (vm.isLink)
-                                                    Padding(
-                                                      padding: const EdgeInsetsDirectional.only(start: 20),
-                                                      child: CustomIconLabelButton(
-                                                        ButtonType.filled,
-                                                        onPressed: () {
-                                                          // ignore: discarded_futures
-                                                          launchUrl(Uri.parse(vm.message!), mode: LaunchMode.externalApplication);
-                                                          vm.onAccept();
-                                                          context.global.dispatch(NavigateAction.popUntil<WebSharePage>());
-                                                        },
-                                                        icon: const Icon(FluentIcons.open_20_regular, size: 20),
-                                                        label: Text(t.general.open),
-                                                      ),
+                                                    CustomIconLabelButton(
+                                                      ButtonType.filled,
+                                                      onPressed: () {
+                                                        // ignore: discarded_futures
+                                                        launchUrl(Uri.parse(vm.message!), mode: LaunchMode.externalApplication);
+                                                        vm.onAccept();
+                                                        context.global.dispatch(NavigateAction.popUntil<WebSharePage>());
+                                                      },
+                                                      icon: const Icon(FluentIcons.open_20_regular, size: 20),
+                                                      label: Text(t.general.open),
                                                     ),
                                                 ],
                                               ),
