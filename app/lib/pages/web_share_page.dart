@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/cross_file.dart';
+import 'package:localsend_app/model/state/server/web_share_state.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
@@ -67,20 +68,19 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
 
       // The pin of a previous web share session is kept;
       // receive mode initially uses the receive pin from settings.
-      final previousState = ref.read(serverProvider);
-      final wasWebActive = previousState?.webSendState != null || previousState?.webUpload == true;
-      final webPin = wasWebActive ? previousState?.webPin : (files == null ? settings.receivePin : null);
+      final previousWeb = ref.read(serverProvider)?.web;
+      final webPin = previousWeb != null ? previousWeb.pin : (files == null ? settings.receivePin : null);
 
       if (files != null) {
-        // The auto accept setting of a previous web send state is kept.
+        // The auto accept setting of a previous web download state is kept.
         await ref
             .notifier(serverProvider)
-            .restartServerWithWebSend(
+            .restartServerWithWebDownload(
               alias: settings.alias,
               port: settings.port,
               https: _encrypted,
               files: files,
-              webPin: webPin,
+              pin: webPin,
             );
       } else {
         await ref
@@ -89,8 +89,7 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
               alias: settings.alias,
               port: settings.port,
               https: _encrypted,
-              webUpload: true,
-              webPin: webPin,
+              web: WebShareUpload(pin: webPin),
             );
       }
       setState(() {
@@ -173,14 +172,14 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
             }
 
             final serverState = context.watch(serverProvider);
-            final webSendState = serverState?.webSendState;
-            if (serverState == null || (_sendMode && webSendState == null)) {
+            final webDownloadState = serverState?.webDownloadState;
+            if (serverState == null || (_sendMode && webDownloadState == null)) {
               // the server is restarting (e.g. because the pin changed)
               return const Center(child: ProgressRing());
             }
             final networkState = context.watch(localIpProvider);
             final settings = context.watch(settingsProvider);
-            final pin = serverState.webPin;
+            final pin = serverState.web?.pin;
 
             return ResponsiveListView(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -219,7 +218,7 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
                                     builder: (_) => QrDialog(
                                       data: urlWithPin,
                                       label: url,
-                                      listenIncomingWebSendRequests: _sendMode,
+                                      listenIncomingWebDownloadRequests: _sendMode,
                                       pin: pin,
                                     ),
                                   );
@@ -232,7 +231,7 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
                                     context: context,
                                     builder: (_) => ZoomDialog(
                                       label: url,
-                                      listenIncomingWebSendRequests: _sendMode,
+                                      listenIncomingWebDownloadRequests: _sendMode,
                                       pin: pin,
                                     ),
                                   );
@@ -247,15 +246,15 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (webSendState != null) ...[
+                if (webDownloadState != null) ...[
                   Text(t.webSharePage.requests, style: theme.typography.subtitle),
                   const SizedBox(height: 10),
-                  if (webSendState.sessions.isEmpty)
+                  if (webDownloadState.sessions.isEmpty)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
                       child: Text(t.webSharePage.noRequests),
                     ),
-                  ...webSendState.sessions.entries.map((entry) {
+                  ...webDownloadState.sessions.entries.map((entry) {
                     final session = entry.value;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -280,14 +279,14 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
                             if (session.pending) ...[
                               IconButton(
                                 onPressed: () {
-                                  ref.notifier(serverProvider).declineWebSendRequest(session.sessionId);
+                                  ref.notifier(serverProvider).declineWebDownloadRequest(session.sessionId);
                                 },
                                 icon: const Icon(FluentIcons.dismiss_16_regular, size: 16),
                               ),
                               SizedBox(width: 10),
                               IconButton(
                                 onPressed: () {
-                                  ref.notifier(serverProvider).acceptWebSendRequest(session.sessionId);
+                                  ref.notifier(serverProvider).acceptWebDownloadRequest(session.sessionId);
                                 },
                                 icon: const Icon(FluentIcons.checkmark_16_regular, size: 16),
                               ),
@@ -318,11 +317,11 @@ class _WebSharePageState extends State<WebSharePage> with Refena {
                   const SizedBox(height: 5),
                 ],
                 Checkbox(
-                  checked: webSendState != null ? webSendState.autoAccept : settings.receiveViaLinkAutoAccept,
+                  checked: webDownloadState != null ? webDownloadState.autoAccept : settings.receiveViaLinkAutoAccept,
                   content: Text(t.webSharePage.autoAccept, style: theme.typography.bodyStrong),
                   onChanged: (value) async {
-                    if (webSendState != null) {
-                      ref.notifier(serverProvider).setWebSendAutoAccept(value == true);
+                    if (webDownloadState != null) {
+                      ref.notifier(serverProvider).setWebDownloadAutoAccept(value == true);
                     } else {
                       await ref.notifier(settingsProvider).setReceiveViaLinkAutoAccept(value == true);
                     }

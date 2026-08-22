@@ -1,18 +1,18 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/model/state/send/web/web_send_state.dart';
+import 'package:localsend_app/model/state/send/web/web_download_state.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
 class ZoomDialog extends StatelessWidget {
   final String label;
-  final bool listenIncomingWebSendRequests;
+  final bool listenIncomingWebDownloadRequests;
   final String? pin;
 
   const ZoomDialog({
     required this.label,
-    this.listenIncomingWebSendRequests = false,
+    this.listenIncomingWebDownloadRequests = false,
     this.pin,
   });
 
@@ -21,11 +21,11 @@ class ZoomDialog extends StatelessWidget {
     final width = MediaQuery.of(context).size.width * .80;
     final fontSize = width / 400 * 48;
 
-    final WebSendState? webSendState;
-    if (listenIncomingWebSendRequests) {
-      webSendState = context.ref.watch(serverProvider.select((s) => s?.webSendState));
+    final WebDownloadState? webDownloadState;
+    if (listenIncomingWebDownloadRequests) {
+      webDownloadState = context.ref.watch(serverProvider.select((s) => s?.webDownloadState));
     } else {
-      webSendState = null;
+      webDownloadState = null;
     }
 
     return ContentDialog(
@@ -55,10 +55,10 @@ class ZoomDialog extends StatelessWidget {
                 child: Text('🔑 $pin', textAlign: TextAlign.center, style: const TextStyle(fontSize: 100)),
               ),
             ),
-          if (listenIncomingWebSendRequests && webSendState != null)
+          if (listenIncomingWebDownloadRequests && webDownloadState != null)
             Builder(
               builder: (context) {
-                final pending = webSendState?.sessions.values.fold<int>(0, (prev, curr) => prev + (curr.pending ? 1 : 0)) ?? 0;
+                final pending = webDownloadState?.sessions.values.fold<int>(0, (prev, curr) => prev + (curr.pending ? 1 : 0)) ?? 0;
                 if (pending != 0) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 5),
