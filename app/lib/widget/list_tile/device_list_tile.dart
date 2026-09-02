@@ -1,4 +1,3 @@
-import 'package:common/model/device.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
@@ -6,6 +5,7 @@ import 'package:localsend_app/util/device_type_ext.dart';
 import 'package:localsend_app/widget/custom_progress_bar.dart';
 import 'package:localsend_app/widget/device_bage.dart';
 import 'package:localsend_app/widget/list_tile/custom_list_tile.dart';
+import 'package:localsend_isolates/model/device.dart';
 
 class DeviceListTile extends StatelessWidget {
   final Device device;
@@ -18,7 +18,7 @@ class DeviceListTile extends StatelessWidget {
   final String? info;
   final double? progress;
   final VoidCallback? onTap;
-  final VoidCallback? onFavoriteTap;
+  final VoidCallback? onDetailsTap;
 
   const DeviceListTile({
     required this.device,
@@ -27,7 +27,7 @@ class DeviceListTile extends StatelessWidget {
     this.info,
     this.progress,
     this.onTap,
-    this.onFavoriteTap,
+    this.onDetailsTap,
   });
 
   @override
@@ -35,11 +35,20 @@ class DeviceListTile extends StatelessWidget {
     final badgeColor = Color.lerp(FluentTheme.of(context).accentColor, Colors.white, 0.3)!;
     return CustomListTile(
       icon: Icon(device.deviceType.icon, size: 46),
-      title: Text(nameOverride ?? device.alias, style: const TextStyle(fontSize: 20)),
-      trailing: onFavoriteTap != null
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(nameOverride ?? device.alias, style: const TextStyle(fontSize: 20)),
+          if (isFavorite) ...[
+            const SizedBox(width: 6),
+            Icon(FluentIcons.star_20_filled, size: 18),
+          ],
+        ],
+      ),
+      trailing: onDetailsTap != null
           ? IconButton(
-              icon: Icon(isFavorite ? FluentIcons.star_20_filled : FluentIcons.star_20_regular, size: 18),
-              onPressed: onFavoriteTap,
+              icon: const Icon(FluentIcons.info_20_regular, size: 18),
+              onPressed: onDetailsTap,
             )
           : null,
       subTitle: Wrap(
@@ -58,7 +67,7 @@ class DeviceListTile extends StatelessWidget {
               DeviceBadge(
                 backgroundColor: badgeColor,
                 foregroundColor: FluentTheme.of(context).resources.textFillColorPrimary,
-                label: 'LAN • HTTP',
+                label: 'HTTP',
               )
             else
               DeviceBadge(

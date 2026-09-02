@@ -1,24 +1,22 @@
 import 'package:collection/collection.dart';
-import 'package:common/model/device.dart';
-import 'package:common/model/session_status.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/send_mode.dart';
+import 'package:localsend_app/pages/device_details_page.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/pages/selected_files_page.dart';
 import 'package:localsend_app/pages/tabs/send_tab_vm.dart';
 import 'package:localsend_app/pages/troubleshoot_page.dart';
 import 'package:localsend_app/provider/animation_provider.dart';
+import 'package:localsend_app/provider/file_transfer_provider.dart';
 import 'package:localsend_app/provider/network/nearby_devices_provider.dart';
 import 'package:localsend_app/provider/network/scan_facade.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
-import 'package:localsend_app/provider/progress_provider.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/favorites.dart';
-import 'package:localsend_app/util/file_size_helper.dart';
 import 'package:localsend_app/util/native/file_picker.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/big_button.dart';
@@ -33,11 +31,14 @@ import 'package:localsend_app/widget/opacity_slideshow.dart';
 import 'package:localsend_app/widget/responsive_builder.dart';
 import 'package:localsend_app/widget/responsive_wrap_view.dart';
 import 'package:localsend_app/widget/rotating_widget.dart';
+import 'package:localsend_isolates/model/device.dart';
+import 'package:localsend_isolates/model/session_status.dart';
+import 'package:localsend_isolates/util/file_size_helper.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
 const _horizontalPadding = 15.0;
-final _options = FilePickerOption.getOptionsForPlatform();
+final pickerOptions = FilePickerOption.getOptionsForPlatform();
 
 class SendTab extends StatelessWidget {
   const SendTab();
@@ -69,15 +70,17 @@ class SendTab extends StatelessWidget {
                 outerVerticalPadding: 10,
                 childPadding: 10,
                 minChildWidth: buttonWidth,
-                children: _options.map((option) {
+                children: pickerOptions.map((option) {
                   return BigButton(
                     icon: option.icon,
                     label: option.label,
                     filled: false,
-                    onTap: () async => ref.global.dispatchAsync(PickFileAction(
-                      option: option,
-                      context: context,
-                    )),
+                    onTap: () async => ref.global.dispatchAsync(
+                      PickFileAction(
+                        option: option,
+                        context: context,
+                      ),
+                    ),
                   );
                 }).toList(),
               ),
@@ -99,16 +102,16 @@ class SendTab extends StatelessWidget {
                           IconButton(
                             onPressed: () => ref.redux(selectedSendingFilesProvider).dispatch(ClearSelectionAction()),
                             icon: Padding(
-                                padding: EdgeInsets.all(3),
-                                child: Icon(FluentIcons.dismiss_16_filled, size: 16, color: theme.accentColor)),
+                              padding: EdgeInsets.all(3),
+                              child: Icon(FluentIcons.dismiss_16_filled, size: 16, color: theme.accentColor),
+                            ),
                           ),
                           const SizedBox(width: 5),
                         ],
                       ),
                       const SizedBox(height: 5),
                       Text(t.sendTab.selection.files(files: vm.selectedFiles.length)),
-                      Text(t.sendTab.selection
-                          .size(size: vm.selectedFiles.fold(0, (prev, curr) => prev + curr.size).asReadableFileSize)),
+                      Text(t.sendTab.selection.size(size: vm.selectedFiles.fold(0, (prev, curr) => prev + curr.size).asReadableFileSize)),
                       const SizedBox(height: 10),
                       SizedBox(
                         height: defaultThumbnailSize,
@@ -138,17 +141,19 @@ class SendTab extends StatelessWidget {
                           CustomIconLabelButton(
                             ButtonType.filled,
                             onPressed: () async {
-                              if (_options.length == 1) {
+                              if (pickerOptions.length == 1) {
                                 // open directly
-                                await ref.global.dispatchAsync(PickFileAction(
-                                  option: _options.first,
-                                  context: context,
-                                ));
+                                await ref.global.dispatchAsync(
+                                  PickFileAction(
+                                    option: pickerOptions.first,
+                                    context: context,
+                                  ),
+                                );
                                 return;
                               }
                               await AddFileDialog.open(
                                 context: context,
-                                options: _options,
+                                options: pickerOptions,
                               );
                             },
                             icon: const Icon(FluentIcons.add_16_filled),
@@ -212,7 +217,7 @@ class SendTab extends StatelessWidget {
                           device: device,
                           isFavorite: favoriteEntry != null,
                           nameOverride: favoriteEntry?.alias,
-                          onFavoriteTap: () async => await vm.onToggleFavorite(context, device),
+                          onDetailsTap: () async => await context.push(() => DeviceDetailsPage(device: device)),
                           onTap: () async => await vm.onTapDevice(context, device),
                         ),
                 ),
@@ -317,8 +322,7 @@ class _ScanButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (scanningFavorites, scanningIps) =
-        context.ref.watch(nearbyDevicesProvider.select((s) => (s.runningFavoriteScan, s.runningIps)));
+    final (scanningFavorites, scanningIps) = context.ref.watch(nearbyDevicesProvider.select((s) => (s.runningFavoriteScan, s.runningIps)));
     final animations = context.ref.watch(animationProvider);
 
     final spinning = (scanningFavorites || scanningIps.isNotEmpty) && animations;
@@ -330,7 +334,7 @@ class _ScanButton extends StatelessWidget {
         child: IconButton(
           onPressed: () async {
             context.redux(nearbyDevicesProvider).dispatch(ClearFoundDevicesAction());
-            await context.global.dispatchAsync(StartSmartScan(forceLegacy: true));
+            await context.global.dispatchAsync(StartSmartScan());
           },
           icon: RotatingWidget(
             duration: const Duration(seconds: 2),
@@ -391,33 +395,35 @@ class _SendModeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref) {
-      return _CircularPopupButton(
-        tooltip: t.sendTab.sendMode,
-        items: [
-          ...SendMode.values.map(
-            (e) => RadioMenuFlyoutItem<SendMode>(
-              text: Text(e.humanName),
-              value: e,
-              groupValue: ref.watch(settingsProvider.select((s) => s.sendMode)),
-              onChanged: (v) {
-                context.popUntil(HomePage);
-                onSelect(v);
+    return Consumer(
+      builder: (context, ref) {
+        return _CircularPopupButton(
+          tooltip: t.sendTab.sendMode,
+          items: [
+            ...SendMode.values.map(
+              (e) => RadioMenuFlyoutItem<SendMode>(
+                text: Text(e.humanName),
+                value: e,
+                groupValue: ref.watch(settingsProvider.select((s) => s.sendMode)),
+                onChanged: (v) {
+                  context.popUntil(HomePage);
+                  onSelect(v);
+                },
+              ),
+            ),
+            const MenuFlyoutSeparator(),
+            MenuFlyoutItem(
+              leading: Icon(FluentIcons.question_circle_16_regular, size: 16),
+              text: Text(t.sendTab.sendModeHelp),
+              onPressed: () async {
+                await showDialog(context: context, builder: (_) => const SendModeHelpDialog());
               },
             ),
-          ),
-          const MenuFlyoutSeparator(),
-          MenuFlyoutItem(
-            leading: Icon(FluentIcons.question_circle_16_regular, size: 16),
-            text: Text(t.sendTab.sendModeHelp),
-            onPressed: () async {
-              await showDialog(context: context, builder: (_) => const SendModeHelpDialog());
-            },
-          ),
-        ],
-        child: Icon(FluentIcons.settings_20_regular, size: 18),
-      );
-    });
+          ],
+          child: Icon(FluentIcons.settings_20_regular, size: 18),
+        );
+      },
+    );
   }
 }
 
@@ -452,28 +458,31 @@ class _MultiSendDeviceListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final ref = context.ref;
     final session = ref.watch(sendProvider).values.firstWhereOrNull((s) => s.target.ip == device.ip);
+    final String? info;
     final double? progress;
     if (session != null) {
       final files = session.files.values.where((f) => f.token != null);
-      final progressNotifier = ref.watch(progressProvider);
+      final transferNotifier = ref.watch(fileTransferProvider);
       final currBytes = files.fold<int>(
-          0,
-          (prev, curr) =>
-              prev +
-              ((progressNotifier.getProgress(sessionId: session.sessionId, fileId: curr.file.id) * curr.file.size)
-                  .round()));
+        0,
+        (prev, curr) => prev + ((transferNotifier.getProgress(sessionId: session.sessionId, fileId: curr.file.id) * curr.file.size).round()),
+      );
       final totalBytes = files.fold<int>(0, (prev, curr) => prev + curr.file.size);
       progress = totalBytes == 0 ? 0 : currBytes / totalBytes;
+      info = session.hashedFileCount < session.files.length
+          ? t.sendPage.calculatingChecksum(curr: session.hashedFileCount, n: session.files.length)
+          : session.status.humanString;
     } else {
       progress = null;
+      info = null;
     }
     return DeviceListTile(
       device: device,
-      info: session?.status.humanString,
+      info: info,
       progress: progress,
       isFavorite: isFavorite,
       nameOverride: nameOverride,
-      onFavoriteTap: device.ip == null ? null : () async => await vm.onToggleFavorite(context, device),
+      onDetailsTap: () async => await context.push(() => DeviceDetailsPage(device: device)),
       onTap: () async => await vm.onTapDeviceMultiSend(context, device),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:common/isolate.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/config/init_error.dart';
@@ -6,6 +5,7 @@ import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
+import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
@@ -13,6 +13,8 @@ import 'package:localsend_app/widget/watcher/life_cycle_watcher.dart';
 import 'package:localsend_app/widget/watcher/shortcut_watcher.dart';
 import 'package:localsend_app/widget/watcher/tray_watcher.dart';
 import 'package:localsend_app/widget/watcher/window_watcher.dart';
+import 'package:localsend_isolates/isolate.dart';
+import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:window_manager/window_manager.dart';
@@ -61,8 +63,9 @@ class LocalSendApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ref = context.ref;
-    final (themeMode, colorMode) =
-        ref.watch(settingsProvider.select((settings) => (settings.theme, settings.colorMode)));
+    final (themeMode, colorMode, customColor) = ref.watch(
+      settingsProvider.select((settings) => (settings.theme, settings.colorMode, settings.customColor)),
+    );
     final dynamicColors = ref.watch(dynamicColorsProvider);
     return TrayWatcher(
       child: WindowWatcher(
@@ -71,6 +74,15 @@ class LocalSendApp extends StatelessWidget {
             switch (state) {
               case AppLifecycleState.resumed:
                 ref.redux(localIpProvider).dispatch(InitLocalIpAction());
+                if (checkPlatform([TargetPlatform.iOS, TargetPlatform.android])) {
+                  // The OS may have invalidated the sockets of the suspended app without any error ever reaching the accept loop.
+                  // ignore: discarded_futures
+                  ref.notifier(serverProvider).ensureRunning();
+                }
+                if (checkPlatform([TargetPlatform.iOS])) {
+                  // The multicast sockets die the same silent way but cannot be probed, so always rebind them.
+                  ref.redux(parentIsolateProvider).dispatch(IsolateDiscoveryRestartAction());
+                }
                 break;
               case AppLifecycleState.detached:
                 // The main isolate is only exited when all child isolates are exited.
@@ -85,16 +97,13 @@ class LocalSendApp extends StatelessWidget {
             child: FluentApp(
               title: t.appName,
               locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: FluentLocalizations.supportedLocales
-                  .toSet()
-                  .intersection(AppLocaleUtils.supportedLocales.toSet())
-                  .toList(),
+              supportedLocales: FluentLocalizations.supportedLocales.toSet().intersection(AppLocaleUtils.supportedLocales.toSet()).toList(),
               localizationsDelegates: FluentLocalizations.localizationsDelegates,
               debugShowCheckedModeBanner: false,
-              theme: getTheme(colorMode, Brightness.light, is10footScreen(context), dynamicColors),
-              darkTheme: getTheme(colorMode, Brightness.dark, is10footScreen(context), dynamicColors),
+              theme: getTheme(colorMode, customColor, Brightness.light, is10footScreen(context), dynamicColors),
+              darkTheme: getTheme(colorMode, customColor, Brightness.dark, is10footScreen(context), dynamicColors),
               themeMode: themeMode,
-              navigatorKey: Routerino.navigatorKey,
+              navigatorKey: context.read(navigationProvider).key,
               home: RouterinoHome(
                 builder: () => HomePage(
                   initialTab: HomeTab.receive,

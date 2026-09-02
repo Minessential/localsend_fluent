@@ -6,6 +6,7 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/pages/base/base_material_compatibility.dart';
 import 'package:localsend_app/pages/debug/debug_page.dart';
+import 'package:localsend_app/util/i18n.dart';
 import 'package:localsend_app/widget/local_send_logo.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
 import 'package:routerino/routerino.dart';
@@ -113,7 +114,7 @@ class AboutPage extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: Text(e.key.translations.locale),
+                      child: Text(e.key.getLocaleName()),
                     ),
                     Text.rich(
                       TextSpan(

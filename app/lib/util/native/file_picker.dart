@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:common/model/file_type.dart';
-import 'package:common/util/sleep.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -14,7 +12,6 @@ import 'package:localsend_app/pages/apk_picker_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/determine_image_type.dart';
-import 'package:localsend_app/util/file_path_helper.dart';
 import 'package:localsend_app/util/image_converter.dart';
 import 'package:localsend_app/util/native/channel/android_channel.dart' as android_channel;
 import 'package:localsend_app/util/native/cross_file_converters.dart';
@@ -24,6 +21,9 @@ import 'package:localsend_app/util/ui/asset_picker_translated_text_delegate.dart
 import 'package:localsend_app/widget/dialogs/loading_dialog.dart';
 import 'package:localsend_app/widget/dialogs/message_input_dialog.dart';
 import 'package:localsend_app/widget/dialogs/no_permission_dialog.dart';
+import 'package:localsend_isolates/model/file_type.dart';
+import 'package:localsend_isolates/util/file_path_helper.dart';
+import 'package:localsend_isolates/util/sleep.dart';
 import 'package:logging/logging.dart';
 import 'package:pasteboard/pasteboard.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -41,7 +41,8 @@ enum FilePickerOption {
   media(FluentIcons.image_multiple_20_regular),
   text(FluentIcons.document_text_20_regular),
   app(FluentIcons.apps_20_regular),
-  clipboard(FluentIcons.clipboard_20_regular);
+  clipboard(FluentIcons.clipboard_20_regular)
+  ;
 
   const FilePickerOption(this.icon);
 
@@ -214,8 +215,7 @@ Future<void> _pickFolder(BuildContext context, Ref ref) async {
   );
   await sleepAsync(200); // Wait for the dialog to be shown
   try {
-    if (defaultTargetPlatform == TargetPlatform.android &&
-        (ref.read(deviceInfoProvider).androidSdkInt ?? 0) >= android_channel.contentUriMinSdk) {
+    if (defaultTargetPlatform == TargetPlatform.android && (ref.read(deviceInfoProvider).androidSdkInt ?? 0) >= android_channel.contentUriMinSdk) {
       // Android 8 and above have more predictable content URIs that we can parse.
       final result = await android_channel.pickDirectoryAndroid();
       if (result != null) {
@@ -363,9 +363,13 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     return;
   }
 
-  await displayInfoBar(context, duration: Duration(milliseconds: 1500), builder: (context, close) {
-    return InfoBar(title: Text(t.general.noItemInClipboard));
-  });
+  await displayInfoBar(
+    context,
+    duration: Duration(milliseconds: 1500),
+    builder: (context, close) {
+      return InfoBar(title: Text(t.general.noItemInClipboard));
+    },
+  );
 }
 
 Future<void> _pickApp(BuildContext context) async {

@@ -7,16 +7,14 @@ import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
-/// On desktop, we need to add additional padding to achieve the same visual appearance as on mobile
-double get desktopPaddingFix => checkPlatformIsDesktop() ? 8 : 0;
-
 FluentThemeData getTheme(
   ColorMode colorMode,
+  Color customColor,
   Brightness brightness,
   bool is10footScreen,
   DynamicColors? dynamicColors,
 ) {
-  final accentColor = _determineAccentColor(colorMode, brightness, dynamicColors);
+  final accentColor = _determineAccentColor(colorMode, customColor, brightness, dynamicColors);
 
   // https://github.com/localsend/localsend/issues/52
   final String? fontFamily;
@@ -57,14 +55,14 @@ FluentThemeData getTheme(
     buttonTheme: ButtonThemeData(
       defaultButtonStyle: ButtonStyle(
         foregroundColor: WidgetStateProperty.all(brightness.isDark ? Colors.white : null),
-        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 2 + desktopPaddingFix)),
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
       ),
       filledButtonStyle: ButtonStyle(
         foregroundColor: WidgetStateProperty.all(brightness.isDark ? Colors.white : null),
-        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 2 + desktopPaddingFix)),
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
       ),
       hyperlinkButtonStyle: ButtonStyle(
-        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 2 + desktopPaddingFix)),
+        padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
       ),
     ),
     fontFamily: fontFamily,
@@ -105,7 +103,7 @@ Future<void> updateSystemOverlayStyleWithBrightness(Brightness brightness) async
 }
 
 // _determineColorScheme
-AccentColor _determineAccentColor(ColorMode mode, Brightness brightness, DynamicColors? dynamicColors) {
+AccentColor _determineAccentColor(ColorMode mode, Color customColor, Brightness brightness, DynamicColors? dynamicColors) {
   final isLight = brightness == Brightness.light;
   final defaultAccentColor = isLight
       ? Colors.teal.toAccentColor()
@@ -128,6 +126,7 @@ AccentColor _determineAccentColor(ColorMode mode, Brightness brightness, Dynamic
     ColorMode.purple => Colors.purple,
     ColorMode.blue => Colors.blue,
     ColorMode.green => Colors.green,
+    ColorMode.custom => customColor.toAccentColor(),
   };
 
   return accentColor ?? defaultAccentColor;
@@ -272,12 +271,10 @@ extension ResourceDictionaryExt on ResourceDictionary {
       controlStrokeColorDefault: controlStrokeColorDefault ?? this.controlStrokeColorDefault,
       controlStrokeColorSecondary: controlStrokeColorSecondary ?? this.controlStrokeColorSecondary,
       controlStrokeColorOnAccentDefault: controlStrokeColorOnAccentDefault ?? this.controlStrokeColorOnAccentDefault,
-      controlStrokeColorOnAccentSecondary:
-          controlStrokeColorOnAccentSecondary ?? this.controlStrokeColorOnAccentSecondary,
+      controlStrokeColorOnAccentSecondary: controlStrokeColorOnAccentSecondary ?? this.controlStrokeColorOnAccentSecondary,
       controlStrokeColorOnAccentTertiary: controlStrokeColorOnAccentTertiary ?? this.controlStrokeColorOnAccentTertiary,
       controlStrokeColorOnAccentDisabled: controlStrokeColorOnAccentDisabled ?? this.controlStrokeColorOnAccentDisabled,
-      controlStrokeColorForStrongFillWhenOnImage:
-          controlStrokeColorForStrongFillWhenOnImage ?? this.controlStrokeColorForStrongFillWhenOnImage,
+      controlStrokeColorForStrongFillWhenOnImage: controlStrokeColorForStrongFillWhenOnImage ?? this.controlStrokeColorForStrongFillWhenOnImage,
       cardStrokeColorDefault: cardStrokeColorDefault ?? this.cardStrokeColorDefault,
       cardStrokeColorDefaultSolid: cardStrokeColorDefaultSolid ?? this.cardStrokeColorDefaultSolid,
       controlStrongStrokeColorDefault: controlStrongStrokeColorDefault ?? this.controlStrongStrokeColorDefault,
@@ -294,22 +291,16 @@ extension ResourceDictionaryExt on ResourceDictionary {
       layerFillColorDefault: layerFillColorDefault ?? this.layerFillColorDefault,
       layerFillColorAlt: layerFillColorAlt ?? this.layerFillColorAlt,
       layerOnAcrylicFillColorDefault: layerOnAcrylicFillColorDefault ?? this.layerOnAcrylicFillColorDefault,
-      layerOnAccentAcrylicFillColorDefault:
-          layerOnAccentAcrylicFillColorDefault ?? this.layerOnAccentAcrylicFillColorDefault,
+      layerOnAccentAcrylicFillColorDefault: layerOnAccentAcrylicFillColorDefault ?? this.layerOnAccentAcrylicFillColorDefault,
       layerOnMicaBaseAltFillColorDefault: layerOnMicaBaseAltFillColorDefault ?? this.layerOnMicaBaseAltFillColorDefault,
-      layerOnMicaBaseAltFillColorSecondary:
-          layerOnMicaBaseAltFillColorSecondary ?? this.layerOnMicaBaseAltFillColorSecondary,
-      layerOnMicaBaseAltFillColorTertiary:
-          layerOnMicaBaseAltFillColorTertiary ?? this.layerOnMicaBaseAltFillColorTertiary,
-      layerOnMicaBaseAltFillColorTransparent:
-          layerOnMicaBaseAltFillColorTransparent ?? this.layerOnMicaBaseAltFillColorTransparent,
+      layerOnMicaBaseAltFillColorSecondary: layerOnMicaBaseAltFillColorSecondary ?? this.layerOnMicaBaseAltFillColorSecondary,
+      layerOnMicaBaseAltFillColorTertiary: layerOnMicaBaseAltFillColorTertiary ?? this.layerOnMicaBaseAltFillColorTertiary,
+      layerOnMicaBaseAltFillColorTransparent: layerOnMicaBaseAltFillColorTransparent ?? this.layerOnMicaBaseAltFillColorTransparent,
       solidBackgroundFillColorBase: solidBackgroundFillColorBase ?? this.solidBackgroundFillColorBase,
       solidBackgroundFillColorSecondary: solidBackgroundFillColorSecondary ?? this.solidBackgroundFillColorSecondary,
       solidBackgroundFillColorTertiary: solidBackgroundFillColorTertiary ?? this.solidBackgroundFillColorTertiary,
-      solidBackgroundFillColorQuarternary:
-          solidBackgroundFillColorQuarternary ?? this.solidBackgroundFillColorQuarternary,
-      solidBackgroundFillColorTransparent:
-          solidBackgroundFillColorTransparent ?? this.solidBackgroundFillColorTransparent,
+      solidBackgroundFillColorQuarternary: solidBackgroundFillColorQuarternary ?? this.solidBackgroundFillColorQuarternary,
+      solidBackgroundFillColorTransparent: solidBackgroundFillColorTransparent ?? this.solidBackgroundFillColorTransparent,
       solidBackgroundFillColorBaseAlt: solidBackgroundFillColorBaseAlt ?? this.solidBackgroundFillColorBaseAlt,
       systemFillColorSuccess: systemFillColorSuccess ?? this.systemFillColorSuccess,
       systemFillColorCaution: systemFillColorCaution ?? this.systemFillColorCaution,
@@ -321,10 +312,8 @@ extension ResourceDictionaryExt on ResourceDictionary {
       systemFillColorCautionBackground: systemFillColorCautionBackground ?? this.systemFillColorCautionBackground,
       systemFillColorCriticalBackground: systemFillColorCriticalBackground ?? this.systemFillColorCriticalBackground,
       systemFillColorNeutralBackground: systemFillColorNeutralBackground ?? this.systemFillColorNeutralBackground,
-      systemFillColorSolidAttentionBackground:
-          systemFillColorSolidAttentionBackground ?? this.systemFillColorSolidAttentionBackground,
-      systemFillColorSolidNeutralBackground:
-          systemFillColorSolidNeutralBackground ?? this.systemFillColorSolidNeutralBackground,
+      systemFillColorSolidAttentionBackground: systemFillColorSolidAttentionBackground ?? this.systemFillColorSolidAttentionBackground,
+      systemFillColorSolidNeutralBackground: systemFillColorSolidNeutralBackground ?? this.systemFillColorSolidNeutralBackground,
     );
   }
 }

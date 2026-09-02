@@ -1,10 +1,10 @@
-import 'package:common/model/device_info_result.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/model/state/server/server_state.dart';
 import 'package:localsend_app/model/state/settings_state.dart';
+import 'package:localsend_isolates/model/device_info_result.dart';
 
 part 'settings_tab_vm.mapper.dart';
 
@@ -26,6 +26,7 @@ class SettingsTabVm with SettingsTabVmMappable {
   final bool autoStartLaunchHidden;
   final bool showInContextMenu;
   final void Function(BuildContext context, ThemeMode mode) onChangeTheme;
+  final void Function(BuildContext context, ColorMode mode) onChangeColorMode;
   final void Function(AppLocale? locale) onChangeLanguage;
   final void Function(BuildContext context) onToggleAutoStart;
   final void Function(BuildContext context) onToggleAutoStartLaunchHidden;
@@ -50,6 +51,7 @@ class SettingsTabVm with SettingsTabVmMappable {
     required this.autoStartLaunchHidden,
     required this.showInContextMenu,
     required this.onChangeTheme,
+    required this.onChangeColorMode,
     required this.onChangeLanguage,
     required this.onToggleAutoStart,
     required this.onToggleAutoStartLaunchHidden,

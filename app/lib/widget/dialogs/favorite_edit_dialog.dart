@@ -1,4 +1,3 @@
-import 'package:common/model/device.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
@@ -7,10 +6,11 @@ import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/http_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
-import 'package:localsend_app/rust/api/model.dart';
-import 'package:localsend_app/util/rust.dart';
 import 'package:localsend_app/widget/dialogs/error_dialog.dart';
 import 'package:localsend_app/widget/fluent/custom_text_box.dart';
+import 'package:localsend_isolates/model/device.dart';
+import 'package:localsend_isolates/rust/api/model.dart';
+import 'package:localsend_isolates/util/rust.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -43,9 +43,8 @@ class _FavoriteEditDialogState extends State<FavoriteEditDialog> with Refena {
     _aliasController.text = widget.prefilledDevice?.alias ?? widget.favorite?.alias ?? '';
 
     ensureRef((ref) {
-      _portController.text = widget.prefilledDevice?.port.toString() ??
-          widget.favorite?.port.toString() ??
-          ref.read(settingsProvider).port.toString();
+      _portController.text =
+          widget.prefilledDevice?.port.toString() ?? widget.favorite?.port.toString() ?? ref.read(settingsProvider).port.toString();
     });
   }
 
@@ -60,8 +59,7 @@ class _FavoriteEditDialogState extends State<FavoriteEditDialog> with Refena {
   @override
   Widget build(BuildContext context) {
     return ContentDialog(
-      title: Text(
-          widget.favorite != null ? t.dialogs.favoriteEditDialog.titleEdit : t.dialogs.favoriteEditDialog.titleAdd),
+      title: Text(widget.favorite != null ? t.dialogs.favoriteEditDialog.titleEdit : t.dialogs.favoriteEditDialog.titleAdd),
       content: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -136,12 +134,18 @@ class _FavoriteEditDialogState extends State<FavoriteEditDialog> with Refena {
                       return;
                     }
 
-                    await ref.redux(favoritesProvider).dispatchAsync(UpdateFavoriteAction(existingFavorite.copyWith(
-                          ip: _ipController.text,
-                          port: int.parse(_portController.text),
-                          alias: trimmedNewAlias,
-                          customAlias: existingFavorite.customAlias || trimmedNewAlias != existingFavorite.alias,
-                        )));
+                    await ref
+                        .redux(favoritesProvider)
+                        .dispatchAsync(
+                          UpdateFavoriteAction(
+                            existingFavorite.copyWith(
+                              ip: _ipController.text,
+                              port: int.parse(_portController.text),
+                              alias: trimmedNewAlias,
+                              customAlias: existingFavorite.customAlias || trimmedNewAlias != existingFavorite.alias,
+                            ),
+                          ),
+                        );
                     if (context.mounted) context.pop();
                   } else {
                     // Add new favorite
@@ -156,13 +160,13 @@ class _FavoriteEditDialogState extends State<FavoriteEditDialog> with Refena {
                       final payload = ref.read(deviceFullInfoProvider).toRegisterDto();
                       final response = await ref
                           .read(httpProvider)
-                          .v2
+                          .discovery
                           .register(
-                        protocol: https ? ProtocolType.https : ProtocolType.http,
-                        ip: ip,
-                        port: port,
-                        payload: payload,
-                      );
+                            protocol: https ? ProtocolType.https : ProtocolType.http,
+                            ip: ip,
+                            port: port,
+                            payload: payload,
+                          );
 
                       final name = _aliasController.text.trim();
 

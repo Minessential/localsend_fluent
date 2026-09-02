@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -14,7 +13,6 @@ import 'package:localsend_app/pages/tabs/send_tab.dart';
 import 'package:localsend_app/pages/tabs/settings_tab.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/native/cross_file_converters.dart';
-import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/responsive_builder.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
@@ -23,7 +21,8 @@ enum HomeTab {
   receive(FluentIcons.live_24_regular),
   send(FluentIcons.send_24_regular),
   settings(FluentIcons.settings_24_regular),
-  history(FluentIcons.history_24_regular);
+  history(FluentIcons.history_24_regular)
+  ;
 
   const HomeTab(this.icon);
 
@@ -110,16 +109,20 @@ class _HomePageState extends State<HomePage> with Refena {
         });
       },
       onDragDone: (event) async {
-        if (event.files.length == 1 && Directory(event.files.first.path).existsSync()) {
-          // user dropped a directory
-          await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddDirectoryAction(event.files.first.path));
-        } else {
-          // user dropped one or more files
+        // the drop may contain a mix of files and directories
+        final droppedDirectories = event.files.where((file) => Directory(file.path).existsSync()).toList();
+        final droppedFiles = event.files.where((file) => !Directory(file.path).existsSync()).toList();
+
+        for (final directory in droppedDirectories) {
+          await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddDirectoryAction(directory.path));
+        }
+
+        if (droppedFiles.isNotEmpty) {
           await ref
               .redux(selectedSendingFilesProvider)
               .dispatchAsync(
                 AddFilesAction(
-                  files: event.files,
+                  files: droppedFiles,
                   converter: CrossFileConverters.convertXFile,
                 ),
               );

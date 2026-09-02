@@ -8,4 +8,5 @@ enum ColorMode {
   purple,
   blue,
   green,
+  custom, // user-defined seed color
 }

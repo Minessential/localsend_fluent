@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:common/model/device.dart';
-import 'package:common/model/session_status.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/model/state/send/send_session_state.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
+import 'package:localsend_app/pages/verify_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
+import 'package:localsend_app/provider/file_transfer_provider.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
 import 'package:localsend_app/util/favorites.dart';
 import 'package:localsend_app/util/native/taskbar_helper.dart';
@@ -16,6 +17,9 @@ import 'package:localsend_app/widget/animations/initial_slide_transition.dart';
 import 'package:localsend_app/widget/dialogs/error_dialog.dart';
 import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/list_tile/device_list_tile.dart';
+import 'package:localsend_isolates/model/device.dart';
+import 'package:localsend_isolates/model/session_status.dart';
+import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -30,6 +34,19 @@ class SendPage extends StatefulWidget {
 
   @override
   State<SendPage> createState() => _SendPageState();
+}
+
+double _hashProgress(SendSessionState sendState, FileTransferNotifier transferNotifier) {
+  final files = sendState.files.values;
+  final totalBytes = files.fold<int>(0, (prev, curr) => prev + curr.file.size);
+  if (totalBytes == 0) {
+    return sendState.files.isEmpty ? 0 : sendState.hashedFileCount / sendState.files.length;
+  }
+  final hashedBytes = files.fold<double>(
+    0,
+    (prev, curr) => prev + transferNotifier.getProgress(sessionId: sendState.sessionId, fileId: curr.file.id) * curr.file.size,
+  );
+  return (hashedBytes / totalBytes).clamp(0, 1);
 }
 
 class _SendPageState extends State<SendPage> with Refena {
@@ -114,6 +131,25 @@ class _SendPageState extends State<SendPage> with Refena {
                             nameOverride: targetFavoriteEntry?.alias,
                           ),
                         ),
+                        InitialFadeTransition(
+                          duration: const Duration(milliseconds: 300),
+                          delay: const Duration(milliseconds: 400),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: CustomIconLabelButton(
+                              ButtonType.outlined,
+                              onPressed: !targetDevice.https
+                                  ? null
+                                  : () async => await context.push(
+                                      () => VerifyPage(
+                                        fingerprint: CombinedFingerprint.load(context, targetDevice.fingerprint),
+                                      ),
+                                    ),
+                              icon: Icon(FluentIcons.shield_20_regular, size: 20),
+                              label: Text(t.verifyPage.title),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -125,54 +161,70 @@ class _SendPageState extends State<SendPage> with Refena {
                         children: [
                           switch (sendState.status) {
                             SessionStatus.waiting => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(t.sendPage.waiting, textAlign: TextAlign.center),
-                              ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: sendState.hashedFileCount < sendState.files.length
+                                  ? Column(
+                                      children: [
+                                        Text(
+                                          t.sendPage.calculatingChecksum(curr: sendState.hashedFileCount, n: sendState.files.length),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        SizedBox(
+                                          width: 200,
+                                          child: ProgressBar(
+                                            value: _hashProgress(sendState, ref.watch(fileTransferProvider)) * 100,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Text(t.sendPage.waiting, textAlign: TextAlign.center),
+                            ),
                             SessionStatus.declined => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.rejected,
-                                  style: TextStyle(color: Colors.warningPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                t.sendPage.rejected,
+                                style: TextStyle(color: Colors.warningPrimaryColor),
+                                textAlign: TextAlign.center,
                               ),
+                            ),
                             SessionStatus.tooManyAttempts => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.tooManyAttempts,
-                                  style: TextStyle(color: Colors.warningPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                t.sendPage.tooManyAttempts,
+                                style: TextStyle(color: Colors.warningPrimaryColor),
+                                textAlign: TextAlign.center,
                               ),
+                            ),
                             SessionStatus.recipientBusy => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.busy,
-                                  style: TextStyle(color: Colors.warningPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Text(
+                                t.sendPage.busy,
+                                style: TextStyle(color: Colors.warningPrimaryColor),
+                                textAlign: TextAlign.center,
                               ),
+                            ),
                             SessionStatus.finishedWithErrors => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(t.general.error, style: TextStyle(color: Colors.warningPrimaryColor)),
-                                    if (sendState.errorMessage != null)
-                                      IconButton(
-                                        onPressed: () async => showDialog(
-                                          context: context,
-                                          builder: (_) => ErrorDialog(error: sendState.errorMessage!),
-                                        ),
-                                        icon: const Icon(
-                                          FluentIcons.info_16_regular,
-                                          color: Colors.warningPrimaryColor,
-                                          size: 16,
-                                        ),
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(t.general.error, style: TextStyle(color: Colors.warningPrimaryColor)),
+                                  if (sendState.errorMessage != null)
+                                    IconButton(
+                                      onPressed: () async => showDialog(
+                                        context: context,
+                                        builder: (_) => ErrorDialog(error: sendState.errorMessage!),
                                       ),
-                                  ],
-                                ),
+                                      icon: const Icon(
+                                        FluentIcons.info_16_regular,
+                                        color: Colors.warningPrimaryColor,
+                                        size: 16,
+                                      ),
+                                    ),
+                                ],
                               ),
+                            ),
                             _ => const SizedBox(),
                           },
                           Center(
@@ -180,7 +232,7 @@ class _SendPageState extends State<SendPage> with Refena {
                               ButtonType.outlined,
                               onPressed: () {
                                 _cancel();
-                                context.pop();
+                                context.global.dispatch(NavigateAction.popUntilRoot());
                               },
                               icon: Icon(
                                 waiting ? FluentIcons.dismiss_16_regular : FluentIcons.checkmark_16_regular,

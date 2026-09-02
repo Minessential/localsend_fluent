@@ -1,8 +1,5 @@
 import 'dart:io';
-import 'dart:ui';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:common/constants.dart';
-import 'package:common/model/device.dart';
+
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/foundation.dart';
@@ -15,10 +12,12 @@ import 'package:localsend_app/pages/donation/donation_page.dart';
 import 'package:localsend_app/pages/home_page.dart';
 import 'package:localsend_app/pages/settings/network_interfaces_page.dart';
 import 'package:localsend_app/pages/tabs/settings_tab_controller.dart';
+import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/provider/version_provider.dart';
 import 'package:localsend_app/util/alias_generator.dart';
 import 'package:localsend_app/util/device_type_ext.dart';
+import 'package:localsend_app/util/i18n.dart';
 import 'package:localsend_app/util/native/channel/macos_channel.dart';
 import 'package:localsend_app/util/native/pick_directory_path.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
@@ -30,6 +29,8 @@ import 'package:localsend_app/widget/dialogs/text_field_with_actions_dialog.dart
 import 'package:localsend_app/widget/fluent/base_pane_body.dart';
 import 'package:localsend_app/widget/fluent/universal_list_item.dart';
 import 'package:localsend_app/widget/local_send_logo.dart';
+import 'package:localsend_isolates/constants.dart';
+import 'package:localsend_isolates/model/device.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -74,12 +75,10 @@ class SettingsTab extends StatelessWidget {
                     items: vm.colorModes.map((colorMode) {
                       return ComboBoxItem(
                         value: colorMode,
-                        child: Text(colorMode.humanName),
+                        child: Text(colorMode.humanName, overflow: TextOverflow.ellipsis),
                       );
                     }).toList(),
-                    onChanged: (c) async {
-                      await ref.notifier(settingsProvider).setColorMode(c!);
-                    },
+                    onChanged: (colorMode) => vm.onChangeColorMode(context, colorMode!),
                   ),
                 ),
                 _SettingsEntry(
@@ -92,7 +91,7 @@ class SettingsTab extends StatelessWidget {
                     items: [null, ...AppLocale.values].map((locale) {
                       return ComboBoxItem(
                         value: locale,
-                        child: Text(locale?.humanName ?? t.settingsTab.general.languageOptions.system),
+                        child: Text(locale?.getLocaleName() ?? t.settingsTab.general.languageOptions.system),
                       );
                     }).toList(),
                     onChanged: vm.onChangeLanguage,
@@ -176,6 +175,9 @@ class SettingsTab extends StatelessWidget {
                   onChanged: (b) async {
                     final old = vm.settings.quickSave;
                     await ref.notifier(settingsProvider).setQuickSave(b);
+                    if (b) {
+                      await ref.notifier(settingsProvider).setQuickSaveFromFavorites(false);
+                    }
                     if (!old && b && context.mounted) {
                       await QuickSaveNotice.open(context);
                     }
@@ -188,6 +190,9 @@ class SettingsTab extends StatelessWidget {
                   onChanged: (b) async {
                     final old = vm.settings.quickSaveFromFavorites;
                     await ref.notifier(settingsProvider).setQuickSaveFromFavorites(b);
+                    if (b) {
+                      await ref.notifier(settingsProvider).setQuickSave(false);
+                    }
                     if (!old && b && context.mounted) {
                       await QuickSaveFromFavoritesNotice.open(context);
                     }
@@ -213,18 +218,20 @@ class SettingsTab extends StatelessWidget {
                         await ref.notifier(settingsProvider).setReceivePin(newPin);
                       }
                     }
+
+                    // The pin is enforced by the Rust server, so it needs a restart.
+                    if (ref.read(serverProvider) != null) {
+                      await ref.notifier(serverProvider).restartServerFromSettings();
+                    }
                   },
                 ),
                 if (checkPlatformWithFileSystem())
                   _TextIconButtonEntry(
                     label: t.settingsTab.receive.destination,
                     toolTip: vm.settings.destination,
-                    buttonLabel: vm.settings.destination != null
-                        ? vm.settings.destination!.getSuffix
-                        : t.settingsTab.receive.downloads,
+                    buttonLabel: vm.settings.destination != null ? vm.settings.destination!.getSuffix : t.settingsTab.receive.downloads,
                     prefixIcon: FluentIcons.folder_24_regular,
-                    icon:
-                        vm.settings.destination == null ? FluentIcons.edit_24_regular : FluentIcons.dismiss_24_regular,
+                    icon: vm.settings.destination == null ? FluentIcons.edit_24_regular : FluentIcons.dismiss_24_regular,
                     onTap: () async {
                       if (vm.settings.destination != null) {
                         await ref.notifier(settingsProvider).setDestination(null);
@@ -267,6 +274,19 @@ class SettingsTab extends StatelessWidget {
                     await ref.notifier(settingsProvider).setSaveToHistory(b);
                   },
                 ),
+                if (vm.advanced)
+                  _BooleanEntry(
+                    label: t.settingsTab.receive.verifyChecksums,
+                    value: vm.settings.verifyChecksums,
+                    onChanged: (b) async {
+                      await ref.notifier(settingsProvider).setVerifyChecksums(b);
+
+                      // The checksums are verified by the Rust server, so it needs a restart.
+                      if (ref.read(serverProvider) != null) {
+                        await ref.notifier(serverProvider).restartServerFromSettings();
+                      }
+                    },
+                  ),
               ],
             ),
             if (vm.advanced)
@@ -281,13 +301,21 @@ class SettingsTab extends StatelessWidget {
                       await ref.notifier(settingsProvider).setShareViaLinkAutoAccept(b);
                     },
                   ),
+                  _BooleanEntry(
+                    label: t.settingsTab.send.createChecksums,
+                    value: vm.settings.createChecksums,
+                    onChanged: (b) async {
+                      await ref.notifier(settingsProvider).setCreateChecksums(b);
+                    },
+                  ),
                 ],
               ),
             _SettingsSection(
               title: t.settingsTab.network.title,
               children: [
                 AnimatedCrossFade(
-                  crossFadeState: vm.serverState != null &&
+                  crossFadeState:
+                      vm.serverState != null &&
                           (vm.serverState!.alias != vm.settings.alias ||
                               vm.serverState!.port != vm.settings.port ||
                               vm.serverState!.https != vm.settings.https)
@@ -424,9 +452,7 @@ class SettingsTab extends StatelessWidget {
                   _SettingsEntry(
                     icon: FluentIcons.plug_connected_24_regular,
                     label: t.settingsTab.network.port,
-                    subtitle: vm.settings.port != defaultPort
-                        ? t.settingsTab.network.portWarning(defaultPort: defaultPort)
-                        : null,
+                    subtitle: vm.settings.port != defaultPort ? t.settingsTab.network.portWarning(defaultPort: defaultPort) : null,
                     child: TextFieldTv(
                       name: t.settingsTab.network.port,
                       controller: vm.portController,
@@ -475,14 +501,17 @@ class SettingsTab extends StatelessWidget {
                       final old = vm.settings.https;
                       await ref.notifier(settingsProvider).setHttps(b);
                       if (old && !b && context.mounted) {
-                        await displayInfoBar(context, builder: (context, close) {
-                          return InfoBar(
-                            severity: InfoBarSeverity.warning,
-                            isLong: true,
-                            title: Text(t.dialogs.encryptionDisabledNotice.title),
-                            content: Text(t.dialogs.encryptionDisabledNotice.content),
-                          );
-                        });
+                        await displayInfoBar(
+                          context,
+                          builder: (context, close) {
+                            return InfoBar(
+                              severity: InfoBarSeverity.warning,
+                              isLong: true,
+                              title: Text(t.dialogs.encryptionDisabledNotice.title),
+                              content: Text(t.dialogs.encryptionDisabledNotice.content),
+                            );
+                          },
+                        );
                       }
                     },
                   ),
@@ -519,9 +548,11 @@ class SettingsTab extends StatelessWidget {
                   iconWidget: SizedBox(width: 24, height: 24, child: LocalSendLogo(withText: false)),
                   title: t.appName,
                   subTitle: '© ${DateTime.now().year} Tien Do Nam',
-                  trailing: ref.watch(versionProvider).maybeWhen(
+                  trailing: ref
+                      .watch(versionProvider)
+                      .maybeWhen(
                         data: (version) => Text(
-                          version,
+                          version.combinedString,
                           textAlign: TextAlign.center,
                         ),
                         orElse: () => null,
@@ -587,9 +618,11 @@ class SettingsTab extends StatelessWidget {
                       const SizedBox(height: 20),
                       const LocalSendLogo(withText: true),
                       const SizedBox(height: 5),
-                      ref.watch(versionProvider).maybeWhen(
+                      ref
+                          .watch(versionProvider)
+                          .maybeWhen(
                             data: (version) => Text(
-                              'Version: $version',
+                              'Version: ${version.combinedString}',
                               textAlign: TextAlign.center,
                             ),
                             orElse: () => Container(),
@@ -714,8 +747,7 @@ class _SettingExpanderEntry extends StatelessWidget {
                 ],
               ),
       ),
-      trailing:
-          trailing != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 150), child: trailing) : null,
+      trailing: trailing != null ? ConstrainedBox(constraints: const BoxConstraints(maxWidth: 150), child: trailing) : null,
       contentPadding: EdgeInsets.zero,
       onStateChanged: onStateChanged,
       content: content,
@@ -854,13 +886,8 @@ extension on ColorMode {
       ColorMode.purple => t.settingsTab.general.colorOptions.purple,
       ColorMode.blue => t.settingsTab.general.colorOptions.blue,
       ColorMode.green => t.settingsTab.general.colorOptions.green,
+      ColorMode.custom => t.settingsTab.general.colorOptions.custom,
     };
-  }
-}
-
-extension AppLocaleExt on AppLocale {
-  String get humanName {
-    return LocaleSettings.instance.translationMap[this]?.locale ?? 'Loading';
   }
 }
 

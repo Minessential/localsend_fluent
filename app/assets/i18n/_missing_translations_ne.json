@@ -4,9 +4,6 @@
     "After editing this file, you can run 'dart run slang apply --locale=ne' to quickly apply the newly added translations."
   ],
   "appNameF": "LocalSend(Fluent)",
-  "general": {
-    "quickSaveFromFavorites": "Quick Save for \"Favorites\""
-  },
   "settingsTab": {
     "toggleSwitch": {
       "on": "On",
@@ -22,23 +19,9 @@
         "blue": "Blue",
         "green": "Green"
       }
-    },
-    "receive": {
-      "quickSaveFromFavorites": "@:general.quickSaveFromFavorites"
     }
   },
   "progressPage": {
-    "remainingTime": {
-      "seconds": "{n}:{ss}",
-      "minutes": "{n}:{ss}",
-      "hours": "{h}h {m}m",
-      "days": "{d}d {h}h {m}m"
-    },
     "retry": "Retry"
-  },
-  "dialogs": {
-    "quickSaveFromFavoritesNotice": {
-      "title": "@:general.quickSaveFromFavorites"
-    }
   }
 }

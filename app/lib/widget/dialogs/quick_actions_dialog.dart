@@ -1,17 +1,16 @@
-import 'dart:io';
-
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:legalize/legalize.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/provider/selection/selected_receiving_files_provider.dart';
 import 'package:localsend_app/widget/fluent/custom_text_box.dart';
+import 'package:localsend_isolates/rust/api/filename.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:uuid/uuid.dart';
 
 enum _QuickAction {
   counter,
-  random;
+  random
+  ;
 
   String get label {
     switch (this) {
@@ -45,7 +44,7 @@ class _QuickActionsDialogState extends State<QuickActionsDialog> with Refena {
   bool _isValid = true;
 
   bool _validate(String input) {
-    if (!isValidFilename(input, os: Platform.operatingSystem) && input.isNotEmpty) {
+    if (!isValidFileName(name: input) && input.isNotEmpty) {
       setState(() {
         _isValid = false;
       });

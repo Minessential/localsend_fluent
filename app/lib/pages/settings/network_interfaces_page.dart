@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:common/util/network_interfaces.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
@@ -11,6 +10,7 @@ import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/widget/dialogs/text_field_tv.dart';
 import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
+import 'package:localsend_isolates/util/network_interfaces.dart';
 import 'package:moform/moform.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 

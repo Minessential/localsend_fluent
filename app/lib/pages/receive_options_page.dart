@@ -6,14 +6,15 @@ import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/pages/receive_page.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/provider/selection/selected_receiving_files_provider.dart';
-import 'package:localsend_app/util/file_size_helper.dart';
 import 'package:localsend_app/util/file_type_ext.dart';
 import 'package:localsend_app/util/native/pick_directory_path.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/custom_dropdown_button.dart';
 import 'package:localsend_app/widget/dialogs/file_name_input_dialog.dart';
 import 'package:localsend_app/widget/dialogs/quick_actions_dialog.dart';
-import 'package:localsend_app/widget/responsive_list_view.dart';
+import 'package:localsend_app/widget/fluent/universal_list_item.dart';
+import 'package:localsend_app/widget/fluent/universal_scroll_view.dart';
+import 'package:localsend_isolates/util/file_size_helper.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
 class ReceiveOptionsPage extends StatelessWidget {
@@ -34,9 +35,7 @@ class ReceiveOptionsPage extends StatelessWidget {
     return BaseNormalPage(
       windowTitle: t.receiveOptionsPage.title,
       headerTitle: t.receiveOptionsPage.title,
-      body: ResponsiveListView(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        tabletPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      body: UniversalScrollView(
         children: [
           Row(
             children: [
@@ -51,7 +50,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                         ref.notifier(serverProvider).setSessionDestinationDir(directory);
                       }
                     },
-                    icon: const Icon(FluentIcons.edit_16_regular, size: 16),
+                    icon: const Icon(FluentIcons.edit_20_regular, size: 20),
                   ),
                 ),
             ],
@@ -65,28 +64,30 @@ class ReceiveOptionsPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(t.receiveOptionsPage.saveToGallery, style: theme.typography.subtitle),
                 const SizedBox(height: 10),
-                Row(children: [
-                  CustomDropdownButton<bool>(
-                    value: receiveSession.saveToGallery,
-                    expanded: false,
-                    items: [false, true].map((b) {
-                      return ComboBoxItem(
-                        value: b,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(minWidth: 80),
-                          child: Text(b ? t.general.on : t.general.off, textAlign: TextAlign.start),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (b) => ref.notifier(serverProvider).setSessionSaveToGallery(b),
-                  ),
-                  if (receiveSession.containsDirectories && !receiveSession.saveToGallery) ...[
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(t.receiveOptionsPage.saveToGalleryOff, style: TextStyle(color: theme.autoGrey)),
+                Row(
+                  children: [
+                    CustomDropdownButton<bool>(
+                      value: receiveSession.saveToGallery,
+                      expanded: false,
+                      items: [false, true].map((b) {
+                        return ComboBoxItem(
+                          value: b,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(minWidth: 80),
+                            child: Text(b ? t.general.on : t.general.off, textAlign: TextAlign.start),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (b) => ref.notifier(serverProvider).setSessionSaveToGallery(b),
                     ),
-                  ]
-                ]),
+                    if (receiveSession.containsDirectories && !receiveSession.saveToGallery) ...[
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(t.receiveOptionsPage.saveToGalleryOff, style: TextStyle(color: theme.autoGrey)),
+                      ),
+                    ],
+                  ],
+                ),
               ],
             ),
           const SizedBox(height: 20),
@@ -100,7 +101,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                   onPressed: () async {
                     await showDialog(context: context, builder: (_) => const QuickActionsDialog());
                   },
-                  icon: const Icon(FluentIcons.lightbulb_16_regular, size: 16),
+                  icon: const Icon(FluentIcons.lightbulb_20_regular, size: 20),
                 ),
               ),
               const SizedBox(width: 8),
@@ -108,7 +109,7 @@ class ReceiveOptionsPage extends StatelessWidget {
                 message: t.general.reset,
                 child: IconButton(
                   onPressed: () => ref.notifier(selectedReceivingFilesProvider).setFiles(vm.files),
-                  icon: const Icon(FluentIcons.arrow_undo_16_regular, size: 16),
+                  icon: const Icon(FluentIcons.arrow_undo_20_regular, size: 20),
                 ),
               ),
             ],
@@ -117,73 +118,69 @@ class ReceiveOptionsPage extends StatelessWidget {
           ...vm.files.map((file) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(file.fileType.icon, size: 46),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          selectState[file.id] ?? file.fileName,
-                          style: const TextStyle(fontSize: 16),
-                          maxLines: 1,
-                          overflow: TextOverflow.fade,
-                          softWrap: false,
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          '${!selectState.containsKey(file.id) ? t.general.skipped : (selectState[file.id] == file.fileName ? t.general.unchanged : t.general.renamed)} - ${file.size.asReadableFileSize}',
-                          style: TextStyle(
-                            color: !selectState.containsKey(file.id)
-                                ? theme.autoGrey
-                                : (selectState[file.id] == file.fileName
-                                    ? theme.resources.textFillColorPrimary
-                                    : Colors.orange),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+              child: UniversalListItem(
+                leading: Icon(file.fileType.icon, size: 46),
+                title: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: 64),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Tooltip(
-                        message: t.general.edit,
-                        child: IconButton(
-                          onPressed: selectState[file.id] == null
-                              ? null
-                              : () async {
-                                  final result = await showDialog<String>(
-                                    context: context,
-                                    builder: (_) => FileNameInputDialog(
-                                      originalName: file.fileName,
-                                      initialName: selectState[file.id]!,
-                                    ),
-                                  );
-                                  if (result != null) {
-                                    ref.notifier(selectedReceivingFilesProvider).rename(file.id, result);
-                                  }
-                                },
-                          icon: const Icon(FluentIcons.edit_16_regular, size: 16),
-                        ),
+                      Text(
+                        selectState[file.id] ?? file.fileName,
+                        style: const TextStyle(fontSize: 16),
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
                       ),
-                      SizedBox(width: 10),
-                      Checkbox(
-                        checked: selectState.containsKey(file.id),
-                        onChanged: (selected) {
-                          if (selected == true) {
-                            ref.notifier(selectedReceivingFilesProvider).select(file);
-                          } else {
-                            ref.notifier(selectedReceivingFilesProvider).unselect(file.id);
-                          }
-                        },
+                      SizedBox(height: 5),
+                      Text(
+                        '${!selectState.containsKey(file.id) ? t.general.skipped : (selectState[file.id] == file.fileName ? t.general.unchanged : t.general.renamed)} - ${file.size.asReadableFileSize}',
+                        style: TextStyle(
+                          color: !selectState.containsKey(file.id)
+                              ? theme.autoGrey
+                              : (selectState[file.id] == file.fileName ? theme.resources.textFillColorPrimary : Colors.orange),
+                        ),
                       ),
                     ],
                   ),
-                ],
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 12,
+                  children: [
+                    Tooltip(
+                      message: t.general.edit,
+                      child: IconButton(
+                        onPressed: selectState[file.id] == null
+                            ? null
+                            : () async {
+                                final result = await showDialog<String>(
+                                  context: context,
+                                  builder: (_) => FileNameInputDialog(
+                                    originalName: file.fileName,
+                                    initialName: selectState[file.id]!,
+                                  ),
+                                );
+                                if (result != null) {
+                                  ref.notifier(selectedReceivingFilesProvider).rename(file.id, result);
+                                }
+                              },
+                        icon: const Icon(FluentIcons.edit_20_regular, size: 20),
+                      ),
+                    ),
+                    Checkbox(
+                      checked: selectState.containsKey(file.id),
+                      onChanged: (selected) {
+                        if (selected == true) {
+                          ref.notifier(selectedReceivingFilesProvider).select(file);
+                        } else {
+                          ref.notifier(selectedReceivingFilesProvider).unselect(file.id);
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             );
           }),

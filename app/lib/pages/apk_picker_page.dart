@@ -1,4 +1,3 @@
-import 'package:common/model/file_type.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -7,7 +6,6 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_normal_page.dart';
 import 'package:localsend_app/provider/apk_provider.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
-import 'package:localsend_app/util/file_size_helper.dart';
 import 'package:localsend_app/util/native/cross_file_converters.dart';
 import 'package:localsend_app/util/ui/nav_bar_padding.dart';
 import 'package:localsend_app/widget/file_thumbnail.dart';
@@ -15,6 +13,8 @@ import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
 import 'package:localsend_app/widget/fluent/custom_text_box.dart';
 import 'package:localsend_app/widget/responsive_list_view.dart';
 import 'package:localsend_app/widget/sliver/sliver_pinned_header.dart';
+import 'package:localsend_isolates/model/file_type.dart';
+import 'package:localsend_isolates/util/file_size_helper.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -106,9 +106,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                 ToggleSwitch(
                   checked: !apkParams.includeSystemApps,
                   onChanged: (v) {
-                    ref
-                        .notifier(apkSearchParamProvider)
-                        .setState((old) => old.copyWith(includeSystemApps: !old.includeSystemApps));
+                    ref.notifier(apkSearchParamProvider).setState((old) => old.copyWith(includeSystemApps: !old.includeSystemApps));
                   },
                   content: Text(t.apkPickerPage.excludeSystemApps),
                 ),
@@ -116,9 +114,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                 ToggleSwitch(
                   checked: apkParams.onlyAppsWithLaunchIntent,
                   onChanged: (v) {
-                    ref
-                        .notifier(apkSearchParamProvider)
-                        .setState((old) => old.copyWith(onlyAppsWithLaunchIntent: !old.onlyAppsWithLaunchIntent));
+                    ref.notifier(apkSearchParamProvider).setState((old) => old.copyWith(onlyAppsWithLaunchIntent: !old.onlyAppsWithLaunchIntent));
                   },
                   content: Text(t.apkPickerPage.excludeAppsWithoutLaunchIntent),
                 ),
@@ -149,9 +145,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                                 apkParams.query.isNotEmpty
                                     ? IconButton(
                                         onPressed: () {
-                                          ref
-                                              .notifier(apkSearchParamProvider)
-                                              .setState((old) => old.copyWith(query: ''));
+                                          ref.notifier(apkSearchParamProvider).setState((old) => old.copyWith(query: ''));
                                           _textController.clear();
                                         },
                                         icon: const Icon(FluentIcons.dismiss_12_regular, size: 12),
@@ -195,8 +189,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: IconButton(
-                                onPressed: () async =>
-                                    (apkParams.selectMultipleApps) ? _appSelection(app) : _pickApp(app),
+                                onPressed: () async => (apkParams.selectMultipleApps) ? _appSelection(app) : _pickApp(app),
                                 icon: Row(
                                   children: [
                                     MemoryThumbnail(
@@ -248,7 +241,7 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                                         color: _selectedApps.contains(app)
                                             ? FluentTheme.of(context).iconTheme.color
                                             : FluentTheme.of(context).autoGrey,
-                                      )
+                                      ),
                                   ],
                                 ),
                               ),

@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:common/model/file_type.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide FluentIcons;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/base/base_dialog_page.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
-import 'package:localsend_app/util/file_size_helper.dart';
 import 'package:localsend_app/util/native/file_picker.dart';
 import 'package:localsend_app/util/native/open_file.dart';
 import 'package:localsend_app/util/ui/nav_bar_padding.dart';
@@ -15,6 +13,8 @@ import 'package:localsend_app/widget/dialogs/message_input_dialog.dart';
 import 'package:localsend_app/widget/file_thumbnail.dart';
 import 'package:localsend_app/widget/fluent/card_ink_well.dart';
 import 'package:localsend_app/widget/fluent/custom_icon_label_button.dart';
+import 'package:localsend_isolates/model/file_type.dart';
+import 'package:localsend_isolates/util/file_size_helper.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -44,8 +44,7 @@ class SelectedFilesPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(t.sendTab.selection.files(files: selectedFiles.length)),
-                        Text(t.sendTab.selection
-                            .size(size: selectedFiles.fold(0, (prev, curr) => prev + curr.size).asReadableFileSize)),
+                        Text(t.sendTab.selection.size(size: selectedFiles.fold(0, (prev, curr) => prev + curr.size).asReadableFileSize)),
                       ],
                     ),
                   ),
@@ -62,10 +61,12 @@ class SelectedFilesPage extends StatelessWidget {
                     onPressed: () async {
                       if (_options.length == 1) {
                         // open directly
-                        await ref.global.dispatchAsync(PickFileAction(
-                          option: _options.first,
-                          context: context,
-                        ));
+                        await ref.global.dispatchAsync(
+                          PickFileAction(
+                            option: _options.first,
+                            context: context,
+                          ),
+                        );
                         return;
                       }
                       await AddFileDialog.open(
@@ -124,11 +125,11 @@ class SelectedFilesPage extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () async {
                                   final result = await showDialog<String>(
-                                      context: context, builder: (_) => MessageInputDialog(initialText: message));
+                                    context: context,
+                                    builder: (_) => MessageInputDialog(initialText: message),
+                                  );
                                   if (result != null) {
-                                    ref
-                                        .redux(selectedSendingFilesProvider)
-                                        .dispatch(UpdateMessageAction(message: result, index: index));
+                                    ref.redux(selectedSendingFilesProvider).dispatch(UpdateMessageAction(message: result, index: index));
                                   }
                                 },
                                 icon: const Icon(FluentIcons.edit_16_regular, size: 16),
