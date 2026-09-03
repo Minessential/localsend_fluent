@@ -276,6 +276,7 @@ class SettingsTab extends StatelessWidget {
                 ),
                 if (vm.advanced)
                   _BooleanEntry(
+                    icon: FluentIcons.shield_checkmark_24_regular,
                     label: t.settingsTab.receive.verifyChecksums,
                     value: vm.settings.verifyChecksums,
                     onChanged: (b) async {
@@ -302,6 +303,7 @@ class SettingsTab extends StatelessWidget {
                     },
                   ),
                   _BooleanEntry(
+                    icon: FluentIcons.shield_checkmark_24_regular,
                     label: t.settingsTab.send.createChecksums,
                     value: vm.settings.createChecksums,
                     onChanged: (b) async {
