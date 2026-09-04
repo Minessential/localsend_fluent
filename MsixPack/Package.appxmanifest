@@ -10,7 +10,7 @@
 	<Identity
 	  Name="Mine.LocalSend.Fluent"
 	  Publisher="CN=Minessential, C=CN"
-	  Version="1.17.0.2" />
+	  Version="1.18.2.64" />
 
 	<Properties>
 		<DisplayName>LocalSend(Fluent)</DisplayName>

@@ -32,28 +32,24 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
-    <EntryPointProjectUniqueName>..\app\build\windows\arm64\runner\localsend_app.vcxproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>F8F347DBAA89C301A6DAF4E32EC953768298181E</PackageCertificateThumbprint>
-    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <EntryPointProjectUniqueName>..\app\build\windows\$(Platform.ToLower())\runner\localsend_app.vcxproj</EntryPointProjectUniqueName>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
-    <AppInstallerUri>C:/</AppInstallerUri>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <AppxBundle>Auto</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <AppxBundle>Auto</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <AppxBundle>Auto</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <AppxBundle>Auto</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -65,10 +61,10 @@
     <Content Include="Images\LockScreenLogo.scale-200.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />
     <Content Include="Images\Square44x44Logo.scale-200.png" />
-    <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
-    <None Include="Mine.LocalSend.Fluent.pfx" />
+    <Content Include="Images\Square44x44Logo.targetsize-*_altform-unplated.png" />
+    <Content Include="Images\Square44x44Logo.targetsize-*_altform-lightunplated.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\app\build\windows\$(Platform.ToLower())\runner\$(Configuration)\**\*.*">

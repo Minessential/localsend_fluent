@@ -1,0 +1,294 @@
+name: Fluent Windows Packages
+
+run-name: Fluent Windows Packages ${{ inputs.version }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version in vA.B.C.D format (for example, v1.18.0.1)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  package_windows:
+    name: Package Windows ${{ matrix.architecture }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - architecture: x64
+            runner: windows-latest
+            flutter_version: 3.41.9
+            flutter_channel: stable
+            msbuild_platform: x64
+            signtool_architecture: x64
+          - architecture: arm64
+            runner: windows-11-arm
+            flutter_version: 3.47.0-0.4.pre
+            flutter_channel: master
+            msbuild_platform: ARM64
+            signtool_architecture: arm64
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Fix long file paths
+        shell: pwsh
+        run: git config --system core.longpaths true
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Validate and apply version
+        id: version
+        shell: pwsh
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          $requestedVersion = $env:REQUESTED_VERSION
+          if ($requestedVersion -notmatch '^v([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$') {
+            throw 'Version must use the vA.B.C.D format, for example v1.18.0.1.'
+          }
+
+          $parts = $requestedVersion.Substring(1).Split('.')
+          $numericParts = @()
+          foreach ($part in $parts) {
+            [UInt16]$value = 0
+            if (-not [UInt16]::TryParse($part, [ref]$value)) {
+              throw "Every version component must be between 0 and 65535: $requestedVersion"
+            }
+            $numericParts += $value
+          }
+
+          $packageVersion = $numericParts -join '.'
+          $pubspecVersion = "$($numericParts[0]).$($numericParts[1]).$($numericParts[2])+$($numericParts[3])"
+          $pubspecPath = 'app\pubspec.yaml'
+          $pubspec = Get-Content -Raw $pubspecPath
+          $pubspec = $pubspec -replace '(?m)^version:\s*.*$', "version: $pubspecVersion"
+          Set-Content -Path $pubspecPath -Value $pubspec -Encoding utf8
+
+          "PACKAGE_VERSION=$packageVersion" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "package_version=$packageVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.flutter_version }}
+          channel: ${{ matrix.flutter_channel }}
+          architecture: ${{ matrix.architecture }}
+          cache: true
+
+      - name: Verify native ARM64 Dart SDK
+        if: matrix.architecture == 'arm64'
+        shell: pwsh
+        run: |
+          $dartVersion = & dart --version 2>&1 | Out-String
+          Write-Host $dartVersion
+          if ($dartVersion -notmatch 'windows_arm64') {
+            throw 'Flutter did not install a native Windows ARM64 Dart SDK.'
+          }
+
+      - name: Resolve dependencies
+        working-directory: app
+        shell: pwsh
+        run: flutter pub get
+
+      - name: Build Flutter application
+        working-directory: app
+        shell: pwsh
+        run: flutter build windows --release
+
+      - name: Add runtime DLLs
+        shell: pwsh
+        run: |
+          $runtimeDlls = @(Get-ChildItem 'support\build\windows\${{ matrix.architecture }}\*.dll')
+          if ($runtimeDlls.Count -eq 0) {
+            throw 'No runtime DLLs were found for ${{ matrix.architecture }}.'
+          }
+
+          $releaseDirectory = 'app\build\windows\${{ matrix.architecture }}\runner\Release'
+          Copy-Item $runtimeDlls.FullName -Destination $releaseDirectory
+
+      # Upstream LocalSend requires these MSIX helper files, but LocalSend Fluent does not use them.
+      - name: Remove upstream-only MSIX helper files
+        working-directory: app
+        run: |
+          $releaseDirectory = 'build/windows/${{ matrix.architecture }}/runner/Release'
+          @(
+            'localsend_msix_helper.msix'
+            'install_msix_helper.ps1'
+            'localsend_app.exe.manifest'
+          ) | ForEach-Object {
+            Remove-Item (Join-Path $releaseDirectory $_) -Force -ErrorAction SilentlyContinue
+          }
+
+      - name: Restore signing certificate
+        shell: pwsh
+        env:
+          PFX_BASE64: ${{ secrets.WINDOWS_PFX_BASE64 }}
+          PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:PFX_BASE64)) {
+            throw 'GitHub Secret WINDOWS_PFX_BASE64 is not configured.'
+          }
+          if ([string]::IsNullOrWhiteSpace($env:PFX_PASSWORD)) {
+            throw 'GitHub Secret WINDOWS_PFX_PASSWORD is not configured.'
+          }
+
+          $certificatePath = Join-Path $env:RUNNER_TEMP 'windows-signing.pfx'
+          [IO.File]::WriteAllBytes($certificatePath, [Convert]::FromBase64String($env:PFX_BASE64))
+          $securePassword = ConvertTo-SecureString $env:PFX_PASSWORD -AsPlainText -Force
+          $pfxData = Get-PfxData -FilePath $certificatePath -Password $securePassword
+          $certificate = $pfxData.EndEntityCertificates | Select-Object -First 1
+          if ($null -eq $certificate) {
+            throw 'The configured PFX does not contain an end-entity signing certificate.'
+          }
+
+          $manifestPath = Resolve-Path 'MsixPack\Package.appxmanifest'
+          [xml]$manifest = Get-Content -Raw $manifestPath
+          $manifest.Package.Identity.Version = $env:PACKAGE_VERSION
+          $manifest.Package.Identity.Publisher = $certificate.Subject
+          $manifest.Save($manifestPath)
+
+          $signTool = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\10.*\${{ matrix.signtool_architecture }}\signtool.exe" |
+            Sort-Object FullName |
+            Select-Object -Last 1
+          if ($null -eq $signTool) {
+            throw 'SignTool was not found in the Windows SDK.'
+          }
+
+          "WINDOWS_PFX_PATH=$certificatePath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "WINDOWS_CERT_THUMBPRINT=$($certificate.Thumbprint)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "SIGNTOOL_PATH=$($signTool.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Sign application executable
+        shell: pwsh
+        env:
+          PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+        run: |
+          $application = "app\build\windows\${{ matrix.architecture }}\runner\Release\localsend_app.exe"
+          & $env:SIGNTOOL_PATH sign /fd SHA256 /f $env:WINDOWS_PFX_PATH /p $env:PFX_PASSWORD /tr http://timestamp.digicert.com /td SHA256 $application
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to sign $application"
+          }
+
+      - name: Locate MSBuild
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' |
+            Select-Object -First 1
+          if ([string]::IsNullOrWhiteSpace($msbuild)) {
+            throw 'MSBuild was not found.'
+          }
+          "MSBUILD_PATH=$msbuild" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Build signed MSIX with MsixPack
+        shell: pwsh
+        env:
+          PackageCertificateKeyFile: ${{ runner.temp }}\windows-signing.pfx
+          PackageCertificatePassword: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+        run: |
+          $msixOutput = New-Item -ItemType Directory -Force -Path 'dist\msix'
+          $env:PackageCertificateThumbprint = $env:WINDOWS_CERT_THUMBPRINT
+          & $env:MSBUILD_PATH 'MsixPack\LocalSendFluent.wapproj' /restore /m /verbosity:minimal `
+            /p:Configuration=Release `
+            /p:Platform=${{ matrix.msbuild_platform }} `
+            /p:BuildProjectReferences=false `
+            /p:UapAppxPackageBuildMode=SideloadOnly `
+            "/p:AppxPackageDir=$($msixOutput.FullName)"
+          if ($LASTEXITCODE -ne 0) {
+            throw 'MsixPack failed to build the MSIX package.'
+          }
+
+          $packages = @(Get-ChildItem $msixOutput.FullName -Recurse -Filter '*.msix' |
+            Where-Object FullName -NotMatch '\\Dependencies\\')
+          if ($packages.Count -ne 1) {
+            throw "Expected one MSIX package, found $($packages.Count)."
+          }
+
+          "MSIX_OUTPUT_DIR=$($msixOutput.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "MSIX_PACKAGE_PATH=$($packages[0].FullName)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Verify MSIX package signature
+        shell: pwsh
+        run: |
+          $signature = Get-AuthenticodeSignature $env:MSIX_PACKAGE_PATH
+          if ($null -eq $signature.SignerCertificate) {
+            throw "No Authenticode signature was found on $env:MSIX_PACKAGE_PATH"
+          }
+          if ($signature.SignerCertificate.Thumbprint -ne $env:WINDOWS_CERT_THUMBPRINT) {
+            throw "Unexpected signing certificate on $env:MSIX_PACKAGE_PATH"
+          }
+
+      - name: Build MSIX ZIP package
+        shell: pwsh
+        run: |
+          $msixPackage = "dist\LocalSend.Fluent_$($env:PACKAGE_VERSION)_windows_${{ matrix.architecture }}_msix.zip"
+          Compress-Archive -Path (Join-Path $env:MSIX_OUTPUT_DIR '*') -DestinationPath $msixPackage
+
+      - name: Create empty settings.json
+        working-directory: app
+        shell: pwsh
+        run: echo {} > build/windows/${{ matrix.architecture }}/runner/Release/settings.json
+
+      - name: Build portable ZIP package
+        shell: pwsh
+        run: |
+          $releaseDirectory = "app\build\windows\${{ matrix.architecture }}\runner\Release\*"
+          $portablePackage = "dist\LocalSend.Fluent_$($env:PACKAGE_VERSION)_windows_${{ matrix.architecture }}_portable.zip"
+          Compress-Archive -Path $releaseDirectory -DestinationPath $portablePackage
+
+      - name: Upload Windows packages
+        uses: actions/upload-artifact@v6
+        with:
+          name: LocalSend-Fluent-${{ inputs.version }}-windows-${{ matrix.architecture }}
+          path: |
+            dist/LocalSend.Fluent_${{ steps.version.outputs.package_version }}_windows_${{ matrix.architecture }}_msix.zip
+            dist/LocalSend.Fluent_${{ steps.version.outputs.package_version }}_windows_${{ matrix.architecture }}_portable.zip
+          if-no-files-found: error
+
+      - name: Remove temporary certificate
+        if: always()
+        shell: pwsh
+        run: |
+          if (-not [string]::IsNullOrWhiteSpace($env:WINDOWS_PFX_PATH)) {
+            Remove-Item $env:WINDOWS_PFX_PATH -Force -ErrorAction SilentlyContinue
+          }
+
+  publish_release:
+    name: Upload packages to draft release
+    needs: package_windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Windows packages
+        uses: actions/download-artifact@v7
+        with:
+          pattern: LocalSend-Fluent-${{ inputs.version }}-windows-*
+          path: dist
+          merge-multiple: true
+
+      - name: Create or update draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.version }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          is_draft="$(gh release view "$RELEASE_TAG" --repo "$RELEASE_REPOSITORY" --json isDraft --jq '.isDraft' 2>/dev/null || true)"
+          if [[ -z "$is_draft" ]]; then
+            gh release create "$RELEASE_TAG" --repo "$RELEASE_REPOSITORY" --draft --title "$RELEASE_TAG" --target "$GITHUB_SHA"
+          elif [[ "$is_draft" != "true" ]]; then
+            echo "Release $RELEASE_TAG already exists and is not a draft." >&2
+            exit 1
+          fi
+
+          gh release upload "$RELEASE_TAG" dist/*.zip --repo "$RELEASE_REPOSITORY" --clobber
